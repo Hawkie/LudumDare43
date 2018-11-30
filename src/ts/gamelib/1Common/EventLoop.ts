@@ -1,6 +1,6 @@
 import { Canvas } from "./Canvas";
 import { KeyStateProvider } from "./KeyStateProvider";
-import { IStateProcessor } from "./StateProcessor";
+import { IStateProcessor } from "../State/StateProcessor";
 
 
 export class EventLoop<TState> {

@@ -64,11 +64,10 @@ export function CreateShip(x: number, y: number,
     gravityStrength: number,
     ball: boolean,
     move:(ship: IShip, timeModifier: number) => IShip): IShip {
-    let triangleShip: ICoordinate[] = [new Coordinate(0, -8),
-        new Coordinate(-4, 4),
-        new Coordinate(0, 2),
-        new Coordinate(4, 4),
-        new Coordinate(0, -8)];
+    let squareShip: ICoordinate[] = [new Coordinate(8, 8),
+        new Coordinate(8, -8),
+        new Coordinate(-8, -8),
+        new Coordinate(-8, 8)];
     // let scaledShip: ICoordinate[] = Transforms.Scale(triangleShip, 2, 2);
 
     let ship: IShip = {
@@ -84,7 +83,7 @@ export function CreateShip(x: number, y: number,
         xTo: 256, // change how initialised
         yTo: 280, // change how initialised
         angularForce: 0,
-        shape: {points: triangleShip, offset: {x:0, y:0}},
+        shape: {points: squareShip, offset: {x:0, y:0}},
         gravityStrength: gravityStrength,
         hitPoints: 100,
         damage: 0,

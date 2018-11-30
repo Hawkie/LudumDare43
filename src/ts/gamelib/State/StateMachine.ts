@@ -1,6 +1,6 @@
 import { IStateProcessor } from "./StateProcessor";
-import { DrawContext } from "./DrawContext";
-import { KeyStateProvider } from "./KeyStateProvider";
+import { DrawContext } from "../1Common/DrawContext";
+import { KeyStateProvider } from "../1Common/KeyStateProvider";
 
 
 // export function Next<TState>(state: TState, input:): TState {

@@ -1,12 +1,12 @@
 {
-  "name": "space-command",
+  "name": "ludum-dare-43",
   "private": true,
-  "description": "Evolving framework for simple space line game",
+  "description": "Evolving game framework",
   "version": "0.0.1",
   "main": "main.js",
   "repository": {
     "type": "GIT",
-    "url": "https://github.com/Hawkie/SpaceCommand"
+    "url": "https://github.com/Hawkie/LudumDare43"
   },
   "scripts": {
     "hello": "echo 'Hello'",
@@ -15,7 +15,7 @@
     "build": "webpack"
   },
   "keywords": [],
-  "author": "SpaceCommandTeam",
+  "author": "Hawkie",
   "dependencies": {},
   "devDependencies": {
     "@types/jest": "^23.3.5",

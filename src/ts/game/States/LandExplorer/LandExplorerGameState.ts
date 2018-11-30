@@ -9,7 +9,6 @@ import { IParticleField, CreateField } from "../../Components/FieldComponent";
 import { DisplayTitle } from "../../Components/TitleComponent";
 import { MoveShip } from "../../Components/Ship/MovementComponent";
 import { CreateView, IView, DisplayView, Zoom } from "../../Components/ViewPortComponent";
-import { IGameState } from "../../../gamelib/GameState/GameState";
 import { Game } from "../../../gamelib/1Common/Game";
 
 export interface ILandExplorerGameState {

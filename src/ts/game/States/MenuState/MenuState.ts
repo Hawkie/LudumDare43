@@ -6,7 +6,7 @@ import { DrawContext } from "../../../gamelib/1Common/DrawContext";
 import { DisplayTitle } from "../../Components/TitleComponent";
 import { DisplayField, FieldGenMove } from "../../../gamelib/Components/ParticleFieldComponent";
 import { KeyStateProvider } from "../../../gamelib/1Common/KeyStateProvider";
-import { IStateProcessor } from "../../../gamelib/1Common/StateProcessor";
+import { IStateProcessor } from "../../../gamelib/State/StateProcessor";
 import { Game } from "../../../gamelib/1Common/Game";
 
 export interface IMenuState {

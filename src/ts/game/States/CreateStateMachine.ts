@@ -1,11 +1,11 @@
 
 import { IMenuState, CreateMenuState, SoundMenuState, DisplayMenuState, InputMenuState, UpdateMenuState } from "./MenuState/MenuState";
-import { IStateProcessor } from "../../gamelib/1Common/StateProcessor";
+import { IStateProcessor } from "../../gamelib/State/StateProcessor";
 import { CreateGameStateLandExplorer, Sounds, Display, Input, Update, ILandExplorerGameState } from "./LandExplorer/LandExplorerGameState";
 import { IAsteroidsGameState, CreateAsteroidsGameState,
     SoundsAsteroidsGameState, DisplayAsteroidsGameState,
     InputAsteroidsGameState, UpdateAsteroidsGameState } from "./Asteroids/AsteroidGameState";
-import { IState } from "../../gamelib/1Common/StateMachine";
+import { IState } from "../../gamelib/State/StateMachine";
 
 
 export function CreateState(): IState {
@@ -16,7 +16,7 @@ export function CreateState(): IState {
         LandExplorer,
     }
 
-    const s0: IMenuState = CreateMenuState(["Asteroids", "Land Explorer"]);
+    const s0: IMenuState = CreateMenuState(["Start", "Land Explorer"]);
     const b0: IStateProcessor<IMenuState> = {
         id: StateId.Menu,
         name: "Main Menu",

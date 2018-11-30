@@ -1,5 +1,5 @@
-import { DrawContext } from "./DrawContext";
-import { KeyStateProvider } from "./KeyStateProvider";
+import { DrawContext } from "../1Common/DrawContext";
+import { KeyStateProvider } from "../1Common/KeyStateProvider";
 
 export interface IStateProcessor<T> {
     id: number;

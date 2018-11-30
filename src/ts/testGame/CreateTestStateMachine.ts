@@ -1,4 +1,4 @@
-import { IStateProcessor } from "../gamelib/1Common/StateProcessor";
+import { IStateProcessor } from "../gamelib/State/StateProcessor";
 import { DisplayTitle } from "../game/Components/TitleComponent";
 import { KeyStateProvider } from "../gamelib/1Common/KeyStateProvider";
 

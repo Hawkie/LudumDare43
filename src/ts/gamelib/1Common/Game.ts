@@ -1,7 +1,7 @@
 import { Canvas } from "./Canvas";
 import { AsteroidAssets } from "../../game/Assets/assets";
 import { EventLoop } from "./EventLoop";
-import { IStateProcessor } from "./StateProcessor";
+import { IStateProcessor } from "../State/StateProcessor";
 
 
 export class Game<TState> {

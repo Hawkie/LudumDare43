@@ -7,6 +7,7 @@ import { DrawContext } from "../../../gamelib/1Common/DrawContext";
 import { DisplayField, FieldGenMove } from "../../../gamelib/Components/ParticleFieldComponent";
 import { Transforms } from "../../../gamelib/Physics/Transforms";
 import { Game } from "../../../gamelib/1Common/Game";
+import { IParticleTrail, CreateParticleTrail, DisplayParticleTrail, UpdateParticleTrail } from "../../Components/ParticleTrailComponent";
 
 export interface ILandExplorerState {
     readonly title: string;
@@ -14,15 +15,17 @@ export interface ILandExplorerState {
     readonly ship: IShip;
     readonly starField: IParticleField;
     readonly surface: ISurface;
+    readonly particle: IParticleTrail;
 }
 
 export function CreateLandExplorer(ship: IShip, starfield: IParticleField, surface: ISurface): ILandExplorerState {
     return {
-        title: "Space Commander",
+        title: "Explore",
         controls: CreateControls(),
         ship: ship,
         starField: starfield,
         surface: surface,
+        particle: CreateParticleTrail(300, 200),
     };
 }
 
@@ -30,6 +33,7 @@ export function DisplayLandExplorer(ctx: DrawContext, state: ILandExplorerState)
     DisplayShip(ctx, state.ship);
     DisplayField(ctx, state.starField.particles);
     DisplaySurface(ctx, state.surface);
+    DisplayParticleTrail(ctx, state.particle);
 }
 
 export function LandExplorerSounds(state: ILandExplorerState): ILandExplorerState {
@@ -40,6 +44,7 @@ export function LandExplorerSounds(state: ILandExplorerState): ILandExplorerStat
 
 export function StateCopyToUpdate(state: ILandExplorerState, timeModifier: number): ILandExplorerState {
     return {...state,
+        particle: UpdateParticleTrail(state.particle, timeModifier),
         ship: ShipCopyToUpdated(timeModifier, state.ship, state.controls),
         starField: FieldGenMove(timeModifier, state.starField, true, 2, (now: number) => {
             return {
