@@ -33,6 +33,7 @@ export interface IShip {
     readonly basketMass: number;
     readonly side: number;
     readonly guiDescent: number;
+    readonly acc: number;
     readonly angularForce: number;
     readonly shape: IShape;
     readonly gravityStrength: number;
@@ -81,6 +82,7 @@ export function CreateShip(x: number, y: number,
         shape: {points: squareShip, offset: {x:0, y:0}},
         gravityStrength: gravityStrength,
         windStrength: 10,
+        acc: 10,
         disabled: false,
         broken: false,
         fuel: 1000,
@@ -153,7 +155,6 @@ function Dump(temp: number, timeModifier: number): number {
 }
 
 function ShipApplyControls(ship: IShip, controls: IControls, timeModifier: number): IShip {
-    let newShip: IShip = ship;
     let spin: number = 0;
     let thrust: number = 0;
     let fireWeapon1: boolean = false;
@@ -166,18 +167,18 @@ function ShipApplyControls(ship: IShip, controls: IControls, timeModifier: numbe
     }
     if (!ship.crashed) {
         if (controls.left) {
-            spin = -newShip.maxRotationalSpeed;
+            spin = -ship.maxRotationalSpeed;
             temp = Turn(temp, timeModifier);
-            side = -newShip.maxSideForce;
+            side = -ship.maxSideForce;
         }
         if (controls.right) {
-            spin = newShip.maxRotationalSpeed;
+            spin = ship.maxRotationalSpeed;
             temp = Turn(temp, timeModifier);
-            side = newShip.maxSideForce;
+            side = ship.maxSideForce;
         }
         if (controls.up) {
             if (fuel > 0) {
-                thrust = newShip.maxForwardForce;
+                thrust = ship.maxForwardForce;
                 fuel -= 10 * timeModifier;
                 temp = Burner(temp, timeModifier);
             }
@@ -189,7 +190,14 @@ function ShipApplyControls(ship: IShip, controls: IControls, timeModifier: numbe
             fireWeapon1 = true;
         }
     }
-    return {...newShip,
+        // calc force by subtracting windSpeed - ship speed
+    // higher you go faster the speed
+    let windSheer: number = Math.min(5, Math.abs(ship.y-400) / 100);
+    // let windSpeed: number = ship.windStrength * windSheer;
+    // let friction: number = Math.pow(Math.max(0, ship.Vx - windSpeed), 2);
+    // higher you go faster the wind is
+    let acc: number = ship.windStrength * windSheer - ship.Vx + ship.side;
+    return {...ship,
         spin: spin,
         // update thrust angle
         forwardThrust: thrust,
@@ -197,8 +205,10 @@ function ShipApplyControls(ship: IShip, controls: IControls, timeModifier: numbe
         fuel: fuel,
         temp: temp,
         side: side,
-        mass: newShip.basketMass + newShip.weapon1.remaining,
+        mass: ship.basketMass + ship.weapon1.remaining,
         guiDescent: guiDescent,
+        acc: acc,
+
     };
 }
 

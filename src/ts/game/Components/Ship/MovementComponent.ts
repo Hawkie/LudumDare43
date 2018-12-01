@@ -6,7 +6,7 @@ import { IVector, Vector } from "../../../gamelib/DataTypes/Vector";
 
 // 18 * 10 equals gravity 180, 100, 0 to 240
 function LiftAcceleration(temp: number): number {
-    return temp * 2;
+    return Math.min(200, temp * 2);
 }
 
 export function MoveShip(ship: IShip, timeModifier: number): IShip {
@@ -23,7 +23,6 @@ export function MoveShip(ship: IShip, timeModifier: number): IShip {
     newShip = RotateAngle(newShip, spin, timeModifier);
     newShip = RotateShape(timeModifier, newShip, spin);
 
-
     // const tDiff: number = Math.max(0, 120 - newShip.temp;
     let lift: IVector = new Vector(0, LiftAcceleration(ship.temp) - newShip.mass * 10);
     // equation between temp and gravity
@@ -32,10 +31,13 @@ export function MoveShip(ship: IShip, timeModifier: number): IShip {
 
     // calc force by subtracting windSpeed - ship speed
     // higher you go faster the speed
-    let friction: number = Math.pow(Math.max(0, ship.Vx - ship.windStrength), 2);
-    let wind: IVector = new Vector(90, ship.windStrength + newShip.side - friction);
 
-    newShip = AccelerateWithForces(newShip, timeModifier, [lift, wind], newShip.mass);
+    // higher you go faster the wind is
+    let acc: IVector = new Vector(90, newShip.acc);
+
+    newShip = AccelerateWithForces(newShip, timeModifier, [lift], newShip.mass);
+    // wind, side forces don't act on mass because they are friction on balloon
+    newShip = AccelerateWithForces(newShip, timeModifier, [acc], 1);
     newShip = MoveWithVelocity(timeModifier, newShip, newShip.Vx, newShip.Vy);
     return newShip;
 }

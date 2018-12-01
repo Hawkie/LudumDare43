@@ -40,7 +40,10 @@ export function LandExplorerSounds(state: ILandExplorerState): ILandExplorerStat
     return state;
 }
 
+
 export function StateCopyToUpdate(state: ILandExplorerState, timeModifier: number): ILandExplorerState {
+    // distance(px)/100 * passengers/8
+    let score: number = ((state.ship.x - Game.assets.width/2) / 50) * state.ship.weapon1.remaining/8;
     return {...state,
         ship: ShipCopyToUpdated(timeModifier, state.ship, state.controls),
         starField: FieldGenMove(timeModifier, state.starField, true, 2, (now: number) => {
@@ -53,7 +56,8 @@ export function StateCopyToUpdate(state: ILandExplorerState, timeModifier: numbe
                 size: 1,
             };
         }),
-        surface: addSurface(state.surface, state.ship.x, Game.assets.width, state.surface.surfaceGenerator)
+        surface: addSurface(state.surface, state.ship.x, Game.assets.width, state.surface.surfaceGenerator),
+        score: score,
     };
 }
 
@@ -76,7 +80,8 @@ function TouchLand(state: ILandExplorerState): ILandExplorerState {
             };
         } else {
             return {...state,
-                ship: CrashShip(state.ship, 0, 0)
+                ship: CrashShip(state.ship, 0, 0),
+                score: 0,
             };
         }
     }

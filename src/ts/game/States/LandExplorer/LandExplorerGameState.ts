@@ -100,4 +100,12 @@ function DisplayGUI(ctx: DrawContext, state: ILandExplorerGameState): void {
     y +=20;
     DrawText(ctx, Game.assets.width - x2, y, "Descent:");
     DrawNumber(ctx, Game.assets.width- x, y, state.landState.ship.guiDescent);
+    // air Speed
+    y +=20;
+    DrawText(ctx, Game.assets.width - x2, y, "Air Speed:");
+    DrawNumber(ctx, Game.assets.width- x, y, state.landState.ship.Vx);
+    // height
+    y +=20;
+    DrawText(ctx, Game.assets.width - x2, y, "Height:");
+    DrawNumber(ctx, Game.assets.width- x, y, Math.abs(state.landState.ship.y - 400));
 }
