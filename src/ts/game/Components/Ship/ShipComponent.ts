@@ -10,6 +10,7 @@ import { IExplosion, DisplayExplosion, CreateExplosion, UpdateExplosion } from "
 import { Game } from "../../../gamelib/1Common/Game";
 import { DrawPolyGraphic } from "../../../gamelib/Views/PolyGraphic";
 import { DrawGraphic } from "../../../gamelib/Views/GraphicView";
+import { DrawText } from "../../../gamelib/Views/TextView";
 
 export interface IPhysics {
     readonly x: number;
@@ -49,6 +50,7 @@ export interface IShip {
     readonly maxSideForce: number;
     readonly maxAngle: number;
     readonly crashed: boolean;
+    readonly landed: boolean;
     readonly trigger1: boolean;
     readonly weapon1: IWeapon;
     readonly exhaust: IExhaust;
@@ -92,6 +94,7 @@ export function CreateShip(x: number, y: number,
         maxRotationalSpeed: 64,
         maxSideForce: 10,
         maxAngle: 10,
+        landed: false,
         crashed: false,
         trigger1: false,
         weapon1: CreateWeapon(0.5, 0),
@@ -108,12 +111,19 @@ export function DisplayShip(ctx: DrawContext, ship: IShip): void {
     DrawGraphic(ctx, ship.x-48, ship.y-117, Game.assets.airBalloon2);
     DisplayExplosion(ctx, ship.explosion, ship.x + ship.shape.offset.x, ship.y + ship.shape.offset.y);
     DisplayWeapon(ctx, ship.weapon1);
+    if (ship.landed) {
+        DrawText(ctx, ship.x - 50, ship.y - 50, "LANDED!", "Arial", 30);
+    }
 }
 
 // doesn't change state
 export function ShipSounds(ship: IShip): void {
     if (ship.crashed) {
         Game.assets.explosion.playOnce();
+    }
+    if (ship.landed) {
+        Game.assets.flyInspire.pause();
+        Game.assets.uplift.play();
     }
     if (ship.exhaust.thrustOn) {
         Game.assets.thrust.play();
@@ -242,6 +252,7 @@ export function LandShip(ship: IShip): IShip {
     return {...ship,
         Vx: 0,
         Vy: 0,
+        landed: true,
     };
 }
 
