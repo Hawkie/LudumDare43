@@ -4,10 +4,6 @@ export interface ITime {
     t: number;
 }
 
-export interface ITimeDependentPath extends ICoordinate {
-    t: number;
-}
-
 export function time<TLocated extends ITime>(located: TLocated,
     timeModifier: number): TLocated {
    const t: number = located.t + timeModifier;
@@ -16,26 +12,17 @@ export function time<TLocated extends ITime>(located: TLocated,
    });
 }
 
-export function circular<TLocated extends ITime>(located: TLocated,
-     timeModifier: number,
-     amp: number,
-     freq: number): TLocated {
-    const t: number = located.t + timeModifier;
-    return Object.assign({}, located, {
+// paths
+export function circular(t: number, amp: number, freq: number): ICoordinate {
+    return {
         x: amp * Math.sin(t * freq),
         y: amp * Math.cos(t * freq),
-        t: t,
-    });
+    };
 }
 
-export function sine<TLocated extends ITimeDependentPath>(located: TLocated,
-     timeModifier: number,
-     amp: number,
-     freq: number): TLocated {
-    const t: number = located.t + timeModifier;
-    return Object.assign({}, located, {
-        t: t,
+export function sine(t: number, amp: number, freq: number): ICoordinate {
+    return {
         x: amp * t * freq,
         y: amp * Math.sin(t * freq)
-    });
+    };
 }

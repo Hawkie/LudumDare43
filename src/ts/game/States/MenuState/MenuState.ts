@@ -3,7 +3,7 @@ import { IMenuControls, UpdateMenuControls } from "./MenuControlsComponent";
 import { IParticleField, CreateField } from "../../Components/FieldComponent";
 import { Transforms } from "../../../gamelib/Physics/Transforms";
 import { DrawContext } from "../../../gamelib/1Common/DrawContext";
-import { DisplayTitle } from "../../Components/TitleComponent";
+import { DisplayTitle, DisplayText } from "../../Components/TitleComponent";
 import { DisplayField, FieldGenMove } from "../../../gamelib/Components/ParticleFieldComponent";
 import { KeyStateProvider } from "../../../gamelib/1Common/KeyStateProvider";
 import { IStateProcessor } from "../../../gamelib/State/StateProcessor";
@@ -11,6 +11,9 @@ import { Game } from "../../../gamelib/1Common/Game";
 
 export interface IMenuState {
     readonly title: string;
+    readonly help1: string;
+    readonly help2: string;
+    readonly help3: string;
     readonly font: string;
     readonly fontSize: number;
     readonly starField1: IParticleField;
@@ -39,7 +42,10 @@ export function CreateGameStateMenu(): IStateProcessor<IMenuState> {
 
 export function CreateMenuState(items: string[]): IMenuState {
     return {
-        title: "Menu",
+        title: "Ludum Dare 43",
+        help1: "Press return to start",
+        help2: "use arrow keys to move, space to fire",
+        help3: "Z and X to zoom in and out",
         font: "Arial",
         fontSize: 18,
         starField1: CreateField(true, 2, 2, 1),
@@ -68,6 +74,9 @@ export function DisplayMenuState(ctx: DrawContext, state: IMenuState): void {
     DisplayField(ctx, state.starField2.particles);
     DisplayTitle(ctx, state.title);
     DisplayMenu(ctx, 200, 100, state.menu);
+    DisplayText(ctx, state.help1, 100, 400);
+    DisplayText(ctx, state.help2, 100, 415);
+    DisplayText(ctx, state.help3, 100, 430);
 }
 
 export function UpdateMenuState(state:IMenuState, timeModifier: number): IMenuState {
