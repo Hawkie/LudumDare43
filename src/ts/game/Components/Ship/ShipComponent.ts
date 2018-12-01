@@ -8,6 +8,8 @@ import { IWeapon, PullTrigger, DisplayWeapon, CreateWeapon, RemoveBullet } from 
 import { IExhaust, ExhaustCopyToUpdated, DisplayExhaust, CreateExhaust } from "./ThrustComponent";
 import { IExplosion, DisplayExplosion, CreateExplosion, UpdateExplosion } from "./ExplosionComponent";
 import { Game } from "../../../gamelib/1Common/Game";
+import { DrawPolyGraphic } from "../../../gamelib/Views/PolyGraphic";
+import { DrawGraphic } from "../../../gamelib/Views/GraphicView";
 
 export interface IPhysics {
     readonly x: number;
@@ -89,6 +91,7 @@ export function CreateShip(x: number, y: number,
 
 export function DisplayShip(ctx: DrawContext, ship: IShip): void {
     DrawPoly(ctx, ship.x + ship.shape.offset.x, ship.y + ship.shape.offset.y, ship.shape);
+    DrawGraphic(ctx, ship.x-97, ship.y-234, Game.assets.airBalloon);
     DisplayExhaust(ctx, ship.exhaust);
     DisplayExplosion(ctx, ship.explosion, ship.x + ship.shape.offset.x, ship.y + ship.shape.offset.y);
     DisplayWeapon(ctx, ship.weapon1);
