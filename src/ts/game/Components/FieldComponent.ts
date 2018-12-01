@@ -3,7 +3,7 @@ import { DrawContext } from "../../gamelib/1Common/DrawContext";
 import { DrawRectangle } from "../../gamelib/Views/RectangleView";
 import { IField, IParticle } from "../../gamelib/Components/ParticleFieldComponent";
 import { FieldGenerate } from "../../gamelib/Actors/FieldGenerator";
-import { FieldMoveParticlesWithVelocity } from "../../gamelib/Actors/FieldMover";
+import { FieldMoveParticlesWithVelocity, FieldAccParticlesWithGravity } from "../../gamelib/Actors/FieldMover";
 import { FieldRemoveParticle } from "../../gamelib/Actors/FieldParticleRemover";
 
 
@@ -51,7 +51,8 @@ export function FieldGenRemMove<P extends IParticle, F extends IField<P>>(timeMo
         f = FieldGenerate(timeModifier, f, on, particlesPerSecond, func);
     }
     f = FieldRemoveParticle(timeModifier, f, particleLifetime);
-    return FieldMoveParticlesWithVelocity(timeModifier, f);
+    f = FieldMoveParticlesWithVelocity(timeModifier, f);
+    return FieldAccParticlesWithGravity(timeModifier, f);
 }
 
 

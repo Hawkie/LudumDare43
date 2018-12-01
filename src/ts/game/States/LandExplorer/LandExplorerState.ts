@@ -43,10 +43,10 @@ export function StateCopyToUpdate(state: ILandExplorerState, timeModifier: numbe
         ship: ShipCopyToUpdated(timeModifier, state.ship, state.controls),
         starField: FieldGenMove(timeModifier, state.starField, true, 2, (now: number) => {
             return {
-                x: Transforms.random(0, Game.assets.width),
-                y: 0,
-                Vx: 0,
-                Vy: Transforms.random(10, 30),
+                x: 0,
+                y: Transforms.random(0, Game.assets.height),
+                Vx: Transforms.random(10, 30),
+                Vy: 0,
                 born: now,
                 size: 1,
             };

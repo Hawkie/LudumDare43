@@ -19,7 +19,7 @@ export interface ISurface {
 
 export function DisplaySurface(ctx: DrawContext, surface: ISurface): void {
     const shape: IShape = { offset: { x: 0, y: 0 }, points: surface.points};
-    DrawPolyGraphic(ctx, 0, 0, shape, Game.assets.terrain);
+    DrawPolyGraphic(ctx, 0, 0, shape, Game.assets.grass);
 }
 
 export function generatePoint(x: number, yBase: number, lower: number, upper: number): ICoordinate {

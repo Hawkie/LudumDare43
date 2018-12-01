@@ -10,7 +10,8 @@ export function MoveShip(ship: IShip, timeModifier: number): IShip {
     let newShip: IShip = ship;
     newShip = RotateAngle(newShip, ship.spin, timeModifier);
     let forces: IVector = new Vector(newShip.angle, newShip.forwardThrust);
-    newShip = AccelerateWithForces(newShip, timeModifier, [forces], newShip.mass);
+    let gravity: IVector = new Vector(180, 10);
+    newShip = AccelerateWithForces(newShip, timeModifier, [forces, gravity], newShip.mass);
     newShip = MoveWithVelocity(timeModifier, newShip, newShip.Vx, newShip.Vy);
     newShip = RotateShape(timeModifier, newShip, newShip.spin);
     return newShip;

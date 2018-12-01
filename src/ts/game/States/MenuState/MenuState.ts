@@ -83,20 +83,20 @@ export function UpdateMenuState(state:IMenuState, timeModifier: number): IMenuSt
     return {...state,
         starField1: FieldGenMove(timeModifier, state.starField1, true, 2, (now: number) => {
             return {
-                x: Transforms.random(0, 512),
-                y: 0,
-                Vx: 0,
-                Vy: Transforms.random(10, 30),
+                x: 0,
+                y: Transforms.random(0, Game.assets.height),
+                Vx: Transforms.random(10, 30),
+                Vy: 0,
                 born: now,
                 size: 1,
             };
         }),
         starField2: FieldGenMove(timeModifier, state.starField2, true, 3, (now: number) => {
             return {
-                x: Transforms.random(0, 512),
-                y: 0,
-                Vx: 0,
-                Vy: Transforms.random(30, 50),
+                x: 0,
+                y: Transforms.random(0, Game.assets.height),
+                Vx: Transforms.random(30, 50),
+                Vy: 0,
                 born: now,
                 size: 2,
             };
@@ -106,7 +106,7 @@ export function UpdateMenuState(state:IMenuState, timeModifier: number): IMenuSt
 
 export function SoundMenuState(state: IMenuState): IMenuState {
     return {...state,
-        menu: SoundMenu(state.menu, Game.assets.timePortal, Game.assets.blast)
+        menu: SoundMenu(state.menu, Game.assets.flyInspire, Game.assets.blast)
     };
 }
 

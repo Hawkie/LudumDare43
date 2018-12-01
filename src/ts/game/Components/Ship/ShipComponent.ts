@@ -83,7 +83,7 @@ export function CreateShip(x: number, y: number,
         maxRotationalSpeed: 64,
         crashed: false,
         trigger1: false,
-        weapon1: CreateWeapon(0.5, 128),
+        weapon1: CreateWeapon(0.5, 0),
         exhaust: CreateExhaust(),
         explosion: CreateExplosion(),
         move: move,
@@ -109,7 +109,7 @@ export function ShipSounds(ship: IShip): void {
         Game.assets.thrust.pause();
     }
     if (ship.weapon1.fired) {
-        Game.assets.gun.replay();
+        Game.assets.scream.replay();
     }
 }
 
