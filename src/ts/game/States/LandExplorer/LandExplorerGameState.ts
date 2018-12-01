@@ -22,7 +22,7 @@ export function CreateGameStateLandExplorer(): ILandExplorerGameState {
         upper: 5,
         lower: -5,
     };
-    let ship: IShip = CreateShip(Game.assets.width/2, Game.assets.height/2, 10, false,
+    let ship: IShip = CreateShip(Game.assets.width/2, Game.assets.height/2, 10,
         MoveShip);
     let points: ICoordinate[] = initSurface(Game.assets.width, surfaceGenerator);
     let surface: ISurface = {

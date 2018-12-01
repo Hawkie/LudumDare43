@@ -19,13 +19,6 @@ export interface IPhysics {
     readonly spin: number;
 }
 
-export interface IAttached {
-    readonly attached: boolean;
-    readonly xTo: number;
-    readonly yTo: number;
-    readonly angularForce: number;
-}
-
 export interface IShip {
     readonly x: number;
     readonly y: number;
@@ -38,6 +31,8 @@ export interface IShip {
     readonly angularForce: number;
     readonly shape: IShape;
     readonly gravityStrength: number;
+    readonly windStrength: number;
+    // readonly balloonTemperature: number;
     readonly disabled: boolean;
     readonly broken: boolean;
     readonly fuel: number;
@@ -55,13 +50,11 @@ export interface IShip {
 
 export function CreateShip(x: number, y: number,
     gravityStrength: number,
-    ball: boolean,
     move:(ship: IShip, timeModifier: number) => IShip): IShip {
     let squareShip: ICoordinate[] = [new Coordinate(8, 8),
         new Coordinate(8, -8),
         new Coordinate(-8, -8),
         new Coordinate(-8, 8)];
-    // let scaledShip: ICoordinate[] = Transforms.Scale(triangleShip, 2, 2);
 
     let ship: IShip = {
         x: x,
@@ -75,6 +68,7 @@ export function CreateShip(x: number, y: number,
         angularForce: 0,
         shape: {points: squareShip, offset: {x:0, y:0}},
         gravityStrength: gravityStrength,
+        windStrength: 4,
         disabled: false,
         broken: false,
         fuel: 1000,

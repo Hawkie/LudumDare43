@@ -11,11 +11,6 @@ export interface IExplosion {
     readonly explosionDuration: number;
     readonly explosionTime: number;
     readonly soundFilename: string;
-    readonly flash: {
-        readonly flashScreenValue: number;
-    };
-    readonly flashCounter: number;
-    readonly flashRepeat: number;
 }
 
 export function CreateExplosion(): IExplosion {
@@ -33,17 +28,11 @@ export function CreateExplosion(): IExplosion {
         explosionDuration: 5,
         explosionTime: 0,
         soundFilename: "res/sound/explosion.wav",
-        flash: {
-            flashScreenValue: 0,
-        },
-        flashCounter: 0,
-        flashRepeat: 10,
     };
 }
 
 export function DisplayExplosion(ctx: DrawContext, explosion: IExplosion, x: number, y: number): void {
     DisplayField(ctx, explosion.explosionParticleField.particles);
-    DrawFlash(ctx, 0, 0, Game.assets.width, Game.assets.height, explosion.flash.flashScreenValue);
 }
 
 export function UpdateExplosion(timeModifier: number, explosion: IExplosion,
@@ -51,23 +40,16 @@ export function UpdateExplosion(timeModifier: number, explosion: IExplosion,
         x: number, y: number, Vx: number, Vy: number): IExplosion {
     let generate: boolean = false;
     let accumulatedTime: number = 0;
-    let flash: boolean = false;
     let e: IExplosion = explosion;
-    let counter: number = e.flashCounter;
     if (crashed) {
         accumulatedTime = explosion.explosionTime + timeModifier;
         if (accumulatedTime < explosion.explosionDuration) {
             generate = true;
         }
-        counter++;
-        if (counter <= e.flashRepeat) {
-            flash = true;
-        }
     }
     // change of state
     e = {...e,
         explosionTime: accumulatedTime,
-        flashCounter: counter,
         explosionParticleField: FieldGenRemMove(timeModifier,
             e.explosionParticleField, generate, 50, 5,
             (now: number) => {
@@ -81,13 +63,6 @@ export function UpdateExplosion(timeModifier: number, explosion: IExplosion,
             };
         })
     };
-    if (flash) {
-        e = {...e,
-            flash: {...e.flash,
-                flashScreenValue: Toggle(e.flash.flashScreenValue)
-            }
-        };
-    }
     return e;
 }
 

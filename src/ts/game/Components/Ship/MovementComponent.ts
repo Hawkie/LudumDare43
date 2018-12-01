@@ -8,11 +8,19 @@ import { IVector, Vector } from "../../../gamelib/DataTypes/Vector";
 
 export function MoveShip(ship: IShip, timeModifier: number): IShip {
     let newShip: IShip = ship;
-    newShip = RotateAngle(newShip, ship.spin, timeModifier);
-    let forces: IVector = new Vector(newShip.angle, newShip.forwardThrust);
+    // limit spin
+    let spin: number = newShip.spin;
+    if (newShip.angle > 5) {
+        spin = -newShip.angle * newShip.angle;
+    } else if (newShip.angle < -5) {
+        spin = -newShip.angle * newShip.angle;
+    }
+    newShip = RotateAngle(newShip, spin, timeModifier);
+    newShip = RotateShape(timeModifier, newShip, spin);
+    let thrust: IVector = new Vector(newShip.angle, newShip.forwardThrust);
     let gravity: IVector = new Vector(180, 10);
-    newShip = AccelerateWithForces(newShip, timeModifier, [forces, gravity], newShip.mass);
+    let wind: IVector = new Vector(90, ship.windStrength);
+    newShip = AccelerateWithForces(newShip, timeModifier, [thrust, gravity, wind], newShip.mass);
     newShip = MoveWithVelocity(timeModifier, newShip, newShip.Vx, newShip.Vy);
-    newShip = RotateShape(timeModifier, newShip, newShip.spin);
     return newShip;
 }
