@@ -47,6 +47,7 @@ export function PullTrigger(timeModifier: number, weapon: IWeapon,
     // local varibales
     let reloaded: boolean = false;
     let fired: boolean = false;
+    let remaining: number = weapon.remaining;
     // read object properties
     let bullets: IParticle[] = weapon.bullets.map(b => b);
     let lastFired: number = weapon.lastFired;
@@ -55,8 +56,11 @@ export function PullTrigger(timeModifier: number, weapon: IWeapon,
         if (lastFired === undefined
             // todo move this to weapon
             || ((now - lastFired) / 1000) > weapon.reloadTimeSec) {
-            reloaded = true;
-            lastFired = now;
+            if (remaining > 0) {
+                reloaded = true;
+                lastFired = now;
+                remaining--;
+            }
         }
     }
     if (reloaded) {
@@ -85,5 +89,6 @@ export function PullTrigger(timeModifier: number, weapon: IWeapon,
         bullets: bullets,
         fired: fired,
         lastFired: lastFired,
+        remaining: remaining,
     };
 }

@@ -68,7 +68,7 @@ export function TestPlayerHit(state: ILandExplorerState): ILandExplorerState {
 }
 
 function TouchLand(state: ILandExplorerState): ILandExplorerState {
-    if (Transforms.hasPoint(state.surface.points.map(p => p), { x: 0, y: -8 }, state.ship)) {
+    if (Transforms.hasPoint(state.surface.points.map(p => p), { x: 0, y: -5 }, state.ship)) {
         // check velocity
         if (TestLand(state)) {
             return {...state,

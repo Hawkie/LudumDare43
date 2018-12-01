@@ -40,11 +40,11 @@ export function ExhaustCopyToUpdated(timeModifier: number,
         angle: number,
         length: number): IExhaust {
     let velocity: ICoordinate = Transforms.VectorToCartesian(angle + Transforms.random(-5, 5),
-    length * 5 + Transforms.random(-5, 5));
+    100 + Transforms.random(-5, 5));
     return {...exhaust,
         thrustOn: on,
         exhaustParticleField: FieldGenRemMove(timeModifier,
-            exhaust.exhaustParticleField, on, 20, 2,
+            exhaust.exhaustParticleField, on, 50, 0.5,
             (now: number) => {
                 return {
                     x: x + Transforms.random(-2, 2),
@@ -52,7 +52,7 @@ export function ExhaustCopyToUpdated(timeModifier: number,
                     Vx: Vx + velocity.x,
                     Vy: Vy + velocity.y,
                     born: now,
-                    size: 1,
+                    size: 2,
             };
         })};
 }

@@ -30,6 +30,8 @@ export interface IShip {
     readonly angle: number;
     readonly spin: number;
     readonly mass: number;
+    readonly side: number;
+    readonly guiDescent: number;
     readonly angularForce: number;
     readonly shape: IShape;
     readonly gravityStrength: number;
@@ -38,9 +40,11 @@ export interface IShip {
     readonly disabled: boolean;
     readonly broken: boolean;
     readonly fuel: number;
+    readonly temp: number;
     readonly colour: string;
     readonly maxForwardForce: number;
     readonly maxRotationalSpeed: number;
+    readonly maxSideForce: number;
     readonly maxAngle: number;
     readonly crashed: boolean;
     readonly trigger1: boolean;
@@ -54,10 +58,10 @@ export interface IShip {
 export function CreateShip(x: number, y: number,
     gravityStrength: number,
     move:(ship: IShip, timeModifier: number) => IShip): IShip {
-    let squareShip: ICoordinate[] = [new Coordinate(8, 8),
-        new Coordinate(8, -8),
-        new Coordinate(-8, -8),
-        new Coordinate(-8, 8)];
+    let squareShip: ICoordinate[] = [new Coordinate(5, 5),
+        new Coordinate(5, -5),
+        new Coordinate(-5, -5),
+        new Coordinate(-5, 5)];
 
     let ship: IShip = {
         x: x,
@@ -68,16 +72,20 @@ export function CreateShip(x: number, y: number,
         angle: 0,
         spin: 0,
         mass: 1,
+        side: 0,
+        guiDescent: 0,
         angularForce: 0,
         shape: {points: squareShip, offset: {x:0, y:0}},
         gravityStrength: gravityStrength,
-        windStrength: 4,
+        windStrength: 10,
         disabled: false,
         broken: false,
         fuel: 1000,
+        temp: 100,
         colour: "#fff",
-        maxForwardForce: 16,
+        maxForwardForce: 280,
         maxRotationalSpeed: 64,
+        maxSideForce: 10,
         maxAngle: 10,
         crashed: false,
         trigger1: false,
@@ -91,8 +99,8 @@ export function CreateShip(x: number, y: number,
 
 export function DisplayShip(ctx: DrawContext, ship: IShip): void {
     DrawPoly(ctx, ship.x + ship.shape.offset.x, ship.y + ship.shape.offset.y, ship.shape);
-    DrawGraphic(ctx, ship.x-97, ship.y-234, Game.assets.airBalloon);
     DisplayExhaust(ctx, ship.exhaust);
+    DrawGraphic(ctx, ship.x-97, ship.y-234, Game.assets.airBalloon);
     DisplayExplosion(ctx, ship.explosion, ship.x + ship.shape.offset.x, ship.y + ship.shape.offset.y);
     DisplayWeapon(ctx, ship.weapon1);
 }
@@ -113,26 +121,59 @@ export function ShipSounds(ship: IShip): void {
 }
 
 export function ShipCopyToUpdated(timeModifier: number, ship: IShip, controls: IAsteroidsControls): IShip {
-    let newShip: IShip = ShipApplyControls(ship, controls);
+    let newShip: IShip = ShipApplyControls(ship, controls, timeModifier);
     newShip = newShip.move(newShip, timeModifier);
     newShip = ShipSubComponents(newShip, timeModifier);
     return newShip;
 }
 
-function ShipApplyControls(ship: IShip, controls: IAsteroidsControls): IShip {
+function Cool(temp: number): number {
+    return temp - temp/120;
+}
+
+// less increase as temp increases (max = 2)
+function Burner(temp: number): number {
+    return temp + (120 - temp)*0.01;
+}
+
+// fixed loss
+function Turn(temp: number): number {
+    return temp - 0.5;
+}
+
+// fixed loss
+function Dump(temp: number): number {
+    return temp - 1;
+}
+
+function ShipApplyControls(ship: IShip, controls: IAsteroidsControls, timeModifier: number): IShip {
     let newShip: IShip = ship;
     let spin: number = 0;
     let thrust: number = 0;
     let fireWeapon1: boolean = false;
+    let fuel: number = ship.fuel;
+    let temp: number = Cool(ship.temp);
+    let side: number = ship.side;
     if (!ship.crashed) {
         if (controls.left) {
             spin = -newShip.maxRotationalSpeed;
+            temp = Turn(temp);
+            side = -newShip.maxSideForce;
         }
         if (controls.right) {
             spin = newShip.maxRotationalSpeed;
+            temp = Turn(temp);
+            side = newShip.maxSideForce;
         }
         if (controls.up) {
-            thrust = newShip.maxForwardForce;
+            if (fuel > 0) {
+                thrust = newShip.maxForwardForce;
+                fuel -= 1;
+                temp = Burner(temp);
+            }
+        }
+        if (controls.down) {
+            temp = Dump(temp);
         }
         if (controls.fire) {
             fireWeapon1 = true;
@@ -143,24 +184,39 @@ function ShipApplyControls(ship: IShip, controls: IAsteroidsControls): IShip {
         // update thrust angle
         forwardThrust: thrust,
         trigger1: fireWeapon1,
+        fuel: fuel,
+        temp: temp,
+        side: side,
     };
 }
 
 function ShipSubComponents(ship: IShip, timeModifier: number): IShip {
+    let guiDescent: number = ship.guiDescent;
+    if (!ship.crashed) {
+        guiDescent = ship.Vy;
+    }
+    let w: IWeapon = PullTrigger(timeModifier, ship.weapon1,
+        ship.trigger1, ship.x, ship.y, ship.Vx, ship.Vy, ship.angle, ship.weapon1.bulletVelocity);
     return {...ship,
         exhaust: ExhaustCopyToUpdated(timeModifier, ship.exhaust,
             ship.forwardThrust>0, ship.x, ship.y, ship.Vx, ship.Vy, ship.angle, ship.forwardThrust),
-        weapon1: PullTrigger(timeModifier, ship.weapon1,
-            ship.trigger1, ship.x, ship.y, ship.Vx, ship.Vy, ship.angle, ship.weapon1.bulletVelocity),
+        weapon1: w,
         explosion: UpdateExplosion(timeModifier, ship.explosion, ship.crashed, ship.x, ship.y, ship.Vx, ship.Vy),
+        mass: 10 + w.remaining,
+        guiDescent: guiDescent,
     };
 }
 
 export function CrashShip(ship: IShip, Vx: number, Vy: number): IShip {
+    let guiDescent: number = ship.guiDescent;
+    if (!ship.crashed) {
+        guiDescent = ship.Vy;
+    }
     return {...ship,
         crashed: true,
         Vx: Vx,
         Vy: Vy,
+        guiDescent: guiDescent,
     };
 }
 

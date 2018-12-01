@@ -84,12 +84,20 @@ function DisplayGUI(ctx: DrawContext, state: ILandExplorerGameState): void {
     DrawNumber(ctx, Game.assets.width- 20, y, state.landState.ship.weapon1.remaining);
     // fuel
     y +=20;
-    DrawText(ctx, Game.assets.width - 100, y, "Decent:");
+    DrawText(ctx, Game.assets.width - 100, y, "Fuel:");
     DrawNumber(ctx, Game.assets.width- 20, y, state.landState.ship.fuel);
+    // fuel
+    y +=20;
+    DrawText(ctx, Game.assets.width - 100, y, "Temp:");
+    DrawNumber(ctx, Game.assets.width- 20, y, state.landState.ship.temp);
+    // mass
+    y +=20;
+    DrawText(ctx, Game.assets.width - 100, y, "Mass:");
+    DrawNumber(ctx, Game.assets.width- 20, y, state.landState.ship.mass);
     // decent speed
     y +=20;
     DrawText(ctx, Game.assets.width - 100, y, "Decent:");
-    DrawNumber(ctx, Game.assets.width- 20, y, state.landState.ship.Vy);
+    DrawNumber(ctx, Game.assets.width- 20, y, state.landState.ship.guiDescent);
     //
     // y++;
     // dDrawText(ctx, Game.assets.width - 100, y, "Decent:");

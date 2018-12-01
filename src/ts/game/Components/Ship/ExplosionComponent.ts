@@ -32,7 +32,9 @@ export function CreateExplosion(): IExplosion {
 }
 
 export function DisplayExplosion(ctx: DrawContext, explosion: IExplosion, x: number, y: number): void {
+    ctx.colour("#f84");
     DisplayField(ctx, explosion.explosionParticleField.particles);
+    ctx.restore();
 }
 
 export function UpdateExplosion(timeModifier: number, explosion: IExplosion,

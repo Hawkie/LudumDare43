@@ -4,6 +4,7 @@ export interface IAsteroidsControls {
     readonly left: boolean;
     readonly right: boolean;
     readonly up: boolean;
+    readonly down: boolean;
     readonly fire: boolean;
     readonly zoomIn: boolean;
     readonly zoomOut: boolean;
@@ -15,6 +16,7 @@ export function CreateControls(): IAsteroidsControls {
             left: false,
             right: false,
             up: false,
+            down: false,
             fire: false,
             zoomIn: false,
             zoomOut: false,
@@ -24,6 +26,7 @@ export function CreateControls(): IAsteroidsControls {
 
 export function InputAsteroidControls(keys:number[]): IAsteroidsControls {
     let up: boolean = false;
+    let down: boolean = false;
     let left: boolean = false;
     let right: boolean = false;
     let fire: boolean = false;
@@ -32,6 +35,9 @@ export function InputAsteroidControls(keys:number[]): IAsteroidsControls {
     let exit: boolean = false;
     if (keys.indexOf(Keys.UpArrow) > -1) {
         up = true;
+    }
+    if (keys.indexOf(Keys.DownArrow) > -1) {
+        down = true;
     }
     if (keys.indexOf(Keys.LeftArrow) > -1) {
         left = true;
@@ -55,6 +61,7 @@ export function InputAsteroidControls(keys:number[]): IAsteroidsControls {
         left: left,
         right: right,
         up: up,
+        down: down,
         fire: fire,
         zoomIn: zoomIn,
         zoomOut: zoomOut,
