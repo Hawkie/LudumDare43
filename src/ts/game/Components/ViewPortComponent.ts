@@ -33,7 +33,7 @@ export function Zoom(view: IView, zoomIn:boolean, zoomOut: boolean): IView {
         viewScale = 0;
     }
     return {...view,
-        zoomLevel: view.zoomLevel = view.zoomLevel * (1 + viewScale)
+        zoomLevel: view.zoomLevel * (1 + viewScale)
     };
 }
 
@@ -46,7 +46,6 @@ export function DisplayView<TState>(ctx:DrawContext, view: IView,
     }
     ctx.translate(x * (1 - view.zoomLevel), y * (1 - view.zoomLevel));
     ctx.zoom(view.zoomLevel, view.zoomLevel);
-    // displayAsteroidsState(ctx, this.state);
     d.displayState(ctx, state);
     ctx.restore();
 }

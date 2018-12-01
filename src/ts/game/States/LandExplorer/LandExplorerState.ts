@@ -1,7 +1,7 @@
 import { IShip, CreateShip, CrashShip, DisplayShip, ShipCopyToUpdated, ShipSounds, LandShip } from "../../Components/Ship/ShipComponent";
 import { ISurface, initSurface, DisplaySurface, addSurface, TestFlat } from "../../Components/SurfaceComponent";
 import { IParticleField, CreateField } from "../../Components/FieldComponent";
-import { IAsteroidsControls, InputAsteroidControls, CreateControls } from "../../Components/AsteroidsControlsComponent";
+import { IControls, InputControls, CreateControls } from "../../Components/ControlsComponent";
 import { KeyStateProvider } from "../../../gamelib/1Common/KeyStateProvider";
 import { DrawContext } from "../../../gamelib/1Common/DrawContext";
 import { DisplayField, FieldGenMove } from "../../../gamelib/Components/ParticleFieldComponent";
@@ -10,7 +10,7 @@ import { Game } from "../../../gamelib/1Common/Game";
 
 export interface ILandExplorerState {
     readonly title: string;
-    readonly controls: IAsteroidsControls;
+    readonly controls: IControls;
     readonly ship: IShip;
     readonly starField: IParticleField;
     readonly surface: ISurface;
@@ -59,7 +59,7 @@ export function StateCopyToUpdate(state: ILandExplorerState, timeModifier: numbe
 
 export function StateCopyToControls(state: ILandExplorerState, keys: KeyStateProvider): ILandExplorerState {
     return {...state,
-        controls: InputAsteroidControls(keys.getKeys())
+        controls: InputControls(keys.getKeys())
     };
 }
 

@@ -1,6 +1,6 @@
 import { Keys } from "../../gamelib/1Common/KeyStateProvider";
 
-export interface IAsteroidsControls {
+export interface IControls {
     readonly left: boolean;
     readonly right: boolean;
     readonly up: boolean;
@@ -11,7 +11,7 @@ export interface IAsteroidsControls {
     readonly exit: boolean;
 }
 
-export function CreateControls(): IAsteroidsControls {
+export function CreateControls(): IControls {
     return {
             left: false,
             right: false,
@@ -24,7 +24,7 @@ export function CreateControls(): IAsteroidsControls {
     };
 }
 
-export function InputAsteroidControls(keys:number[]): IAsteroidsControls {
+export function InputControls(keys:number[]): IControls {
     let up: boolean = false;
     let down: boolean = false;
     let left: boolean = false;

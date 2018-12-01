@@ -10,6 +10,7 @@ export class AsteroidAssets {
     public coinSprite: IGraphic = new Graphic("res/img/spinningCoin.png");
     public graphicShip: IGraphic = new Graphic("res/img/ship.png");
     public airBalloon: IGraphic = new Graphic("res/img/hotAirBalloon.png");
+    public airBalloon2: IGraphic = new Graphic("res/img/hotAirBalloon2.png");
 
     // sounds
     public timePortal: IAudioObject = new AudioObject("res/sound/TimePortal.mp3", true);
