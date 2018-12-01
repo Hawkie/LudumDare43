@@ -11,6 +11,7 @@ export class AsteroidAssets {
     public graphicShip: IGraphic = new Graphic("res/img/ship.png");
     public airBalloon: IGraphic = new Graphic("res/img/hotAirBalloon.png");
     public airBalloon2: IGraphic = new Graphic("res/img/hotAirBalloon2.png");
+    public fallingMan: IGraphic = new Graphic("res/img/fallingman.png");
 
     // sounds
     public flyInspire: IAudioObject = new AudioObject("res/sound/FlyInspire.mp3", true);

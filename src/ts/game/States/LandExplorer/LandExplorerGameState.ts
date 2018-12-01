@@ -49,7 +49,7 @@ export function Update(state: ILandExplorerGameState, timeModifier: number): ILa
     newState = TestPlayerHit(newState);
     return {...state,
         landState: newState,
-        view: Zoom(state.view, newState.controls.zoomIn, newState.controls.zoomOut)
+        view: Zoom(state.view, newState.controls.zoomIn, newState.controls.zoomOut, newState.ship.y)
     };
 }
 

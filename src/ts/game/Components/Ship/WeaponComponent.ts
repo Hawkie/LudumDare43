@@ -6,6 +6,8 @@ import { IParticle, DisplayField } from "../../../gamelib/Components/ParticleFie
 import { FilterParticles } from "../../../gamelib/Actors/FieldParticleRemover";
 import { AccelerateWithForces } from "../../../gamelib/Actors/Accelerator";
 import { IVector } from "../../../gamelib/DataTypes/Vector";
+import { DrawGraphic } from "../../../gamelib/Views/GraphicView";
+import { Game } from "../../../gamelib/1Common/Game";
 
 export interface IWeapon {
     readonly bullets: ReadonlyArray<IParticle>;
@@ -30,7 +32,7 @@ export function CreateWeapon(reloadTimeSec: number, bulletVelocity: number): IWe
 }
 
 export function DisplayWeapon(ctx: DrawContext, weapon: IWeapon): void {
-    DisplayField(ctx, weapon.bullets);
+    weapon.bullets.forEach(p =>  DrawGraphic(ctx, p.x-15, p.y-15, Game.assets.fallingMan));
 }
 
 export function RemoveBullet(weapon: IWeapon, bulletIndex: number): IWeapon {

@@ -31,6 +31,7 @@ export function DisplayField(ctx: DrawContext, particles: ReadonlyArray<IParticl
     particles.forEach(p =>  DrawRectangle(ctx, p.x, p.y, p.size, p.size));
 }
 
+
 export function FieldGenMove<P extends IMovesWithVelocity, F extends IField<P>>(timeModifier: number,
         field: F,
         on: boolean,

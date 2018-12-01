@@ -7,6 +7,7 @@ import { DrawContext } from "../../../gamelib/1Common/DrawContext";
 import { DisplayField, FieldGenMove } from "../../../gamelib/Components/ParticleFieldComponent";
 import { Transforms } from "../../../gamelib/Physics/Transforms";
 import { Game } from "../../../gamelib/1Common/Game";
+import { ShapeCollisionDetector } from "../../../gamelib/Interactors/ShapeCollisionDetector";
 
 export interface ILandExplorerState {
     readonly title: string;
@@ -74,7 +75,7 @@ export function TestPlayerHit(state: ILandExplorerState): ILandExplorerState {
 function TouchLand(state: ILandExplorerState): ILandExplorerState {
     if (Transforms.hasPoint(state.surface.points.map(p => p), { x: 0, y: -5 }, state.ship)) {
         // check velocity
-        if (TestLand(state)) {
+        if (!state.ship.crashed && TestLand(state)) {
             return {...state,
                 ship: LandShip(state.ship)
             };

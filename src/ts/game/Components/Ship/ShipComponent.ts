@@ -114,6 +114,9 @@ export function DisplayShip(ctx: DrawContext, ship: IShip): void {
     if (ship.landed) {
         DrawText(ctx, ship.x - 50, ship.y - 50, "LANDED!", "Arial", 30);
     }
+    if (ship.crashed) {
+        DrawText(ctx, ship.x - 60, ship.y - 50, "CRASHED!", "Arial", 30);
+    }
 }
 
 // doesn't change state
