@@ -15,14 +15,3 @@ export function MoveShip(ship: IShip, timeModifier: number): IShip {
     newShip = RotateShape(timeModifier, newShip, newShip.spin);
     return newShip;
 }
-
-
-export function MoveAttachedShip(ship: IShip, timeModifier: number): IShip {
-    let newShip: IShip = ship;
-    newShip = RotateAngle(newShip, ship.spin, timeModifier);
-    let forces: IVector = new Vector(newShip.angle, newShip.forwardThrust);
-    newShip = UpdateConnection(newShip, timeModifier, newShip.mass, [forces], 2);
-    newShip = MoveWithVelocity(timeModifier, newShip, newShip.Vx, newShip.Vy);
-    newShip = RotateShape(timeModifier, newShip, newShip.spin);
-    return newShip;
-}

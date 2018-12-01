@@ -2,21 +2,20 @@
 import { IMenuState, CreateMenuState, SoundMenuState, DisplayMenuState, InputMenuState, UpdateMenuState } from "./MenuState/MenuState";
 import { IStateProcessor } from "../../gamelib/State/StateProcessor";
 import { CreateGameStateLandExplorer, Sounds, Display, Input, Update, ILandExplorerGameState } from "./LandExplorer/LandExplorerGameState";
-import { IAsteroidsGameState, CreateAsteroidsGameState,
-    SoundsAsteroidsGameState, DisplayAsteroidsGameState,
-    InputAsteroidsGameState, UpdateAsteroidsGameState } from "./Asteroids/AsteroidGameState";
 import { IState } from "../../gamelib/State/StateMachine";
+import { EmptyUpdate, EmptyInput } from "../../testGame/CreateTestStateMachine";
+import { IHelp, CreateHelp, DisplayHelp, InputHelp } from "./Help/HelpState";
 
 
 export function CreateState(): IState {
 
     enum StateId {
         Menu, // 0
-        Asteroids, // 1
-        LandExplorer,
+        BalloonRide, // 1
+        Help,
     }
 
-    const s0: IMenuState = CreateMenuState(["Start", "Land Explorer"]);
+    const s0: IMenuState = CreateMenuState(["Start", "Help"]);
     const b0: IStateProcessor<IMenuState> = {
         id: StateId.Menu,
         name: "Main Menu",
@@ -28,35 +27,19 @@ export function CreateState(): IState {
             if (state.menu.selected) {
                 switch (state.menu.itemFocus) {
                     case 0:
-                        return StateId.Asteroids;
+                        return StateId.BalloonRide;
                     case 1:
-                        return StateId.LandExplorer;
+                        return StateId.Help;
                 }
             }
             return undefined;
         }
     };
 
-    const s1: IAsteroidsGameState = CreateAsteroidsGameState();
-    const b1: IStateProcessor<IAsteroidsGameState> = {
-        id: StateId.Asteroids,
-        name: "Asteroids",
-        sound: SoundsAsteroidsGameState,
-        display: DisplayAsteroidsGameState,
-        input: InputAsteroidsGameState,
-        update: UpdateAsteroidsGameState,
-        next: (state: IAsteroidsGameState) => {
-            if (state.asteroidsState.controls.exit) {
-                return StateId.Menu;
-            }
-            return undefined;
-        }
-    };
-
-    const s2: ILandExplorerGameState = CreateGameStateLandExplorer();
-    const b2: IStateProcessor<ILandExplorerGameState> = {
-        id: StateId.LandExplorer,
-        name: "LandExplorer",
+    const s1: ILandExplorerGameState = CreateGameStateLandExplorer();
+    const b1: IStateProcessor<ILandExplorerGameState> = {
+        id: StateId.BalloonRide,
+        name: "Balloon Race",
         sound: Sounds,
         display: Display,
         input: Input,
@@ -68,6 +51,22 @@ export function CreateState(): IState {
             return undefined;
         }
     };
+    const s2: IHelp = CreateHelp();
+    const b2: IStateProcessor<IHelp> = {
+        id: StateId.Help,
+        name: "Help",
+        sound: EmptyUpdate,
+        display: DisplayHelp,
+        input: InputHelp,
+        update: EmptyUpdate,
+        next: (state: IHelp) => {
+            if (state.exit) {
+                return StateId.Menu;
+            }
+            return undefined;
+        }
+    };
+
     return {
         activeState: 0,
         states: [s0, s1, s2],

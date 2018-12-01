@@ -27,6 +27,3 @@ export function AccelerateWithForces<T extends ISpeedable>(speedable: T,
         Vy: speedable.Vy + dVy,
     });
 }
-
-// var Accelerate: (speedable: ISpeedable, time: number, forces: IVector[], mass: number) => ISpeedable;
-// accelerate = AccelerateWithForces<IShip>(speedable, time, forces, mass);

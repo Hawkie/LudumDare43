@@ -35,19 +35,12 @@ export interface IShip {
     readonly angle: number;
     readonly spin: number;
     readonly mass: number;
-    readonly attached: boolean;
-    readonly xTo: number;
-    readonly yTo: number;
     readonly angularForce: number;
     readonly shape: IShape;
     readonly gravityStrength: number;
-    readonly hitPoints: number;
-    readonly damage: number;
-    readonly armour: number;
     readonly disabled: boolean;
     readonly broken: boolean;
     readonly fuel: number;
-    readonly energy: number;
     readonly colour: string;
     readonly maxForwardForce: number;
     readonly maxRotationalSpeed: number;
@@ -73,25 +66,18 @@ export function CreateShip(x: number, y: number,
     let ship: IShip = {
         x: x,
         y: y,
-        Vx: 0,
+        Vx: 2,
         Vy: 0,
         forwardThrust: 0,
         angle: 0,
         spin: 0,
         mass: 1,
-        attached: ball,
-        xTo: 256, // change how initialised
-        yTo: 280, // change how initialised
         angularForce: 0,
         shape: {points: squareShip, offset: {x:0, y:0}},
         gravityStrength: gravityStrength,
-        hitPoints: 100,
-        damage: 0,
-        armour: 0,
         disabled: false,
         broken: false,
         fuel: 1000,
-        energy: 1000,
         colour: "#fff",
         maxForwardForce: 16,
         maxRotationalSpeed: 64,

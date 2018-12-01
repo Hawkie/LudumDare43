@@ -32,6 +32,13 @@ export class DrawContext {
         ctx.restore();
     }
 
+    colour(style: any = "#f11"): void {
+        let ctx: CanvasRenderingContext2D = this.ctx;
+        ctx.save();
+        ctx.strokeStyle = style;
+        ctx.fillStyle = style;
+    }
+
     line(xFrom: number, yFrom: number, xTo: number, yTo: number): void {
         let ctx: CanvasRenderingContext2D = this.ctx;
         ctx.beginPath();

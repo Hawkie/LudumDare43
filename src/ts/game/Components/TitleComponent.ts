@@ -7,6 +7,6 @@ export function DisplayTitle(ctx: DrawContext, title: string): void {
 }
 
 
-export function DisplayText(ctx: DrawContext, title: string, x: number, y: number): void {
-    DrawText(ctx, x, y, title, "Arial", 10);
+export function DisplayText(ctx: DrawContext, title: string, x: number, y: number, fontSize: number = 10): void {
+    DrawText(ctx, x, y, title, "Arial", fontSize);
 }

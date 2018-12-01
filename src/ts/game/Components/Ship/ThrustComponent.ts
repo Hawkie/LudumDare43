@@ -28,7 +28,9 @@ export function CreateExhaust(): IExhaust {
 }
 
 export function DisplayExhaust(ctx: DrawContext, exhaust: IExhaust): void {
+    ctx.colour("#fa2");
     DisplayField(ctx, exhaust.exhaustParticleField.particles);
+    ctx.restore();
 }
 
 export function ExhaustCopyToUpdated(timeModifier: number,
@@ -37,7 +39,7 @@ export function ExhaustCopyToUpdated(timeModifier: number,
         x: number, y: number, Vx: number, Vy: number,
         angle: number,
         length: number): IExhaust {
-    let velocity: ICoordinate = Transforms.VectorToCartesian(angle + Transforms.random(-5, 5) + 180,
+    let velocity: ICoordinate = Transforms.VectorToCartesian(angle + Transforms.random(-5, 5),
     length * 5 + Transforms.random(-5, 5));
     return {...exhaust,
         thrustOn: on,
