@@ -14,6 +14,7 @@ export interface IWeapon {
     readonly bulletVelocity: number;
     readonly bulletLifetime: number;
     readonly reloadTimeSec: number;
+    readonly remaining: number;
 }
 
 export function CreateWeapon(reloadTimeSec: number, bulletVelocity: number): IWeapon {
@@ -24,6 +25,7 @@ export function CreateWeapon(reloadTimeSec: number, bulletVelocity: number): IWe
         bulletLifetime: 5,
         bulletVelocity: bulletVelocity,
         reloadTimeSec: reloadTimeSec,
+        remaining: 8,
     };
 }
 

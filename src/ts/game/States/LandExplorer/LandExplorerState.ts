@@ -1,5 +1,5 @@
-import { IShip, CreateShip, CrashShip, DisplayShip, ShipCopyToUpdated, ShipSounds } from "../../Components/Ship/ShipComponent";
-import { ISurface, initSurface, DisplaySurface, addSurface } from "../../Components/SurfaceComponent";
+import { IShip, CreateShip, CrashShip, DisplayShip, ShipCopyToUpdated, ShipSounds, LandShip } from "../../Components/Ship/ShipComponent";
+import { ISurface, initSurface, DisplaySurface, addSurface, TestFlat } from "../../Components/SurfaceComponent";
 import { IParticleField, CreateField } from "../../Components/FieldComponent";
 import { IAsteroidsControls, InputAsteroidControls, CreateControls } from "../../Components/AsteroidsControlsComponent";
 import { KeyStateProvider } from "../../../gamelib/1Common/KeyStateProvider";
@@ -14,15 +14,17 @@ export interface ILandExplorerState {
     readonly ship: IShip;
     readonly starField: IParticleField;
     readonly surface: ISurface;
+    readonly score: number;
 }
 
 export function CreateLandExplorer(ship: IShip, starfield: IParticleField, surface: ISurface): ILandExplorerState {
     return {
-        title: "Explore",
+        title: "Air Rider",
         controls: CreateControls(),
         ship: ship,
         starField: starfield,
-        surface: surface
+        surface: surface,
+        score: 0,
     };
 }
 
@@ -62,10 +64,31 @@ export function StateCopyToControls(state: ILandExplorerState, keys: KeyStatePro
 }
 
 export function TestPlayerHit(state: ILandExplorerState): ILandExplorerState {
-    if (Transforms.hasPoint(state.surface.points.map(p => p), { x: 0, y: 0 }, state.ship)) {
+    return TouchLand(state);
+}
+
+function TouchLand(state: ILandExplorerState): ILandExplorerState {
+    if (Transforms.hasPoint(state.surface.points.map(p => p), { x: 0, y: -8 }, state.ship)) {
+        // check velocity
+        if (TestLand(state)) {
+            return {...state,
+                ship: LandShip(state.ship)
+            };
+        } else {
             return {...state,
                 ship: CrashShip(state.ship, 0, 0)
-        };
+            };
+        }
     }
     return state;
+}
+
+function TestLand(state: ILandExplorerState): boolean {
+    // check touch down
+    if (state.ship.Vy < 10) {
+        // check flat bit of land
+        return TestFlat(state.surface, state.ship.x);
+    }
+    console.log("Too fast: " + state.ship.Vy);
+    return false;
 }

@@ -10,6 +10,8 @@ import { DisplayTitle } from "../../Components/TitleComponent";
 import { MoveShip } from "../../Components/Ship/MovementComponent";
 import { CreateView, IView, DisplayView, Zoom } from "../../Components/ViewPortComponent";
 import { Game } from "../../../gamelib/1Common/Game";
+import { DrawNumber } from "../../../gamelib/Views/ValueView";
+import { DrawText } from "../../../gamelib/Views/TextView";
 
 export interface ILandExplorerGameState {
     landState: ILandExplorerState;
@@ -18,9 +20,10 @@ export interface ILandExplorerGameState {
 
 export function CreateGameStateLandExplorer(): ILandExplorerGameState {
     let surfaceGenerator: ISurfaceGeneration = {
-        resolution: 5,
-        upper: 5,
-        lower: -5,
+        resolution: 10,
+        upper: 10,
+        lower: -10,
+        flatChance: 0.5,
     };
     let ship: IShip = CreateShip(Game.assets.width/2, Game.assets.height/2, 10,
         MoveShip);
@@ -65,6 +68,30 @@ export function Input(state: ILandExplorerGameState, keys: KeyStateProvider): IL
 export function Display(ctx: DrawContext, state: ILandExplorerGameState): void {
     ctx.clear();
     // objects not affected by movement. e.g GUI
-    DisplayTitle(ctx, state.landState.title);
+    DisplayGUI(ctx, state);
     DisplayView(ctx, state.view, state.landState.ship.x, state.landState.ship.y, state.landState, {displayState: DisplayLandExplorer});
+}
+
+function DisplayGUI(ctx: DrawContext, state: ILandExplorerGameState): void {
+    DisplayTitle(ctx, state.landState.title);
+    let y:number = 20;
+    // score
+    DrawText(ctx, Game.assets.width - 100, y, "Score:");
+    DrawNumber(ctx, Game.assets.width- 20, y, state.landState.score,);
+    // passengers
+    y +=20;
+    DrawText(ctx, Game.assets.width - 100, y, "Passengers:");
+    DrawNumber(ctx, Game.assets.width- 20, y, state.landState.ship.weapon1.remaining);
+    // fuel
+    y +=20;
+    DrawText(ctx, Game.assets.width - 100, y, "Decent:");
+    DrawNumber(ctx, Game.assets.width- 20, y, state.landState.ship.fuel);
+    // decent speed
+    y +=20;
+    DrawText(ctx, Game.assets.width - 100, y, "Decent:");
+    DrawNumber(ctx, Game.assets.width- 20, y, state.landState.ship.Vy);
+    //
+    // y++;
+    // dDrawText(ctx, Game.assets.width - 100, y, "Decent:");
+    // dDrawNumber(ctx, Game.assets.width- 20, y, state.landState.ship.Vy);
 }

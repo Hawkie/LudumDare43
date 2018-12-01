@@ -39,6 +39,7 @@ export interface IShip {
     readonly colour: string;
     readonly maxForwardForce: number;
     readonly maxRotationalSpeed: number;
+    readonly maxAngle: number;
     readonly crashed: boolean;
     readonly trigger1: boolean;
     readonly weapon1: IWeapon;
@@ -75,6 +76,7 @@ export function CreateShip(x: number, y: number,
         colour: "#fff",
         maxForwardForce: 16,
         maxRotationalSpeed: 64,
+        maxAngle: 10,
         crashed: false,
         trigger1: false,
         weapon1: CreateWeapon(0.5, 0),
@@ -156,6 +158,14 @@ export function CrashShip(ship: IShip, Vx: number, Vy: number): IShip {
         crashed: true,
         Vx: Vx,
         Vy: Vy,
+    };
+}
+
+// change to green
+export function LandShip(ship: IShip): IShip {
+    return {...ship,
+        Vx: 0,
+        Vy: 0,
     };
 }
 

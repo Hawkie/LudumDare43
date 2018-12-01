@@ -9,6 +9,7 @@ export interface ISurfaceGeneration {
     readonly resolution: number;
     readonly lower: number;
     readonly upper: number;
+    readonly flatChance: number;
 }
 
 export interface ISurface {
@@ -22,8 +23,12 @@ export function DisplaySurface(ctx: DrawContext, surface: ISurface): void {
     DrawPolyGraphic(ctx, 0, 0, shape, Game.assets.grass);
 }
 
-export function generatePoint(x: number, yBase: number, lower: number, upper: number): ICoordinate {
-    return new Coordinate(x, yBase + Transforms.random(lower, upper));
+export function generatePoint(x: number, yBase: number, generator: ISurfaceGeneration): ICoordinate {
+    if (Math.random() < generator.flatChance) {
+        console.log("Flat point created: " + yBase);
+        return new Coordinate(x, yBase);
+    }
+    return new Coordinate(x, yBase + Transforms.random(generator.lower, generator.upper));
 }
 
 export function initSurface(width: number, generator: ISurfaceGeneration): ICoordinate[] {
@@ -32,7 +37,7 @@ export function initSurface(width: number, generator: ISurfaceGeneration): ICoor
     // changing state
     points[0] = new Coordinate(0, 400);
     for (let i: number = 1; i < endIndex; i++) {
-        let point: ICoordinate = generatePoint(i*generator.resolution, points[i-1].y, generator.lower, generator.upper);
+        let point: ICoordinate = generatePoint(i*generator.resolution, points[i-1].y, generator);
         points.push(point);
     }
     let first: Coordinate = points[0];
@@ -79,8 +84,9 @@ export function addSurface(surface: ISurface,
         newPoints.pop();
         var last: Coordinate = newPoints[newPoints.length - 1];
         for (let r: number = 0; toAddRight > r; r++) {
-            last = new Coordinate(last.x + inputs.resolution,
-                last.y + Transforms.random(inputs.lower,inputs.upper));
+            last = generatePoint(last.x + inputs.resolution, last.y, inputs);
+            // new Coordinate(last.x + inputs.resolution,
+            //     last.y + Transforms.random(inputs.lower,inputs.upper));
             newPoints.push(last);
         }
         // re-add end point at bottom of shape
@@ -90,5 +96,23 @@ export function addSurface(surface: ISurface,
         points: newPoints,
         addedLeft: addedLeft,
     };
+}
+
+export function TestFlat(surface: ISurface,
+    x: number, range: number = 3): boolean {
+    let shipIndex: number = x / surface.surfaceGenerator.resolution;
+    shipIndex = Math.round(shipIndex);
+    // base point and addedLeft
+    shipIndex = shipIndex - surface.addedLeft + 1;
+    let height: number = surface.points[shipIndex].y;
+    // check range of points either side
+    for (let i:number = 0; i<range;i++) {
+        let index: number = shipIndex - 1 + i;
+        if (Math.abs(surface.points[index].y - height) > 2) {
+            console.log("Surface Not Flat! Under ship:" + height + ". Point" +  surface.points[index].y);
+            return false;
+        }
+    }
+    return true;
 }
 
