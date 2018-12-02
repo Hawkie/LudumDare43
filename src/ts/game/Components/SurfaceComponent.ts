@@ -56,7 +56,7 @@ export function addSurface(surface: ISurface,
     inputs: ISurfaceGeneration): ISurface {
     let newPoints: ICoordinate[] = surface.points.map(p => p);
     const zoomEffect: number = (480-y)/240;
-    let buffer: number = (width / 2) * zoomEffect; // 256
+    let buffer: number = (width) * zoomEffect; // 256
     let left: number = x - buffer; // 260 - 256 = -4  // 1 - 260 = - 259 // 400 - 260 = 140
     let right: number = x + buffer; // 260 + 256 = 516 // 1 + 260 = 261 // 400 + 260 = 660
     let leftIndex: number = Math.floor(left / inputs.resolution); // 0 // -25 // 14

@@ -109,17 +109,25 @@ function DisplayGUI(ctx: DrawContext, state: ILandExplorerGameState): void {
     DrawText(ctx, Game.assets.width - x2, y, "Height:");
     DrawNumber(ctx, Game.assets.width- x, y, Math.abs(state.landState.ship.y - 400));
 
+    const finalY:number = 400;
     // add landing warnings
     if (state.landState.ship.fuel < 100) {
-        DrawText(ctx, Game.assets.width/2 - 10, state.landState.ship.y, "Low fuel", "Arial", 12);
+        DrawText(ctx, Game.assets.width/2 - 10, finalY + 12, "Low fuel", "Arial", 12);
     }
 
     if (state.landState.ship.y > 260) {
-        if (state.landState.ship.Vy > 10) {
-            DrawText(ctx, Game.assets.width/2 - 10, state.landState.ship.y + 12, "Descending too fast", "Arial", 12);
+        if (state.landState.ship.guiDescent > 10) {
+            DrawText(ctx, Game.assets.width/2 - 10, finalY + 24, "Descending too fast", "Arial", 12);
         }
         if (!TestFlat(state.landState.surface, state.landState.ship.x)) {
-            DrawText(ctx, Game.assets.width/2 -10, state.landState.ship.y + 24, "Land not flat under balloon", "Arial", 12);
+            DrawText(ctx, Game.assets.width/2 -10, finalY + 36, "Land not flat under balloon", "Arial", 12);
         }
+    }
+
+    if (state.landState.ship.landed) {
+        DrawText(ctx, Game.assets.width/2 - 50, finalY, "LANDED!", "Arial", 24);
+    }
+    if (state.landState.ship.crashed) {
+        DrawText(ctx, Game.assets.width/2 - 60, finalY, "CRASHED!", "Arial", 24);
     }
 }

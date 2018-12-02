@@ -112,12 +112,6 @@ export function DisplayShip(ctx: DrawContext, ship: IShip): void {
     // // DrawGraphic(ctx, ship.x-48, ship.y-117, Game.assets.airBalloon2);
     DisplayExplosion(ctx, ship.explosion, ship.x + ship.shape.offset.x, ship.y + ship.shape.offset.y);
     DisplayWeapon(ctx, ship.weapon1);
-    if (ship.landed) {
-        DrawText(ctx, ship.x - 50, ship.y, "LANDED!", "Arial", 24);
-    }
-    if (ship.crashed) {
-        DrawText(ctx, ship.x - 60, ship.y, "CRASHED!", "Arial", 24);
-    }
 }
 
 // doesn't change state
@@ -127,7 +121,7 @@ export function ShipSounds(ship: IShip): void {
     }
     if (ship.landed) {
         Game.assets.flyInspire.pause();
-        Game.assets.uplift.play();
+        Game.assets.cinematic.play();
     }
     if (ship.exhaust.thrustOn) {
         Game.assets.thrust.play();
