@@ -25,7 +25,7 @@ export function CreateView(followObject: boolean): IView {
 // if zoom < 1 then drawing origin moves to +ve figires and coordinates offset closer into screen
 export function Zoom(view: IView, zoomIn:boolean, zoomOut: boolean, y: number): IView {
     let viewScale: number = view.viewScale;
-    const z: number = (y-Game.assets.height/2);
+    const z: number = 240/(Game.assets.height-y);
     if (zoomIn) {
         viewScale = view.zoomSpeed;
     } else if (zoomOut) {
@@ -34,7 +34,7 @@ export function Zoom(view: IView, zoomIn:boolean, zoomOut: boolean, y: number): 
         viewScale = 0;
     }
     return {...view,
-        zoomLevel: view.zoomLevel * (1 + viewScale)
+        zoomLevel: z, // view.zoomLevel * (1 + viewScale)
     };
 }
 
