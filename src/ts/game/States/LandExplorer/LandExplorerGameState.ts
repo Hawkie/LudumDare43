@@ -4,7 +4,7 @@ import { CreateLandExplorer, ILandExplorerState, StateCopyToControls,
     StateCopyToUpdate, DisplayLandExplorer, LandExplorerSounds, TestPlayerHit } from "./LandExplorerState";
 import { CreateShip, IShip, DisplayShip } from "../../Components/Ship/ShipComponent";
 import { ICoordinate } from "../../../gamelib/DataTypes/Coordinate";
-import { initSurface, ISurface, ISurfaceGeneration } from "../../Components/SurfaceComponent";
+import { initSurface, ISurface, ISurfaceGeneration, TestFlat } from "../../Components/SurfaceComponent";
 import { IParticleField, CreateField } from "../../Components/FieldComponent";
 import { DisplayTitle } from "../../Components/TitleComponent";
 import { MoveShip } from "../../Components/Ship/MovementComponent";
@@ -68,8 +68,8 @@ export function Input(state: ILandExplorerGameState, keys: KeyStateProvider): IL
 export function Display(ctx: DrawContext, state: ILandExplorerGameState): void {
     ctx.clear();
     // objects not affected by movement. e.g GUI
-    DisplayGUI(ctx, state);
     DisplayView(ctx, state.view, state.landState.ship.x, state.landState.ship.y, state.landState, {displayState: DisplayLandExplorer});
+    DisplayGUI(ctx, state);
 }
 
 function DisplayGUI(ctx: DrawContext, state: ILandExplorerGameState): void {
@@ -108,4 +108,14 @@ function DisplayGUI(ctx: DrawContext, state: ILandExplorerGameState): void {
     y +=20;
     DrawText(ctx, Game.assets.width - x2, y, "Height:");
     DrawNumber(ctx, Game.assets.width- x, y, Math.abs(state.landState.ship.y - 400));
+
+    // add landing warnings
+    if (state.landState.ship.y > 260) {
+        if (state.landState.ship.Vy > 10) {
+            DrawText(ctx, Game.assets.width/2 - 10, state.landState.ship.y + 12, "Descending too fast", "Arial", 12);
+        }
+        if (!TestFlat(state.landState.surface, state.landState.ship.x)) {
+            DrawText(ctx, Game.assets.width/2 -10, state.landState.ship.y + 24, "Land not flat under balloon", "Arial", 12);
+        }
+    }
 }

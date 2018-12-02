@@ -113,10 +113,10 @@ export function DisplayShip(ctx: DrawContext, ship: IShip): void {
     DisplayExplosion(ctx, ship.explosion, ship.x + ship.shape.offset.x, ship.y + ship.shape.offset.y);
     DisplayWeapon(ctx, ship.weapon1);
     if (ship.landed) {
-        DrawText(ctx, ship.x - 50, ship.y - 50, "LANDED!", "Arial", 30);
+        DrawText(ctx, ship.x - 50, ship.y, "LANDED!", "Arial", 24);
     }
     if (ship.crashed) {
-        DrawText(ctx, ship.x - 60, ship.y - 50, "CRASHED!", "Arial", 30);
+        DrawText(ctx, ship.x - 60, ship.y, "CRASHED!", "Arial", 24);
     }
 }
 

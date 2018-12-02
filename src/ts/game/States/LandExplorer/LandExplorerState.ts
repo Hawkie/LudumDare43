@@ -57,7 +57,7 @@ export function StateCopyToUpdate(state: ILandExplorerState, timeModifier: numbe
                 size: 1,
             };
         }),
-        surface: addSurface(state.surface, state.ship.x, Game.assets.width, state.surface.surfaceGenerator),
+        surface: addSurface(state.surface, state.ship.x, state.ship.y, Game.assets.width, state.surface.surfaceGenerator),
         score: score,
     };
 }

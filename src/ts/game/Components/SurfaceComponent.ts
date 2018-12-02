@@ -51,6 +51,7 @@ export function initSurface(width: number, generator: ISurfaceGeneration): ICoor
 
 export function addSurface(surface: ISurface,
     x: number,
+    y: number,
     width: number,
     inputs: ISurfaceGeneration): ISurface {
     let newPoints: ICoordinate[] = surface.points.map(p => p);
