@@ -127,7 +127,7 @@ export function ShipSounds(ship: IShip): void {
     }
     if (ship.landed) {
         Game.assets.flyInspire.pause();
-        Game.assets.funDay.play();
+        Game.assets.uplift.play();
     }
     if (ship.exhaust.thrustOn) {
         Game.assets.thrust.play();

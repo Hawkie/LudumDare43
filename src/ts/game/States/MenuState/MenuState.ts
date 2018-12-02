@@ -8,6 +8,7 @@ import { DisplayField, FieldGenMove } from "../../../gamelib/Components/Particle
 import { KeyStateProvider } from "../../../gamelib/1Common/KeyStateProvider";
 import { IStateProcessor } from "../../../gamelib/State/StateProcessor";
 import { Game } from "../../../gamelib/1Common/Game";
+import { DrawGraphic } from "../../../gamelib/Views/GraphicView";
 
 export interface IMenuState {
     readonly title: string;
@@ -20,6 +21,8 @@ export interface IMenuState {
     readonly starField2: IParticleField;
     readonly menu: IMenuComponent;
     readonly control: IMenuControls;
+    readonly x: number;
+    readonly y: number;
 }
 
 // when creating a game state - create the data and then bind to the objects
@@ -63,7 +66,9 @@ export function CreateMenuState(items: string[]): IMenuState {
             up: false,
             down: false,
             enter: false,
-        }
+        },
+        x: 300,
+        y: 200,
     };
 }
 
@@ -74,6 +79,7 @@ export function DisplayMenuState(ctx: DrawContext, state: IMenuState): void {
     DisplayField(ctx, state.starField2.particles);
     DisplayTitle(ctx, state.title);
     DisplayMenu(ctx, 200, 100, state.menu);
+    DrawGraphic(ctx, state.x, state.y, Game.assets.airBalloon);
     DisplayText(ctx, state.help1, 100, 400);
     DisplayText(ctx, state.help2, 100, 415);
     DisplayText(ctx, state.help3, 100, 430);
@@ -101,12 +107,14 @@ export function UpdateMenuState(state:IMenuState, timeModifier: number): IMenuSt
                 size: 2,
             };
         }),
+        x: Math.max(200, Math.min(350, state.x + Transforms.random(-5, 5)* timeModifier)),
+        y: Math.max(100, Math.min(300, state.y + Transforms.random(-5, 5)* timeModifier)),
     };
 }
 
 export function SoundMenuState(state: IMenuState): IMenuState {
     return {...state,
-        menu: SoundMenu(state.menu, Game.assets.flyInspire, Game.assets.blast)
+        menu: SoundMenu(state.menu, Game.assets.flyInspire, Game.assets.glassPing)
     };
 }
 
