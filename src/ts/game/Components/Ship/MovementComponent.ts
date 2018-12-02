@@ -4,9 +4,14 @@ import { IShip } from "./ShipComponent";
 import { AccelerateWithForces } from "../../../gamelib/Actors/Accelerator";
 import { IVector, Vector } from "../../../gamelib/DataTypes/Vector";
 
+const maxHeight: number = 1000;
+const maxMass: number = 180;
+const maxTemp: number = 120;
 // 18 * 10 equals gravity 180, 100, 0 to 240
-function LiftAcceleration(temp: number): number {
-    return Math.min(200, temp * 2);
+// expecting values from 400 = low level to -1000 = high)
+function LiftAcceleration(temp: number, height: number, descent: number): number {
+    let hFactor: number = ((height+maxHeight)/maxHeight) + 1; // number between 1 and 2.
+    return Math.max(0, temp * 0.8 * hFactor + descent);
 }
 
 export function MoveShip(ship: IShip, timeModifier: number): IShip {
@@ -23,8 +28,10 @@ export function MoveShip(ship: IShip, timeModifier: number): IShip {
     newShip = RotateAngle(newShip, spin, timeModifier);
     newShip = RotateShape(timeModifier, newShip, spin);
 
+    let accValue:number = LiftAcceleration(ship.temp, ship.y, ship.Vy) - newShip.mass * 10;
+
     // const tDiff: number = Math.max(0, 120 - newShip.temp;
-    let lift: IVector = new Vector(0, LiftAcceleration(ship.temp) - newShip.mass * 10);
+    let lift: IVector = new Vector(0, accValue);
     // equation between temp and gravity
     // if temp > 120 then balloon is bouyant. if temp < 80 no bouyancy
     // let gravity: IVector = new Vector(180, newShip.mass * 10);

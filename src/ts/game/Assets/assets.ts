@@ -9,7 +9,7 @@ export class AsteroidAssets {
     public grass: IGraphic = new Graphic("res/img/grass25.png");
     public coinSprite: IGraphic = new Graphic("res/img/spinningCoin.png");
     public graphicShip: IGraphic = new Graphic("res/img/ship.png");
-    public airBalloon: IGraphic = new Graphic("res/img/hotAirBalloon.png");
+    public airBalloon: IGraphic = new Graphic("res/img/airBalloon.png");
     public airBalloon2: IGraphic = new Graphic("res/img/hotAirBalloon2.png");
     public fallingMan: IGraphic = new Graphic("res/img/fallingman.png");
 
