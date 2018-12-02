@@ -78,8 +78,8 @@ function DisplayGUI(ctx: DrawContext, state: ILandExplorerGameState): void {
     const x: number = 30;
     const x2: number = 100;
     // score
-    DrawText(ctx, Game.assets.width - x2, y, "Score:");
-    DrawNumber(ctx, Game.assets.width- x, y, state.landState.score,);
+    DrawText(ctx, Game.assets.width - x2, y, "Prestige:");
+    DrawNumber(ctx, Game.assets.width- x, y, state.landState.score);
     // passengers
     y +=20;
     DrawText(ctx, Game.assets.width - x2, y, "Passengers:");
@@ -110,6 +110,10 @@ function DisplayGUI(ctx: DrawContext, state: ILandExplorerGameState): void {
     DrawNumber(ctx, Game.assets.width- x, y, Math.abs(state.landState.ship.y - 400));
 
     // add landing warnings
+    if (state.landState.ship.fuel < 100) {
+        DrawText(ctx, Game.assets.width/2 - 10, state.landState.ship.y, "Low fuel", "Arial", 12);
+    }
+
     if (state.landState.ship.y > 260) {
         if (state.landState.ship.Vy > 10) {
             DrawText(ctx, Game.assets.width/2 - 10, state.landState.ship.y + 12, "Descending too fast", "Arial", 12);

@@ -4,7 +4,7 @@ import { IStateProcessor } from "../../gamelib/State/StateProcessor";
 import { CreateGameStateLandExplorer, Sounds, Display, Input, Update, ILandExplorerGameState } from "./LandExplorer/LandExplorerGameState";
 import { IState } from "../../gamelib/State/StateMachine";
 import { EmptyUpdate, EmptyInput } from "../../testGame/CreateTestStateMachine";
-import { IHelp, CreateHelp, DisplayHelp, InputHelp } from "./Help/HelpState";
+import { IHelp, CreateHelp, DisplayHelp, InputHelp, CreateHelpControls, CreateHintHelp } from "./Help/HelpState";
 
 
 export function CreateState(): IState {
@@ -13,9 +13,11 @@ export function CreateState(): IState {
         Menu, // 0
         BalloonRide, // 1
         Help,
+        Controls,
+        Hints,
     }
 
-    const s0: IMenuState = CreateMenuState(["Start", "Help"]);
+    const s0: IMenuState = CreateMenuState(["Start", "Help", "Controls", "Hints"]);
     const b0: IStateProcessor<IMenuState> = {
         id: StateId.Menu,
         name: "Main Menu",
@@ -30,6 +32,10 @@ export function CreateState(): IState {
                         return StateId.BalloonRide;
                     case 1:
                         return StateId.Help;
+                    case 2:
+                        return StateId.Controls;
+                    case 3:
+                        return StateId.Hints;
                 }
             }
             return undefined;
@@ -39,7 +45,7 @@ export function CreateState(): IState {
     const s1: ILandExplorerGameState = CreateGameStateLandExplorer();
     const b1: IStateProcessor<ILandExplorerGameState> = {
         id: StateId.BalloonRide,
-        name: "Balloon Race",
+        name: "Air Rider",
         sound: Sounds,
         display: Display,
         input: Input,
@@ -67,10 +73,41 @@ export function CreateState(): IState {
         }
     };
 
+    const s3: IHelp = CreateHelpControls();
+    const b3: IStateProcessor<IHelp> = {
+        id: StateId.Help,
+        name: "Controls",
+        sound: EmptyUpdate,
+        display: DisplayHelp,
+        input: InputHelp,
+        update: EmptyUpdate,
+        next: (state: IHelp) => {
+            if (state.exit) {
+                return StateId.Menu;
+            }
+            return undefined;
+        }
+    };
+    const s4: IHelp = CreateHintHelp();
+    const b4: IStateProcessor<IHelp> = {
+        id: StateId.Help,
+        name: "Hints",
+        sound: EmptyUpdate,
+        display: DisplayHelp,
+        input: InputHelp,
+        update: EmptyUpdate,
+        next: (state: IHelp) => {
+            if (state.exit) {
+                return StateId.Menu;
+            }
+            return undefined;
+        }
+    };
+
     return {
         activeState: 0,
-        states: [s0, s1, s2],
-        behaviours: [b0, b1, b2],
+        states: [s0, s1, s2, s3, s4],
+        behaviours: [b0, b1, b2, b3, b4],
     };
 }
 

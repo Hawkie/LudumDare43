@@ -33,10 +33,10 @@ export function InputControls(keys:number[]): IControls {
     let zoomIn: boolean = false;
     let zoomOut: boolean = false;
     let exit: boolean = false;
-    if (keys.indexOf(Keys.UpArrow) > -1) {
+    if (keys.indexOf(Keys.Q) > -1) {
         up = true;
     }
-    if (keys.indexOf(Keys.DownArrow) > -1) {
+    if (keys.indexOf(Keys.A) > -1) {
         down = true;
     }
     if (keys.indexOf(Keys.LeftArrow) > -1) {

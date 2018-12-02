@@ -42,10 +42,10 @@ export function CreateGameStateMenu(): IStateProcessor<IMenuState> {
 
 export function CreateMenuState(items: string[]): IMenuState {
     return {
-        title: "Ludum Dare 43: Balloon Race",
-        help1: "Press return to select menu option",
-        help2: "use arrow keys to select option",
-        help3: "Z and X to zoom in and out",
+        title: "Ludum Dare 43: Air Rider",
+        help1: "Sacrifices must be made!",
+        help2: "Q and A keys to select option",
+        help3: "Enter to select a menu option",
         font: "Arial",
         fontSize: 18,
         starField1: CreateField(true, 2, 2, 1),

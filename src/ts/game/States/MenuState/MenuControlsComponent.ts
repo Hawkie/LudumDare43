@@ -10,10 +10,10 @@ export function UpdateMenuControls(timeModifier: number, keys: number[]): IMenuC
     let up: boolean = false;
     let down: boolean = false;
     let enter: boolean = false;
-    if (keys.indexOf(Keys.UpArrow) > -1) {
+    if (keys.indexOf(Keys.Q) > -1) {
         up = true;
     }
-    if (keys.indexOf(Keys.DownArrow) > -1) {
+    if (keys.indexOf(Keys.A) > -1) {
         down = true;
     }
     if (keys.indexOf(Keys.Enter) > -1) {
