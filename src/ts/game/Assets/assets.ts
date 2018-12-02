@@ -15,7 +15,7 @@ export class AsteroidAssets {
 
     // sounds
     public flyInspire: IAudioObject = new AudioObject("res/sound/FlyInspire.mp3", true);
-    public uplift: IAudioObject = new AudioObject("res/sound/uplift.mp3", true);
+    public funDay: IAudioObject = new AudioObject("res/sound/funDay.mp3", true);
     public blast: IAudioObject = new AudioObject("res/sound/blast.wav");
     public thrust: IAudioObject = new AudioObject("res/sound/thrust.wav");
     public gun: IAudioObject = new AudioObject("res/sound/raygun-01.mp3");
