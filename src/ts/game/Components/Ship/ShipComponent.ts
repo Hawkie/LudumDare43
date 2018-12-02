@@ -4,7 +4,7 @@ import { Transforms } from "../../../gamelib/Physics/Transforms";
 import { DrawContext } from "../../../gamelib/1Common/DrawContext";
 import { DrawPoly } from "../../../gamelib/Views/PolyViews";
 import { IControls } from "../ControlsComponent";
-import { IWeapon, PullTrigger, DisplayWeapon, CreateWeapon, RemoveBullet } from "./WeaponComponent";
+import { IWeapon, PullTrigger, DisplayWeapon, CreateWeapon, RemoveBullet, StopBullet } from "./WeaponComponent";
 import { IExhaust, ExhaustCopyToUpdated, DisplayExhaust, CreateExhaust } from "./ThrustComponent";
 import { IExplosion, DisplayExplosion, CreateExplosion, UpdateExplosion } from "./ExplosionComponent";
 import { Game } from "../../../gamelib/1Common/Game";
@@ -263,5 +263,11 @@ export function LandShip(ship: IShip): IShip {
 export function ShipCopyToRemovedBullet(ship: IShip, bulletIndex: number,): IShip {
     return {...ship,
         weapon1: RemoveBullet(ship.weapon1, bulletIndex),
+    };
+}
+
+export function ShipCopyToStopBullet(ship: IShip, bulletIndex: number,): IShip {
+    return {...ship,
+        weapon1: StopBullet(ship.weapon1, bulletIndex),
     };
 }

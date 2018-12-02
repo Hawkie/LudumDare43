@@ -8,7 +8,7 @@ export interface IShapedLocation {
 }
 
 export function ShapeCollisionDetector(target: IShapedLocation, hitters: ICoordinate[]): number {
-    return hitters.findIndex(h => Transforms.hasPoint(target.shape.points, target.location, h));
+    return hitters.findIndex((h) => Transforms.hasPoint(target.shape.points, target.location, h));
 }
 
 export interface IDetected {

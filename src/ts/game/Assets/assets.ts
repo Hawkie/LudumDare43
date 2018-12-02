@@ -17,6 +17,7 @@ export class AsteroidAssets {
     public thrust: IAudioObject = new AudioObject("res/sound/thrust.wav");
     public explosion: IAudioObject = new AudioObject("res/sound/explosion.wav");
     public scream: IAudioObject = new AudioObject("res/sound/scream.mp3");
+    public splat: IAudioObject = new AudioObject("res/sound/splat.mp3");
 
 
     public gMap:Map<string, IGraphic> = new Map<string,IGraphic>();

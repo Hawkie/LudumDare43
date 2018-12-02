@@ -1,13 +1,15 @@
-import { IShip, CreateShip, CrashShip, DisplayShip, ShipCopyToUpdated, ShipSounds, LandShip } from "../../Components/Ship/ShipComponent";
+import { IShip, CreateShip, CrashShip, DisplayShip, ShipCopyToUpdated,
+    ShipSounds, LandShip, ShipCopyToStopBullet } from "../../Components/Ship/ShipComponent";
 import { ISurface, initSurface, DisplaySurface, addSurface, TestFlat } from "../../Components/SurfaceComponent";
 import { IParticleField, CreateField } from "../../Components/FieldComponent";
 import { IControls, InputControls, CreateControls } from "../../Components/ControlsComponent";
 import { KeyStateProvider } from "../../../gamelib/1Common/KeyStateProvider";
 import { DrawContext } from "../../../gamelib/1Common/DrawContext";
-import { DisplayField, FieldGenMove } from "../../../gamelib/Components/ParticleFieldComponent";
+import { DisplayField, FieldGenMove, IParticle } from "../../../gamelib/Components/ParticleFieldComponent";
 import { Transforms } from "../../../gamelib/Physics/Transforms";
 import { Game } from "../../../gamelib/1Common/Game";
-import { ShapeCollisionDetector } from "../../../gamelib/Interactors/ShapeCollisionDetector";
+import { IShapedLocation, ShapeCollisionDetector } from "../../../gamelib/Interactors/ShapeCollisionDetector";
+import { ISplat, CreateSplat, DisplaySplat, UpdateSplat, ResetSplat } from "../../Components/SplatComponent";
 
 export interface ILandExplorerState {
     readonly title: string;
@@ -16,6 +18,9 @@ export interface ILandExplorerState {
     readonly starField: IParticleField;
     readonly surface: ISurface;
     readonly score: number;
+    readonly splat: ISplat;
+    readonly splatIndex: number;
+    readonly splatSound: boolean;
 }
 
 export function CreateLandExplorer(ship: IShip, starfield: IParticleField, surface: ISurface): ILandExplorerState {
@@ -26,6 +31,9 @@ export function CreateLandExplorer(ship: IShip, starfield: IParticleField, surfa
         starField: starfield,
         surface: surface,
         score: 0,
+        splat: CreateSplat(),
+        splatIndex: -1,
+        splatSound: false,
     };
 }
 
@@ -33,10 +41,14 @@ export function DisplayLandExplorer(ctx: DrawContext, state: ILandExplorerState)
     DisplayShip(ctx, state.ship);
     DisplayField(ctx, state.starField.particles);
     DisplaySurface(ctx, state.surface);
+    DisplaySplat(ctx, state.splat);
 }
 
 export function LandExplorerSounds(state: ILandExplorerState): ILandExplorerState {
     ShipSounds(state.ship);
+    if (state.splatSound) {
+        Game.assets.splat.replay();
+    }
     // turn off any sound triggers - need to think about this
     return state;
 }
@@ -45,6 +57,12 @@ export function LandExplorerSounds(state: ILandExplorerState): ILandExplorerStat
 export function StateCopyToUpdate(state: ILandExplorerState, timeModifier: number): ILandExplorerState {
     // distance(px)/100 * passengers/8
     let score: number = ((state.ship.x - Game.assets.width/2) / 50) * state.ship.weapon1.remaining/8;
+    let splat: ISplat = state.splat;
+    if (state.splatIndex > -1) {
+        const passenger: IParticle = state.ship.weapon1.bullets[state.splatIndex];
+        splat = UpdateSplat(timeModifier, state.splat, true, passenger.x, passenger.y);
+    }
+
     return {...state,
         ship: ShipCopyToUpdated(timeModifier, state.ship, state.controls),
         starField: FieldGenMove(timeModifier, state.starField, true, 2, (now: number) => {
@@ -59,6 +77,7 @@ export function StateCopyToUpdate(state: ILandExplorerState, timeModifier: numbe
         }),
         surface: addSurface(state.surface, state.ship.x, state.ship.y, Game.assets.width, state.surface.surfaceGenerator),
         score: score,
+        splat: splat,
     };
 }
 
@@ -68,8 +87,9 @@ export function StateCopyToControls(state: ILandExplorerState, keys: KeyStatePro
     };
 }
 
-export function TestPlayerHit(state: ILandExplorerState): ILandExplorerState {
-    return TouchLand(state);
+export function Tests(state: ILandExplorerState): ILandExplorerState {
+    let newState:ILandExplorerState = ManHitsLand(state);
+    return TouchLand(newState);
 }
 
 function TouchLand(state: ILandExplorerState): ILandExplorerState {
@@ -97,4 +117,35 @@ function TestLand(state: ILandExplorerState): boolean {
     }
     console.log("Too fast: " + state.ship.Vy);
     return false;
+}
+
+
+function ManHitsLand(state: ILandExplorerState): ILandExplorerState {
+    const surfaceShape: IShapedLocation = {
+        location: {x: 0, y: 0},
+        shape: {
+            offset: {x: 0, y: 0},
+            points: state.surface.points,
+        }
+    };
+    const indexPassenger: number = ShapeCollisionDetector(surfaceShape,
+        state.ship.weapon1.bullets.slice(state.splatIndex+1).map(b => { return {
+                x: b.x,
+                y: b.y,
+            };
+        }));
+    const realIndex: number = indexPassenger + 1 + state.splatIndex;
+    if (realIndex > state.splatIndex) {
+        console.log("How could you?! " + indexPassenger + " " + state.splatIndex);
+        return {...state,
+            splatIndex: realIndex,
+            splatSound: true,
+            splat: ResetSplat(state.splat),
+            // stop passenger
+            ship: ShipCopyToStopBullet(state.ship, realIndex),
+        };
+    }
+    return {...state,
+        splatSound: false
+    };
 }

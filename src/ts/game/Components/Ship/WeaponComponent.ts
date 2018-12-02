@@ -43,6 +43,23 @@ export function RemoveBullet(weapon: IWeapon, bulletIndex: number): IWeapon {
     };
 }
 
+export function StopBullet(weapon: IWeapon, bulletIndex: number): IWeapon {
+    let bs: IParticle[] = weapon.bullets.map(b => b);
+    let b: IParticle = bs[bulletIndex];
+    const b2: IParticle = {
+        x: b.x,
+        y: b.y,
+        Vx: 0,
+        Vy: 0,
+        born: b.born,
+        size: 1,
+    };
+    bs.splice(bulletIndex, 1, b2);
+    return {...weapon,
+        bullets: bs
+    };
+}
+
 export function PullTrigger(timeModifier: number, weapon: IWeapon,
         fireWeaponIntent: boolean,
         x: number, y: number, Vx: number, Vy:number, angle: number, bulletVelocity: number): IWeapon {
@@ -81,7 +98,7 @@ export function PullTrigger(timeModifier: number, weapon: IWeapon,
     }
 
     // remove old bullets
-    bullets = FilterParticles(bullets, now, weapon.bulletLifetime);
+    // bullets = FilterParticles(bullets, now, weapon.bulletLifetime);
     bullets = bullets.map((b)=> MoveWithVelocity(timeModifier, b, b.Vx, b.Vy));
     let gravity: IVector = { angle: 180, length: 50 };
     bullets = bullets.map(b => AccelerateWithForces(b, timeModifier, [gravity], 1));

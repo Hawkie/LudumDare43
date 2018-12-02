@@ -29,21 +29,27 @@ export function CreateSplat(): ISplat {
     };
 }
 
-export function DisplaySplat(ctx: DrawContext, explosion: ISplat, x: number, y: number): void {
+export function DisplaySplat(ctx: DrawContext, explosion: ISplat): void {
     ctx.colour("#f22");
     DisplayField(ctx, explosion.splatParticleField.particles);
     ctx.restore();
 }
 
-export function UpdateSplat(timeModifier: number, explosion: ISplat,
+export function ResetSplat(splat: ISplat): ISplat {
+    return {...splat,
+        splatTime: 0
+    };
+}
+
+export function UpdateSplat(timeModifier: number, splat: ISplat,
         crashed: boolean,
-        x: number, y: number, Vx: number, Vy: number): ISplat {
+        x: number, y: number): ISplat {
     let generate: boolean = false;
     let accumulatedTime: number = 0;
-    let e: ISplat = explosion;
+    let e: ISplat = splat;
     if (crashed) {
-        accumulatedTime = explosion.splatTime + timeModifier;
-        if (accumulatedTime < explosion.splatDuration) {
+        accumulatedTime = splat.splatTime + timeModifier;
+        if (accumulatedTime < splat.splatDuration) {
             generate = true;
         }
     }
@@ -56,8 +62,8 @@ export function UpdateSplat(timeModifier: number, explosion: ISplat,
                 return {
                     x: x + Transforms.random(-2, 2),
                     y: y + Transforms.random(-2, 2),
-                    Vx: Vx + Transforms.random(-10, 10),
-                    Vy: Vy + Transforms.random(10, 20),
+                    Vx: Transforms.random(-10, 10),
+                    Vy: Transforms.random(10, 20),
                     born: now,
                     size: 2,
             };

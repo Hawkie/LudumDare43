@@ -1,7 +1,7 @@
 ﻿import { DrawContext} from "../../../gamelib/1Common/DrawContext";
 import { KeyStateProvider } from "../../../gamelib/1Common/KeyStateProvider";
 import { CreateLandExplorer, ILandExplorerState, StateCopyToControls,
-    StateCopyToUpdate, DisplayLandExplorer, LandExplorerSounds, TestPlayerHit } from "./LandExplorerState";
+    StateCopyToUpdate, DisplayLandExplorer, LandExplorerSounds, Tests } from "./LandExplorerState";
 import { CreateShip, IShip, DisplayShip } from "../../Components/Ship/ShipComponent";
 import { ICoordinate } from "../../../gamelib/DataTypes/Coordinate";
 import { initSurface, ISurface, ISurfaceGeneration, TestFlat } from "../../Components/SurfaceComponent";
@@ -46,7 +46,7 @@ export function Update(state: ILandExplorerGameState, timeModifier: number): ILa
     let newState: ILandExplorerState = state.landState;
     // combine our three state changes from one update function
     newState = StateCopyToUpdate(newState, timeModifier);
-    newState = TestPlayerHit(newState);
+    newState = Tests(newState);
     return {...state,
         landState: newState,
         view: Zoom(state.view, newState.controls.zoomIn, newState.controls.zoomOut, newState.ship.y)
