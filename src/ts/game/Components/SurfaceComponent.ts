@@ -55,9 +55,10 @@ export function addSurface(surface: ISurface,
     width: number,
     inputs: ISurfaceGeneration): ISurface {
     let newPoints: ICoordinate[] = surface.points.map(p => p);
-    let buffer: number = (width / 2); // 260
-    let left: number = x - buffer; // 256 - 260 = -4  // 1 - 260 = - 259 // 400 - 260 = 140
-    let right: number = x + buffer; // 256+260 = 516 // 1 + 260 = 261 // 400 + 260 = 660
+    const zoomEffect: number = (480-y)/240;
+    let buffer: number = (width / 2) * zoomEffect; // 256
+    let left: number = x - buffer; // 260 - 256 = -4  // 1 - 260 = - 259 // 400 - 260 = 140
+    let right: number = x + buffer; // 260 + 256 = 516 // 1 + 260 = 261 // 400 + 260 = 660
     let leftIndex: number = Math.floor(left / inputs.resolution); // 0 // -25 // 14
     let rightIndex: number = Math.ceil(right / inputs.resolution); // 52 // 27 // 66
     let toAddLeft: number = leftIndex + surface.addedLeft; // -0.4 // -26.5
