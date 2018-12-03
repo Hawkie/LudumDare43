@@ -24,6 +24,6 @@ export class AsteroidAssets {
 
     public gMap:Map<string, IGraphic> = new Map<string,IGraphic>();
 
-    public readonly width:number = 512;
-    public readonly height:number = 480;
+    public readonly width:number = 480;
+    public readonly height:number = 512;
 }

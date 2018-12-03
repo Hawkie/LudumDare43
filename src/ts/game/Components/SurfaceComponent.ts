@@ -56,7 +56,7 @@ export function addSurface(surface: ISurface,
     width: number,
     inputs: ISurfaceGeneration): ISurface {
     let newPoints: ICoordinate[] = surface.points.map(p => p);
-    const zoomEffect: number = (480-y)/240;
+    const zoomEffect: number = (Game.assets.height-y)/(Game.assets.height/2);
     let buffer: number = (width) * zoomEffect; // 256
     let left: number = x - (width/2); // 260 - 256 = -4  // 1 - 260 = - 259 // 400 - 260 = 140
     let right: number = x + buffer; // 260 + 256 = 516 // 1 + 260 = 261 // 400 + 260 = 660
@@ -69,8 +69,7 @@ export function addSurface(surface: ISurface,
         newPoints.shift();
         var first: Coordinate = newPoints[0];
         for (let l: number = 0; toAddLeft < l; l--) {
-            first = new Coordinate(first.x - inputs.resolution,
-                first.y + Transforms.random(inputs.lower, inputs.upper));
+            first = generatePoint(first.x + inputs.resolution, first.y, inputs);
             newPoints.unshift(first);
             addedLeft++;
         }

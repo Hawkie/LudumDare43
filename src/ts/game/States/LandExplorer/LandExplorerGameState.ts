@@ -96,7 +96,7 @@ export function Display(ctx: DrawContext, state: ILandExplorerGameState): void {
 function DisplayGUI(ctx: DrawContext, state: ILandExplorerGameState): void {
     DisplayTitle(ctx, state.landState.title);
     let y:number = 20;
-    const x: number = 30;
+    const x: number = 40;
     const x2: number = 100;
     // score
     DrawText(ctx, Game.assets.width - x2, y, "Prestige:");
@@ -156,6 +156,7 @@ function DisplayGUI(ctx: DrawContext, state: ILandExplorerGameState): void {
         DrawText(ctx, Game.assets.width/2 - 60, finalY, "CRASHED!", "Arial", 24);
     }
     if (state.landState.ship.crashed || state.landState.ship.landed) {
-        DrawText(ctx, Game.assets.width/2 - 100, finalY - 50, "Press <N> to continue", "Arial", 12);
+        DrawText(ctx, Game.assets.width/2 - 100, finalY - 48, "Press <N> to continue", "Arial", 12);
+        DrawText(ctx, Game.assets.width/2 - 100, finalY - 32, "Press <Esc> for menu", "Arial", 12);
     }
 }
