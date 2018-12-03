@@ -13,6 +13,8 @@ export class AsteroidAssets {
     // sounds
     public flyInspire: IAudioObject = new AudioObject("res/sound/flyInspire.mp3", true);
     public cinematic: IAudioObject = new AudioObject("res/sound/cinematic.mp3", true);
+    public emotional: IAudioObject = new AudioObject("res/sound/emotional.mp3", true);
+
     public glassPing: IAudioObject = new AudioObject("res/sound/glassPing.mp3");
     public thrust: IAudioObject = new AudioObject("res/sound/thrust.wav");
     public explosion: IAudioObject = new AudioObject("res/sound/explosion.wav");

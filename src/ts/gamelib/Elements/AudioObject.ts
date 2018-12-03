@@ -41,6 +41,7 @@ export class AudioObject implements IAudioObject {
 
     reset(): void {
         this._playing = false;
+        this.audioElement.pause();
         this.audioElement.currentTime = 0;
     }
 

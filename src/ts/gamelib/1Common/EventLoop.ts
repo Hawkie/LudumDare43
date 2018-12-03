@@ -34,8 +34,8 @@ export class EventLoop<TState> {
     processOneFrame(state: TState, delta: number): TState {
         this.stateMachine.display(this.canvas.context(), state);
         let newState: TState = this.stateMachine.input(state, this.keyStateProvider, delta);
-        newState = this.stateMachine.update(newState, delta);
         newState = this.stateMachine.sound(newState, delta);
+        newState = this.stateMachine.update(newState, delta);
         let idState: number = this.stateMachine.next(newState);
         if (idState !== undefined) {
             return Object.assign({}, newState, {
