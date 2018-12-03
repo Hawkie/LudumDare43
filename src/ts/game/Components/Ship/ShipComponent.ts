@@ -58,7 +58,7 @@ export interface IShip {
     move(ship: IShip, timeModifier: number): IShip;
 }
 
-const bSize:number = 4;
+const bSize:number = 3;
 
 export function CreateShip(x: number, y: number,
     gravityStrength: number,
@@ -108,7 +108,7 @@ export function CreateShip(x: number, y: number,
 export function DisplayShip(ctx: DrawContext, ship: IShip): void {
     DrawPoly(ctx, ship.x + ship.shape.offset.x, ship.y + ship.shape.offset.y, ship.shape);
     DisplayExhaust(ctx, ship.exhaust);
-    DrawGraphic(ctx, ship.x-50, ship.y-124, Game.assets.airBalloon);
+    DrawGraphic(ctx, ship.x-51, ship.y-123, Game.assets.airBalloon);
     // // DrawGraphic(ctx, ship.x-48, ship.y-117, Game.assets.airBalloon2);
     DisplayExplosion(ctx, ship.explosion, ship.x + ship.shape.offset.x, ship.y + ship.shape.offset.y);
     DisplayWeapon(ctx, ship.weapon1);
