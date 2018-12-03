@@ -117,11 +117,15 @@ export function DisplayShip(ctx: DrawContext, ship: IShip): void {
 // doesn't change state
 export function ShipSounds(ship: IShip): void {
     if (ship.crashed) {
-        Game.assets.explosion.playOnce();
-    }
-    if (ship.landed) {
+        Game.assets.flyInspire.pause();
+        Game.assets.cinematic.pause();
+        Game.assets.explosion.play();
+    } else if (ship.landed) {
         Game.assets.flyInspire.pause();
         Game.assets.cinematic.play();
+    } else {
+        Game.assets.flyInspire.play();
+        Game.assets.cinematic.pause();
     }
     if (ship.exhaust.thrustOn) {
         Game.assets.thrust.play();

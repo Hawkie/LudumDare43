@@ -18,7 +18,7 @@ export interface ILandExplorerGameState {
     view: IView;
 }
 
-export function CreateGameStateLandExplorer(): ILandExplorerGameState {
+export function CreateGameStateLandExplorer(score: number): ILandExplorerGameState {
     let surfaceGenerator: ISurfaceGeneration = {
         resolution: 10,
         upper: 10,
@@ -34,7 +34,7 @@ export function CreateGameStateLandExplorer(): ILandExplorerGameState {
         surfaceGenerator: surfaceGenerator,
     };
     let starfield: IParticleField = CreateField(true, 1, 1);
-    let state: ILandExplorerState = CreateLandExplorer(ship, starfield, surface);
+    let state: ILandExplorerState = CreateLandExplorer(ship, starfield, surface, score);
     let view: IView = CreateView(true);
     return {
         landState: state,
@@ -44,6 +44,11 @@ export function CreateGameStateLandExplorer(): ILandExplorerGameState {
 
 export function Update(state: ILandExplorerGameState, timeModifier: number): ILandExplorerGameState {
     let newState: ILandExplorerState = state.landState;
+    if (newState.controls.next) {
+        if (newState.ship.landed || newState.ship.crashed) {
+            return CreateGameStateLandExplorer(newState.score);
+        }
+    }
     // combine our three state changes from one update function
     newState = StateCopyToUpdate(newState, timeModifier);
     newState = Tests(newState);
@@ -80,6 +85,10 @@ function DisplayGUI(ctx: DrawContext, state: ILandExplorerGameState): void {
     // score
     DrawText(ctx, Game.assets.width - x2, y, "Prestige:");
     DrawNumber(ctx, Game.assets.width- x, y, state.landState.score);
+    // distance
+    y +=20;
+    DrawText(ctx, Game.assets.width - x2, y, "Distance:");
+    DrawNumber(ctx, Game.assets.width- x, y, state.landState.ship.x - (Game.assets.width/2));
     // passengers
     y +=20;
     DrawText(ctx, Game.assets.width - x2, y, "Passengers:");
@@ -129,5 +138,8 @@ function DisplayGUI(ctx: DrawContext, state: ILandExplorerGameState): void {
     }
     if (state.landState.ship.crashed) {
         DrawText(ctx, Game.assets.width/2 - 60, finalY, "CRASHED!", "Arial", 24);
+    }
+    if (state.landState.ship.crashed || state.landState.ship.landed) {
+        DrawText(ctx, Game.assets.width/2 - 100, finalY - 50, "Press <N> to continue", "Arial", 12);
     }
 }

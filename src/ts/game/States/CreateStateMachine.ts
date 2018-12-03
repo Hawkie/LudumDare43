@@ -42,7 +42,7 @@ export function CreateState(): IState {
         }
     };
 
-    const s1: ILandExplorerGameState = CreateGameStateLandExplorer();
+    const s1: ILandExplorerGameState = CreateGameStateLandExplorer(0);
     const b1: IStateProcessor<ILandExplorerGameState> = {
         id: StateId.BalloonRide,
         name: "Air Rider",

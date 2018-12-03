@@ -57,10 +57,12 @@ export enum Keys {
     A = 65,
     D = 68,
     E = 69,
+    N = 78,
     Q = 81,
     R = 82,
     S = 83,
     W = 87,
     X = 88, // zoom out
+    Y = 89,
     Z = 90, // zoom in
 }

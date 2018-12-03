@@ -9,6 +9,7 @@ export interface IControls {
     readonly zoomIn: boolean;
     readonly zoomOut: boolean;
     readonly exit: boolean;
+    readonly next: boolean;
 }
 
 export function CreateControls(): IControls {
@@ -21,6 +22,7 @@ export function CreateControls(): IControls {
             zoomIn: false,
             zoomOut: false,
             exit: false,
+            next: false,
     };
 }
 
@@ -33,6 +35,7 @@ export function InputControls(keys:number[]): IControls {
     let zoomIn: boolean = false;
     let zoomOut: boolean = false;
     let exit: boolean = false;
+    let next: boolean = false;
     if (keys.indexOf(Keys.Q) > -1) {
         up = true;
     }
@@ -57,6 +60,9 @@ export function InputControls(keys:number[]): IControls {
     if (keys.indexOf(Keys.Esc) > -1) {
         exit = true;
     }
+    if (keys.indexOf(Keys.N) > -1) {
+        next = true;
+    }
     return {
         left: left,
         right: right,
@@ -66,5 +72,6 @@ export function InputControls(keys:number[]): IControls {
         zoomIn: zoomIn,
         zoomOut: zoomOut,
         exit: exit,
+        next: next,
     };
 }

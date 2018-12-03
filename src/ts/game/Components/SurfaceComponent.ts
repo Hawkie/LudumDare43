@@ -28,7 +28,8 @@ export function generatePoint(x: number, yBase: number, generator: ISurfaceGener
         console.log("Flat point created: " + yBase);
         return new Coordinate(x, yBase);
     }
-    return new Coordinate(x, yBase + Transforms.random(generator.lower, generator.upper));
+    const yNew: number = yBase + Transforms.random(generator.lower, generator.upper);
+    return new Coordinate(x, Math.max(0, yNew));
 }
 
 export function initSurface(width: number, generator: ISurfaceGeneration): ICoordinate[] {
@@ -57,7 +58,7 @@ export function addSurface(surface: ISurface,
     let newPoints: ICoordinate[] = surface.points.map(p => p);
     const zoomEffect: number = (480-y)/240;
     let buffer: number = (width) * zoomEffect; // 256
-    let left: number = x - buffer; // 260 - 256 = -4  // 1 - 260 = - 259 // 400 - 260 = 140
+    let left: number = x - (width/2); // 260 - 256 = -4  // 1 - 260 = - 259 // 400 - 260 = 140
     let right: number = x + buffer; // 260 + 256 = 516 // 1 + 260 = 261 // 400 + 260 = 660
     let leftIndex: number = Math.floor(left / inputs.resolution); // 0 // -25 // 14
     let rightIndex: number = Math.ceil(right / inputs.resolution); // 52 // 27 // 66

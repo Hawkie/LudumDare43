@@ -18,12 +18,14 @@ export interface ILandExplorerState {
     readonly starField: IParticleField;
     readonly surface: ISurface;
     readonly score: number;
+    readonly residualScore: number;
     readonly splat: ISplat;
     readonly splatIndex: number;
     readonly splatSound: boolean;
 }
 
-export function CreateLandExplorer(ship: IShip, starfield: IParticleField, surface: ISurface): ILandExplorerState {
+export function CreateLandExplorer(ship: IShip, starfield: IParticleField, surface: ISurface,
+     residualScore: number = 0): ILandExplorerState {
     return {
         title: "Air Rider",
         controls: CreateControls(),
@@ -34,6 +36,7 @@ export function CreateLandExplorer(ship: IShip, starfield: IParticleField, surfa
         splat: CreateSplat(),
         splatIndex: -1,
         splatSound: false,
+        residualScore: residualScore,
     };
 }
 
@@ -56,7 +59,7 @@ export function LandExplorerSounds(state: ILandExplorerState): ILandExplorerStat
 
 export function StateCopyToUpdate(state: ILandExplorerState, timeModifier: number): ILandExplorerState {
     // distance(px)/100 * passengers/8
-    let score: number = ((state.ship.x - Game.assets.width/2) / 50) * state.ship.weapon1.remaining/8;
+    let score: number = state.residualScore + ((state.ship.x - Game.assets.width/2) / 50) * state.ship.weapon1.remaining/8;
     let splat: ISplat = state.splat;
     if (state.splatIndex > -1) {
         const passenger: IParticle = state.ship.weapon1.bullets[state.splatIndex];

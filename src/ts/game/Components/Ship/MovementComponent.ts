@@ -28,23 +28,27 @@ export function MoveShip(ship: IShip, timeModifier: number): IShip {
     newShip = RotateAngle(newShip, spin, timeModifier);
     newShip = RotateShape(timeModifier, newShip, spin);
 
-    let accValue:number = LiftAcceleration(ship.temp, ship.y, ship.Vy) - newShip.mass * 10;
+    // only move ship if not crashed/ landed
+    if (!newShip.crashed && !newShip.landed) {
 
-    // const tDiff: number = Math.max(0, 120 - newShip.temp;
-    let lift: IVector = new Vector(0, accValue);
-    // equation between temp and gravity
-    // if temp > 120 then balloon is bouyant. if temp < 80 no bouyancy
-    // let gravity: IVector = new Vector(180, newShip.mass * 10);
+        let accValue:number = LiftAcceleration(ship.temp, ship.y, ship.Vy) - newShip.mass * 10;
 
-    // calc force by subtracting windSpeed - ship speed
-    // higher you go faster the speed
+        // const tDiff: number = Math.max(0, 120 - newShip.temp;
+        let lift: IVector = new Vector(0, accValue);
+        // equation between temp and gravity
+        // if temp > 120 then balloon is bouyant. if temp < 80 no bouyancy
+        // let gravity: IVector = new Vector(180, newShip.mass * 10);
 
-    // higher you go faster the wind is
-    let acc: IVector = new Vector(90, newShip.acc);
+        // calc force by subtracting windSpeed - ship speed
+        // higher you go faster the speed
 
-    newShip = AccelerateWithForces(newShip, timeModifier, [lift], newShip.mass);
-    // wind, side forces don't act on mass because they are friction on balloon
-    newShip = AccelerateWithForces(newShip, timeModifier, [acc], 1);
-    newShip = MoveWithVelocity(timeModifier, newShip, newShip.Vx, newShip.Vy);
+        // higher you go faster the wind is
+        let acc: IVector = new Vector(90, newShip.acc);
+
+        newShip = AccelerateWithForces(newShip, timeModifier, [lift], newShip.mass);
+        // wind, side forces don't act on mass because they are friction on balloon
+        newShip = AccelerateWithForces(newShip, timeModifier, [acc], 1);
+        newShip = MoveWithVelocity(timeModifier, newShip, newShip.Vx, newShip.Vy);
+    }
     return newShip;
 }

@@ -99,9 +99,11 @@ export function PullTrigger(timeModifier: number, weapon: IWeapon,
 
     // remove old bullets
     // bullets = FilterParticles(bullets, now, weapon.bulletLifetime);
-    bullets = bullets.map((b)=> MoveWithVelocity(timeModifier, b, b.Vx, b.Vy));
     let gravity: IVector = { angle: 180, length: 50 };
-    bullets = bullets.map(b => AccelerateWithForces(b, timeModifier, [gravity], 1));
+    let bulletsDead: IParticle[] = bullets.filter(b => b.size === 1);
+    let bulletsFalling: IParticle[] = bullets.filter(b=>b.size !== 1).map(b => AccelerateWithForces(b, timeModifier, [gravity], 1));
+    bulletsFalling = bulletsFalling.map((b)=> MoveWithVelocity(timeModifier, b, b.Vx, b.Vy));
+    bullets = bulletsDead.concat(bulletsFalling);
 
     // move bullets and set fired
     return {...weapon,

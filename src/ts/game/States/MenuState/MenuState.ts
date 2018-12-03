@@ -47,7 +47,7 @@ export function CreateMenuState(items: string[]): IMenuState {
     return {
         title: "Ludum Dare 43: Air Rider",
         help1: "Sacrifices must be made!",
-        help2: "Q and A keys to select option",
+        help2: "<Q> and <A> keys to select option",
         help3: "Enter to select a menu option",
         font: "Arial",
         fontSize: 18,
