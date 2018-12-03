@@ -3,6 +3,7 @@
     play(): void;
     replay(): void;
     pause(): void;
+    reset(): void;
 }
 
 export class AudioObject implements IAudioObject {
@@ -17,7 +18,6 @@ export class AudioObject implements IAudioObject {
         this.audioElement = new Audio(this.source);
         this.audioElement.oncanplay = this.canplay.bind(this);
         this.audioElement.onloadeddata = this.loaded.bind(this);
-        this.audioElement.onplaying = this.played.bind(this);
         this.audioElement.loop = this.loop;
     }
 
@@ -30,11 +30,6 @@ export class AudioObject implements IAudioObject {
         console.log("loaded: " + this.source);
     }
 
-    private played(ev:Event): void {
-        console.log("playing: " + this.source);
-        this._playing = true;
-    }
-
     // call this multiple times and it will only play audio once when ready. (may repeat if loop is true)
     playOnce(): void {
         if (this.ready) {
@@ -44,13 +39,18 @@ export class AudioObject implements IAudioObject {
         }
     }
 
-    // each time this is called it will play audio from beginning
+    reset(): void {
+        this._playing = false;
+        this.audioElement.currentTime = 0;
+    }
+
     play(): void {
         if (this.ready) {
             this._play();
         }
     }
 
+    // each time this is called it will play audio from beginning
     replay(): void {
         if (this.ready) {
             this.audioElement.pause();
