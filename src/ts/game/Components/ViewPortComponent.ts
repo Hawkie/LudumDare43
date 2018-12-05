@@ -1,5 +1,6 @@
 import { DrawContext } from "../../gamelib/1Common/DrawContext";
 import { Game } from "../../gamelib/1Common/Game";
+import { centreZoom } from "../../gamelib/Actors/Helpers/zoom";
 
 export interface IView {
     zoomSpeed: number;
@@ -25,7 +26,7 @@ export function CreateView(followObject: boolean): IView {
 // if zoom < 1 then drawing origin moves to +ve figires and coordinates offset closer into screen
 export function Zoom(view: IView, zoomIn:boolean, zoomOut: boolean, y: number): IView {
     let viewScale: number = view.viewScale;
-    const z: number = Math.min(2, (Game.assets.height/2)/(Game.assets.height-y));
+    const z: number = centreZoom(Game.assets.height, y);
     if (zoomIn) {
         viewScale = view.zoomSpeed;
     } else if (zoomOut) {
