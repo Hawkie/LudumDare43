@@ -89,7 +89,8 @@ export function Input(state: ILandExplorerGameState, keys: KeyStateProvider): IL
 export function Display(ctx: DrawContext, state: ILandExplorerGameState): void {
     ctx.clear();
     // objects not affected by movement. e.g GUI
-    DisplayView(ctx, state.view, state.landState.ship.x, state.landState.ship.y, state.landState, {displayState: DisplayLandExplorer});
+    DisplayView(ctx, state.view, state.landState.ship.x, 512-(512+123-state.landState.ship.y)/2,
+     state.landState, {displayState: DisplayLandExplorer});
     DisplayGUI(ctx, state);
 }
 
@@ -132,7 +133,7 @@ function DisplayGUI(ctx: DrawContext, state: ILandExplorerGameState): void {
     // height
     y +=20;
     DrawText(ctx, Game.assets.width - x2, y, "Height:");
-    DrawNumber(ctx, Game.assets.width- x, y, Math.abs(state.landState.ship.y - 400));
+    DrawNumber(ctx, Game.assets.width- x, y, Math.abs(Game.assets.height - state.landState.ship.y));
 
     const finalY:number = 400;
     // add landing warnings
@@ -140,7 +141,7 @@ function DisplayGUI(ctx: DrawContext, state: ILandExplorerGameState): void {
         DrawText(ctx, Game.assets.width/2 - 10, finalY + 12, "Low fuel", "Arial", 12);
     }
 
-    if (state.landState.ship.y > 260) {
+    if (state.landState.ship.y > 0) {
         if (state.landState.ship.guiDescent > 10) {
             DrawText(ctx, Game.assets.width/2 - 10, finalY + 24, "Descending too fast", "Arial", 12);
         }

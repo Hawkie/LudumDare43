@@ -32,6 +32,8 @@ export function generatePoint(x: number, yBase: number, generator: ISurfaceGener
     return new Coordinate(x, Math.max(0, yNew));
 }
 
+const baseY:number = 2000;
+
 export function initSurface(width: number, generator: ISurfaceGeneration): ICoordinate[] {
     let endIndex: number = width / generator.resolution;
     let points: ICoordinate[] = [];
@@ -45,8 +47,8 @@ export function initSurface(width: number, generator: ISurfaceGeneration): ICoor
     let last: Coordinate = points[points.length - 1];
 
     // draw lines down to create polygon (for collision detection)
-    points.unshift(new Coordinate(first.x - 100, 1000));
-    points.push(new Coordinate(last.x + 100, 1000));
+    points.unshift(new Coordinate(first.x - 100, baseY));
+    points.push(new Coordinate(last.x + 100, baseY));
     return points;
 }
 
@@ -74,7 +76,7 @@ export function addSurface(surface: ISurface,
             addedLeft++;
         }
         // re add the bottom point
-        newPoints.unshift(new Coordinate(first.x - 100, 1000));
+        newPoints.unshift(new Coordinate(first.x - 100, baseY));
     }
     let toAddRight: number = rightIndex - (newPoints.length - addedLeft - 3); // 51.6- 52 - 0 = -0.4
     console.log("length " + newPoints.length);
@@ -92,7 +94,7 @@ export function addSurface(surface: ISurface,
             newPoints.push(last);
         }
         // re-add end point at bottom of shape
-        newPoints.push(new Coordinate(last.x + 100, 1000));
+        newPoints.push(new Coordinate(last.x + 100, baseY));
     }
     return {...surface,
         points: newPoints,
