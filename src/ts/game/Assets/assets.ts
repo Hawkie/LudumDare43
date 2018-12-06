@@ -16,8 +16,8 @@ export class AsteroidAssets {
     public emotional: IAudioObject = new AudioObject("res/sound/emotional.mp3", true);
 
     public glassPing: IAudioObject = new AudioObject("res/sound/glassPing.mp3");
-    public thrust: IAudioObject = new AudioObject("res/sound/thrust.wav");
-    public explosion: IAudioObject = new AudioObject("res/sound/explosion.wav");
+    public thrust: IAudioObject = new AudioObject("res/sound/thrust.mp3");
+    public explosion: IAudioObject = new AudioObject("res/sound/explosion.mp3");
     public scream: IAudioObject = new AudioObject("res/sound/scream.mp3");
     public splat: IAudioObject = new AudioObject("res/sound/splat.mp3");
 

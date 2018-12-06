@@ -8,15 +8,33 @@
     "type": "GIT",
     "url": "https://github.com/Hawkie/LudumDare43"
   },
+  "browserslist": [
+    "Safari 11",
+    "Edge 16",
+    "chrome 58",
+    "ie 11"
+  ],
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env", {
+          "useBuiltIns": "usage",
+          "debug":true
+        }
+      ]
+    ]
+  },
   "scripts": {
     "hello": "echo 'Hello'",
     "jest-w": "jest --watch",
     "test": "jest",
-    "build": "webpack"
+    "build": "webpack",
+    "build:js": "babel dist/bundle.js -o dist/babel.js"
   },
   "keywords": [],
   "author": "Hawkie",
   "dependencies": {
+    "@babel/cli": "^7.2.0",
     "@babel/polyfill": "^7.0.0"
   },
   "devDependencies": {
