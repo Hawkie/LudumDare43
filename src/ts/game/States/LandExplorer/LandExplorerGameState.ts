@@ -1,5 +1,5 @@
 ﻿import { DrawContext} from "../../../gamelib/1Common/DrawContext";
-import { KeyStateProvider } from "../../../gamelib/1Common/KeyStateProvider";
+import { EventProcessor, IEventState } from "../../../gamelib/1Common/EventProcessor";
 import { CreateLandExplorer, ILandExplorerState, StateCopyToControls,
     StateCopyToUpdate, DisplayLandExplorer, LandExplorerSounds, Tests } from "./LandExplorerState";
 import { CreateShip, IShip, DisplayShip } from "../../Components/Ship/ShipComponent";
@@ -80,9 +80,9 @@ export function Sounds(state: ILandExplorerGameState): ILandExplorerGameState {
     };
 }
 
-export function Input(state: ILandExplorerGameState, keys: KeyStateProvider): ILandExplorerGameState {
+export function Input(state: ILandExplorerGameState, eState: IEventState): ILandExplorerGameState {
     return {...state,
-        landState: StateCopyToControls(state.landState, keys)
+        landState: StateCopyToControls(state.landState, eState)
     };
 }
 

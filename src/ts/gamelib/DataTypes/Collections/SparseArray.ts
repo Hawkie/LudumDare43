@@ -22,4 +22,8 @@ export class SparseArray<T> extends Array<T> {
         }
         return false;
     }
+
+    public empty(): void {
+        this.splice(0,this.length);
+    }
 }

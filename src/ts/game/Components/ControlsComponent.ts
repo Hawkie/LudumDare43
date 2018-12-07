@@ -1,4 +1,6 @@
-import { Keys } from "../../gamelib/1Common/KeyStateProvider";
+import { Keys } from "../../gamelib/Events/KeyHandler";
+import { IEventState } from "../../gamelib/1Common/EventProcessor";
+
 
 export interface IControls {
     readonly left: boolean;
@@ -26,7 +28,7 @@ export function CreateControls(): IControls {
     };
 }
 
-export function InputControls(keys:number[]): IControls {
+export function InputControls(eState: IEventState): IControls {
     let up: boolean = false;
     let down: boolean = false;
     let left: boolean = false;
@@ -36,6 +38,7 @@ export function InputControls(keys:number[]): IControls {
     let zoomOut: boolean = false;
     let exit: boolean = false;
     let next: boolean = false;
+    const keys: ReadonlyArray<number> = eState.keys;
     if (keys.indexOf(Keys.Q) > -1) {
         up = true;
     }

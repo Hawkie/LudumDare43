@@ -1,13 +1,13 @@
 import { Canvas } from "./Canvas";
-import { AsteroidAssets } from "../../game/Assets/assets";
+import { Assets } from "../../game/Assets/assets";
 import { EventLoop } from "./EventLoop";
 import { IStateProcessor } from "../State/StateProcessor";
 
 
 export class Game<TState> {
 
-    private static _assets: AsteroidAssets = new AsteroidAssets();
-    public static get assets(): AsteroidAssets { return this._assets; }
+    private static _assets: Assets = new Assets();
+    public static get assets(): Assets { return this._assets; }
 
     // globals are doc and window
     run(window: Window, document: Document, state: TState, fsm: IStateProcessor<TState>): void {

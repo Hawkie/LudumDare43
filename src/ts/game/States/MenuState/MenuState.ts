@@ -5,7 +5,7 @@ import { Transforms } from "../../../gamelib/Physics/Transforms";
 import { DrawContext } from "../../../gamelib/1Common/DrawContext";
 import { DisplayTitle, DisplayText } from "../../Components/TitleComponent";
 import { DisplayField, FieldGenMove } from "../../../gamelib/Components/ParticleFieldComponent";
-import { KeyStateProvider } from "../../../gamelib/1Common/KeyStateProvider";
+import { EventProcessor, IEventState } from "../../../gamelib/1Common/EventProcessor";
 import { IStateProcessor } from "../../../gamelib/State/StateProcessor";
 import { Game } from "../../../gamelib/1Common/Game";
 import { DrawGraphic } from "../../../gamelib/Views/GraphicView";
@@ -118,8 +118,8 @@ export function SoundMenuState(state: IMenuState): IMenuState {
     };
 }
 
-export function InputMenuState(menuState: IMenuState, keys: KeyStateProvider, timeModifier: number): IMenuState  {
-    let controls: IMenuControls = UpdateMenuControls(timeModifier, keys.getKeys());
+export function InputMenuState(menuState: IMenuState, eState: IEventState, timeModifier: number): IMenuState  {
+    let controls: IMenuControls = UpdateMenuControls(timeModifier, eState);
     return {...menuState,
         control: controls,
         menu: UpdateMenu(menuState.menu, controls)

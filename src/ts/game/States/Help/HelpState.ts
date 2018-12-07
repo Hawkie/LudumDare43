@@ -1,6 +1,7 @@
 import { DisplayText, DisplayTitle } from "../../Components/TitleComponent";
 import { DrawContext } from "../../../gamelib/1Common/DrawContext";
-import { Keys, KeyStateProvider } from "../../../gamelib/1Common/KeyStateProvider";
+import { IEventState } from "../../../gamelib/1Common/EventProcessor";
+import { Keys } from "../../../gamelib/Events/KeyHandler";
 
 export interface IHelp {
     readonly title: string;
@@ -72,11 +73,11 @@ export function DisplayHelp(ctx: DrawContext, state: IHelp): void {
     DisplayText(ctx, "<Esc> to return to menu", 100, 400);
 }
 
-export function InputHelp(state: IHelp, keystate: KeyStateProvider): IHelp {
+export function InputHelp(state: IHelp, eState: IEventState): IHelp {
     let up: boolean = false;
     let down: boolean = false;
     let exit: boolean = false;
-    let keys: number[] = keystate.getKeys();
+    let keys: ReadonlyArray<number> = eState.keys;
     if (keys.indexOf(Keys.Q) > -1) {
         up = true;
     }

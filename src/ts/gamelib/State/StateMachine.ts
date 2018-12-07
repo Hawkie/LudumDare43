@@ -1,6 +1,6 @@
 import { IStateProcessor } from "./StateProcessor";
 import { DrawContext } from "../1Common/DrawContext";
-import { KeyStateProvider } from "../1Common/KeyStateProvider";
+import { IEventState } from "../1Common/EventProcessor";
 
 
 // export function Next<TState>(state: TState, input:): TState {
@@ -45,9 +45,9 @@ export function DisplayTotal(ctx:DrawContext, state:IState): void {
 }
 
 // remove old state from Array of states and replace with new
-export function InputTotal(state: IState, keys: KeyStateProvider): IState {
+export function InputTotal(state: IState, eState: IEventState): IState {
     let newStates: any[] = state.states.map(s => s);
-    let newState: any = state.behaviours[state.activeState].input(state.states[state.activeState], keys);
+    let newState: any = state.behaviours[state.activeState].input(state.states[state.activeState], eState);
     newStates.splice(state.activeState, 1, newState);
     return {...state,
         states: newStates

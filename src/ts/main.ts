@@ -1,4 +1,4 @@
-﻿import "@babel/polyfill";
+﻿// import "@babel/polyfill";
 import { Game } from "./gamelib/1Common/Game";
 import { IStateProcessor } from "./gamelib/State/StateProcessor";
 import { IState, createStateMachineProcessor } from "./gamelib/State/StateMachine";

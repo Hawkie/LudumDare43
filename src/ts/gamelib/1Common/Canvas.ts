@@ -2,7 +2,7 @@
 import { DrawContext } from "../../../../src/ts/gamelib/1Common/DrawContext";
 
 export class Canvas {
-    canvas : any;
+    canvas : HTMLCanvasElement;
     ctx : any;
     c : DrawContext;
     constructor(width : number, height : number, document : Document) {

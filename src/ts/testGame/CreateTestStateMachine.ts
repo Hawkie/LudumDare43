@@ -1,6 +1,6 @@
 import { IStateProcessor } from "../gamelib/State/StateProcessor";
 import { DisplayTitle } from "../game/Components/TitleComponent";
-import { KeyStateProvider } from "../gamelib/1Common/KeyStateProvider";
+import { EventProcessor, IEventState } from "../gamelib/1Common/EventProcessor";
 
 export function CreateTestStateMachine(): IStateProcessor<string> {
     return {
@@ -14,7 +14,7 @@ export function CreateTestStateMachine(): IStateProcessor<string> {
     };
 }
 
-export function EmptyInput<T>(state:T, keyStateProvider:KeyStateProvider, timeModifier:number): T {
+export function EmptyInput<T>(state:T, eState:IEventState, timeModifier:number): T {
     return state;
 }
 

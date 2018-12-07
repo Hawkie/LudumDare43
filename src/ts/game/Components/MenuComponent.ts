@@ -27,7 +27,7 @@ export function DisplayMenu(ctx: DrawContext, x: number, y: number, menu: IMenuC
 }
 
 export function SoundMenu(menuState: IMenuComponent, music: IAudioObject, changeSound: IAudioObject): IMenuComponent {
-    music.playOnce();
+    music.play();
     if (menuState.moved) {
         changeSound.replay();
         // turn off moved once sound played (can optimise this in replay perhaps?)

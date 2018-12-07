@@ -1,7 +1,7 @@
 import { IGraphic, Graphic } from "../../gamelib/Elements/Graphic";
 import { IAudioObject, AudioObject } from "../../gamelib/Elements/AudioObject";
 
-export class AsteroidAssets {
+export class Assets {
 
 
     // graphics
@@ -11,10 +11,11 @@ export class AsteroidAssets {
     public fallingMan: IGraphic = new Graphic("res/img/fallingman.png");
 
     // sounds
+    // music
     public flyInspire: IAudioObject = new AudioObject("res/sound/flyInspire.mp3", true);
     public cinematic: IAudioObject = new AudioObject("res/sound/cinematic.mp3", true);
     public emotional: IAudioObject = new AudioObject("res/sound/emotional.mp3", true);
-
+    // sound fx
     public glassPing: IAudioObject = new AudioObject("res/sound/glassPing.mp3");
     public thrust: IAudioObject = new AudioObject("res/sound/thrust.mp3");
     public explosion: IAudioObject = new AudioObject("res/sound/explosion.mp3");
