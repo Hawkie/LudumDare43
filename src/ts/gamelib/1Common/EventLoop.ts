@@ -42,10 +42,20 @@ function processOneFrame<TState>(state: TState,
      delta: number,
      ctx: DrawContext,
      eState: IEventState): TState {
+
+    // display
     processor.display(ctx, state);
+
+    // input events
     let newState: TState = processor.input(state, eState, delta);
+
+    // sound
     newState = processor.sound(newState, delta);
+
+    // update state
     newState = processor.update(newState, delta);
+
+    // check next state
     let idState: number = processor.next(newState);
     if (idState !== undefined) {
         return Object.assign({}, newState, {

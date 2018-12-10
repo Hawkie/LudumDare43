@@ -1,15 +1,21 @@
-﻿import { Canvas } from "../Elements/Canvas";
-import { OnKey } from "../Events/KeyHandler";
+﻿import { OnKey } from "../Events/KeyHandler";
 import { OnTouch } from "../Events/TouchHandler";
 import { OnMouse } from "../Events/MouseHandler";
+import { ICoordinate } from "../DataTypes/Coordinate";
 
 export interface IEventState {
     readonly keys: ReadonlyArray<number>;
+    readonly point: ICoordinate;
+    readonly buttons: number;
+    readonly touch: ICoordinate;
 }
 
 export class EventProcessor {
     eState: IEventState = {
         keys: [],
+        point: undefined,
+        buttons: undefined,
+        touch: undefined,
     };
 
     constructor(private document: Document,

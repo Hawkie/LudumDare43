@@ -5,12 +5,12 @@ import { CreateState } from "./game/States/CreateStateMachine";
 import { CreateTestStateMachine, ITestState, CreateTestState } from "./game-test/CreateTestStateMachine";
 import { CreateTestHtml } from "./game-test/CreateHtml";
 import { Canvas } from "./gamelib/Elements/Canvas";
-import { CreateAsteroidsHtml } from "./game/Html/CreateHtml";
+import { CreateAirRiderHtml } from "./game/Html/CreateHtml";
 
 // create state here and pass to game
 const state: IState = CreateState();
 let fsm: IStateProcessor<IState> = createStateMachineProcessor();
-const canvas: Canvas = CreateAsteroidsHtml(document);
+const canvas: Canvas = CreateAirRiderHtml(document);
 
 // const testState: ITestState = CreateTestState();
 // let testFsm: IStateProcessor<ITestState> = CreateTestStateMachine();

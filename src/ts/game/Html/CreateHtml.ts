@@ -5,7 +5,7 @@ export interface IPage {
     create(): void;
 }
 
-export function CreateAsteroidsHtml(document: Document): Canvas {
+export function CreateAirRiderHtml(document: Document): Canvas {
     let canvas: Canvas = new Canvas(Game.assets.width, Game.assets.height, document);
     return canvas;
 }

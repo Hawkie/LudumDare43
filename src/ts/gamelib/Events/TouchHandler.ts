@@ -9,20 +9,12 @@ import { Keys } from "./KeyHandler";
     const coord: ICoordinate = getTouchPos(element, e);
     console.log("Touch" + e.type + "x:" + coord.x + "y:" + coord.y);
     if (e.type === "touchstart") {
-        if (coord.y < Game.assets.height/2) {
-            return {...eState,
-                keys: [Keys.Q]
-            };
-        }
-        if (coord.y > Game.assets.height/2) {
-            return {...eState,
-                keys: [Keys.A]
-            };
-        }
-    }
-    if (e.type === "touchend") {
         return {...eState,
-            keys: eState.keys.concat(Keys.Num1),
+            touch: coord,
+        };
+    } else if (e.type === "touchend") {
+        return {...eState,
+            touch: undefined,
         };
     }
     return eState;
