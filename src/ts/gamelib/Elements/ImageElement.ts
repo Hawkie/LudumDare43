@@ -1,10 +1,10 @@
 ﻿
-export interface IGraphic {
+export interface IImageElement {
     loaded: boolean;
     img: HTMLImageElement;
 }
 
-export class Graphic implements IGraphic {
+export class ImageElement implements IImageElement {
 
     loaded: boolean;
     img: HTMLImageElement;

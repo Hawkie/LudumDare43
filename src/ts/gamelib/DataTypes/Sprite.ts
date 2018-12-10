@@ -1,5 +1,3 @@
-import { IGraphic, Graphic } from "../Elements/Graphic";
-
 export class SpriteFrame {
     constructor(public readonly x: number,
         public readonly y: number,

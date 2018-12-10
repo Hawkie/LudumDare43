@@ -1,8 +1,8 @@
 ﻿import { DrawContext } from "../../../gamelib/1Common/DrawContext";
 import { ISprite, SpriteFrame } from "../../../gamelib/DataTypes/Sprite";
-import { IGraphic } from "../../Elements/Graphic";
+import { IImageElement } from "../../Elements/ImageElement";
 
-export function DrawSprite(ctx: DrawContext, x: number, y: number, sprite: ISprite, spriteImg: IGraphic): void {
+export function DrawSprite(ctx: DrawContext, x: number, y: number, sprite: ISprite, spriteImg: IImageElement): void {
     const frame: SpriteFrame = sprite.frames[sprite.index];
     ctx.drawSprite(spriteImg.img,
         frame.x,

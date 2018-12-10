@@ -1,26 +1,28 @@
-﻿export interface IAudioObject {
+﻿export interface IAudioElement {
     playOnce(): void;
     play(): void;
     replay(): void;
     pause(): void;
     reset(): void;
-    ready(): boolean;
     playing: boolean;
     log: string;
     display(): string;
 }
 
-export class AudioObject implements IAudioObject {
+export class AudioElement implements IAudioElement {
     private audioElement: HTMLAudioElement;
     private _playing: boolean = false;
     public log: string = "";
-    ready(): boolean { return this.audioElement.readyState === this.audioElement.HAVE_ENOUGH_DATA; }
+    private ready(): boolean { return this.audioElement.readyState === this.audioElement.HAVE_ENOUGH_DATA; }
     get playing(): boolean { return this._playing; }
 
 
     constructor(private source: string, private loop: boolean = false) {
         this.audioElement = new Audio();
-        this._create();
+        this.audioElement.oncanplaythrough = this.oncanplaythrough.bind(this);
+        this.audioElement.src = this.source;
+        this.audioElement.loop = this.loop;
+        this.audioElement.load();
     }
 
     private oncanplaythrough(ev: Event): void {
@@ -96,12 +98,5 @@ export class AudioObject implements IAudioObject {
             this.log += "Promise undefined: " + this.source;
             console.log(this.log);
         }
-    }
-
-    private _create(): void {
-        this.audioElement.oncanplaythrough = this.oncanplaythrough.bind(this);
-        this.audioElement.src = this.source;
-        this.audioElement.loop = this.loop;
-        this.audioElement.load();
     }
 }

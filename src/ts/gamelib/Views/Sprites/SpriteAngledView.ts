@@ -1,10 +1,10 @@
 import { DrawContext } from "../../../gamelib/1Common/DrawContext";
 import { DrawSprite } from "./SpriteView";
 import { ISprite } from "../../DataTypes/Sprite";
-import { IGraphic } from "../../Elements/Graphic";
+import { IImageElement } from "../../Elements/ImageElement";
 
 
-export function DrawSpriteAngled(ctx: DrawContext, x: number, y: number, angle: number, sprite: ISprite, spriteImg: IGraphic): void {
+export function DrawSpriteAngled(ctx: DrawContext, x: number, y: number, angle: number, sprite: ISprite, spriteImg: IImageElement): void {
     if (spriteImg.loaded) {
         let xOffset: number = x + (sprite.frames[sprite.index].width * sprite.scaleX / 2);
         let yOffset: number = y + (sprite.frames[sprite.index].height * sprite.scaleY / 2);

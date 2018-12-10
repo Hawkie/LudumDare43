@@ -1,7 +1,7 @@
 import { DrawContext } from "../../gamelib/1Common/DrawContext";
 import { DrawText } from "../../gamelib/Views/TextView";
 import { IMenuControls } from "../States/MenuState/MenuControlsComponent";
-import { IAudioObject } from "../../gamelib/Elements/AudioObject";
+import { IAudioElement } from "../../gamelib/Elements/AudioElement";
 
 // immutable data object
 export interface IMenuComponent {
@@ -26,7 +26,7 @@ export function DisplayMenu(ctx: DrawContext, x: number, y: number, menu: IMenuC
     }
 }
 
-export function SoundMenu(menuState: IMenuComponent, music: IAudioObject, changeSound: IAudioObject): IMenuComponent {
+export function SoundMenu(menuState: IMenuComponent, music: IAudioElement, changeSound: IAudioElement): IMenuComponent {
     music.play();
     if (menuState.moved) {
         changeSound.replay();
