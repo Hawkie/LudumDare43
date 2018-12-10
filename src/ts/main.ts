@@ -12,12 +12,12 @@ const state: IState = CreateState();
 let fsm: IStateProcessor<IState> = createStateMachineProcessor();
 const canvas: Canvas = CreateAirRiderHtml(document);
 
+let game: Game<IState> = new Game();
+game.run(window, document, canvas, state, fsm);
+
 // const testState: ITestState = CreateTestState();
 // let testFsm: IStateProcessor<ITestState> = CreateTestStateMachine();
 // const canvas: Canvas = CreateTestHtml(document);
 
 // let game: Game<ITestState> = new Game();
 // game.run(window, document, canvas, testState, testFsm);
-
-let game: Game<IState> = new Game();
-game.run(window, document, canvas, state, fsm);

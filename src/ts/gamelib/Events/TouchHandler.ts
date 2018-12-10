@@ -6,24 +6,27 @@ import { Keys } from "./KeyHandler";
 
 // touch events
  export function OnTouch(eState:IEventState, element: HTMLElement, e: TouchEvent): IEventState {
-    const coord: ICoordinate = getTouchPos(element, e);
+    const t: Touch = e.touches[0];
+    const coord: ICoordinate = getTouchPos(element, t);
     console.log("Touch" + e.type + "x:" + coord.x + "y:" + coord.y);
     if (e.type === "touchstart") {
         return {...eState,
             touch: coord,
+            touchForce: t.force,
         };
     } else if (e.type === "touchend") {
         return {...eState,
             touch: undefined,
+            touchForce: undefined,
         };
     }
     return eState;
 }
 
-function getTouchPos(element: HTMLElement, evt: TouchEvent): ICoordinate {
+function getTouchPos(element: HTMLElement, t: Touch): ICoordinate {
     const rect:any = element.getBoundingClientRect();
     return {
-        x: evt.touches[0].clientX - rect.left,
-        y: evt.touches[0].clientY - rect.top
+        x: t.clientX - rect.left,
+        y: t.clientY - rect.top
     };
 }

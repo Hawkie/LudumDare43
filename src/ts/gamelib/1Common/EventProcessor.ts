@@ -8,15 +8,21 @@ export interface IEventState {
     readonly point: ICoordinate;
     readonly buttons: number;
     readonly touch: ICoordinate;
+    readonly touchForce: number;
 }
 
-export class EventProcessor {
-    eState: IEventState = {
+export function CreateEventState(): IEventState {
+    return {
         keys: [],
         point: undefined,
         buttons: undefined,
         touch: undefined,
+        touchForce: undefined,
     };
+}
+
+export class EventProcessor {
+    eState: IEventState = CreateEventState();
 
     constructor(private document: Document,
         private element: HTMLElement) {

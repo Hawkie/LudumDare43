@@ -1,25 +1,23 @@
 import { IStateProcessor } from "../gamelib/State/StateProcessor";
 import { DisplayTitle } from "../game/Components/TitleComponent";
-import { IEventState } from "../gamelib/1Common/EventProcessor";
+import { IEventState, CreateEventState } from "../gamelib/1Common/EventProcessor";
 import { DrawContext } from "../gamelib/1Common/DrawContext";
 import { DrawText } from "../gamelib/Views/TextView";
 import { DrawNumber } from "../gamelib/Views/ValueView";
 import { Game } from "../gamelib/1Common/Game";
-import { Keys } from "../gamelib/Events/KeyHandler";
-import { Canvas } from "../gamelib/Elements/Canvas";
-import { CreateButton } from "../gamelib/Elements/Button";
+import { DrawCircle } from "../gamelib/Views/CircleView";
 
 export interface ITestState {
     title: string;
     errors: string[];
-    controls: number[];
+    controls: IEventState;
 }
 
 export function CreateTestState(): ITestState {
     return {
         title: "Test State",
         errors: [],
-        controls: [],
+        controls: CreateEventState(),
     };
 }
 
@@ -51,7 +49,7 @@ export function SoundTest(state: ITestState): ITestState {
 
 export function InputTest(state:ITestState, eState:IEventState, timeModifier:number): ITestState {
     return {...state,
-        controls: eState.keys.map(k => k)
+        controls: eState,
     };
 }
 
@@ -60,6 +58,20 @@ export function DisplayTest(ctx: DrawContext, state:ITestState): void {
     DisplayTitle(ctx, state.title);
     let y: number = 100;
     state.errors.forEach(e => { DrawText(ctx, 100, y, e); y+=15;});
-    state.controls.forEach(c => { DrawNumber(ctx, 100, y, c); y+=15; });
+
+    // keys
+    if (state.controls.keys !== undefined) {
+        state.controls.keys.forEach(k => { DrawNumber(ctx, 100, y, k); y+=15;});
+    }
+
+    // mouse point
+    if (state.controls.point !== undefined) {
+        DrawCircle(ctx, state.controls.point.x, state.controls.point.y, 2);
+    }
+
+    // touch point
+    if (state.controls.touch !== undefined) {
+        DrawCircle(ctx, state.controls.touch.x, state.controls.touch.y, state.controls.touchForce * 10);
+    }
 }
 
