@@ -1,4 +1,4 @@
-import { Canvas } from "./Canvas";
+import { Canvas } from "../Elements/Canvas";
 import { EventProcessor, IEventState } from "./EventProcessor";
 import { IStateProcessor } from "../State/StateProcessor";
 import { DrawContext } from "./DrawContext";
@@ -6,14 +6,15 @@ import { DrawContext } from "./DrawContext";
 
 export class EventLoop<TState> {
 
-    keyStateProvider: EventProcessor;
+    eventProcessor: EventProcessor;
 
     constructor(private document: Document,
         private window: Window,
         private canvas: Canvas,
         private state: TState,
         private stateMachine: IStateProcessor<TState>) {
-        this.keyStateProvider = new EventProcessor(this.document, this.canvas);
+            // loosely bound to canvas
+        this.eventProcessor = new EventProcessor(this.document, this.canvas.canvas);
     }
 
     loop(): void {
@@ -23,7 +24,7 @@ export class EventLoop<TState> {
             if (delta < 1000) {
                 let nextState: TState = processOneFrame(this.state, this.stateMachine, delta / 1000,
                     this.canvas.context(),
-                    this.keyStateProvider.eState);
+                    this.eventProcessor.eState);
                 // one place where we update state
                 this.state = nextState;
             }

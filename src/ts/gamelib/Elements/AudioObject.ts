@@ -4,35 +4,48 @@
     replay(): void;
     pause(): void;
     reset(): void;
+    ready(): boolean;
+    playing: boolean;
+    log: string;
+    display(): string;
 }
 
 export class AudioObject implements IAudioObject {
     private audioElement: HTMLAudioElement;
-    private _ready: boolean = false;
     private _playing: boolean = false;
-    private get ready(): boolean { return this._ready; }
-    private get playing(): boolean { return this._playing; }
+    public log: string = "";
+    ready(): boolean { return this.audioElement.readyState === this.audioElement.HAVE_ENOUGH_DATA; }
+    get playing(): boolean { return this._playing; }
 
-    constructor(private source: string,
-        private loop: boolean = false) {
-        this.audioElement = new Audio(this.source);
-        this.audioElement.oncanplay = this.canplay.bind(this);
-        this.audioElement.onloadeddata = this.loaded.bind(this);
-        this.audioElement.loop = this.loop;
+
+    constructor(private source: string, private loop: boolean = false) {
+        this.audioElement = new Audio();
+        this._create();
     }
 
-    private canplay(ev: Event): void {
-        console.log("canplay: " + this.source);
-        this._ready = true;
+    private oncanplaythrough(ev: Event): void {
+        this.log += "canplay: " + this.source;
+        console.log(this.log);
     }
 
-    private loaded(ev:Event): void {
-        console.log("loaded: " + this.source);
+
+    public display(): string {
+        let d: string = this.audioElement.src;
+        d+= " Log: " + this.log;
+        d+= " Ready:" + this.audioElement.readyState.toString();
+        if (this.audioElement.error !== null) {
+            d += " Error: " + this.audioElement.error.code;
+        }
+        return d;
+    // 1 = MEDIA_ERR_ABORTED - fetching process aborted by user
+    // 2 = MEDIA_ERR_NETWORK - error occurred when downloading
+    // 3 = MEDIA_ERR_DECODE - error occurred when decoding
+    // 4 = MEDIA_ERR_SRC_NOT_SUPPORTED - audio/video not supported
     }
 
     // call this multiple times and it will only play audio once when ready. (may repeat if loop is true)
     playOnce(): void {
-        if (this.ready) {
+        if (this.ready()) {
             if (!this.playing) {
                 this._play();
             }
@@ -40,20 +53,22 @@ export class AudioObject implements IAudioObject {
     }
 
     reset(): void {
-        this._playing = false;
-        this.audioElement.pause();
-        this.audioElement.currentTime = 0;
+        if (this.ready()) {
+            this._playing = false;
+            this.audioElement.pause();
+            this.audioElement.currentTime = 0;
+        }
     }
 
     play(): void {
-        if (this.ready) {
+        if (this.ready()) {
             this._play();
         }
     }
 
     // each time this is called it will play audio from beginning
     replay(): void {
-        if (this.ready) {
+        if (this.ready()) {
             this.audioElement.pause();
             this.audioElement.currentTime = 0;
             this._play();
@@ -61,7 +76,7 @@ export class AudioObject implements IAudioObject {
     }
 
     pause(): void {
-        if (this.ready) {
+        if (this.ready()) {
             this.audioElement.pause();
         }
     }
@@ -74,8 +89,19 @@ export class AudioObject implements IAudioObject {
                 console.log("played: " + this.source);
             });
             p.catch(e => {
-                console.log("play failed: " + this.source);
+                this.log += "play failed: " + e + this.source;
+                console.log(this.log);
             });
-       }
+        } else {
+            this.log += "Promise undefined: " + this.source;
+            console.log(this.log);
+        }
+    }
+
+    private _create(): void {
+        this.audioElement.oncanplaythrough = this.oncanplaythrough.bind(this);
+        this.audioElement.src = this.source;
+        this.audioElement.loop = this.loop;
+        this.audioElement.load();
     }
 }

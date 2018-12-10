@@ -2,12 +2,12 @@ import { IEventState } from "../1Common/EventProcessor";
 import { ICoordinate } from "../DataTypes/Coordinate";
 import { Game } from "../1Common/Game";
 import { Keys } from "./KeyHandler";
-import { Canvas } from "../1Common/Canvas";
+import { Canvas } from "../Elements/Canvas";
 
 // mouse events
 
-export function OnMouse(eState: IEventState, canvas: Canvas, e: MouseEvent): IEventState {
-    const coord: ICoordinate = getMousePos(canvas, e);
+export function OnMouse(eState: IEventState, element: HTMLElement, e: MouseEvent): IEventState {
+    const coord: ICoordinate = getMousePos(element, e);
     console.log("Mouse" + e.type + "x:" + coord.x + "y:" + coord.y);
     if (e.type === "mousedown") {
         if (coord.y < 50) {
@@ -25,14 +25,18 @@ export function OnMouse(eState: IEventState, canvas: Canvas, e: MouseEvent): IEv
         }
     } else if (e.type === "mouseup") {
         return {...eState,
-            keys: []
+            keys: eState.keys.concat(Keys.Num0),
+        };
+    } else if (e.type === "click") {
+        return {...eState,
+            keys: eState.keys.concat(Keys.Home)
         };
     }
     return eState;
 }
 
-function getMousePos(canvas: Canvas, evt: MouseEvent): ICoordinate {
-    const rect:any = canvas.canvas.getBoundingClientRect();
+function getMousePos(element: HTMLElement, evt: MouseEvent): ICoordinate {
+    const rect:any = element.getBoundingClientRect();
     return {
         x: evt.clientX - rect.left,
         y: evt.clientY - rect.top

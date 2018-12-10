@@ -3,7 +3,7 @@ import { IMenuState, CreateMenuState, SoundMenuState, DisplayMenuState, InputMen
 import { IStateProcessor } from "../../gamelib/State/StateProcessor";
 import { CreateGameStateLandExplorer, Sounds, Display, Input, Update, ILandExplorerGameState } from "./LandExplorer/LandExplorerGameState";
 import { IState } from "../../gamelib/State/StateMachine";
-import { EmptyUpdate, EmptyInput } from "../../testGame/CreateTestStateMachine";
+import { EmptyUpdate, EmptyInput } from "../../game-test/CreateTestStateMachine";
 import { IHelp, CreateHelp, DisplayHelp, InputHelp, CreateHelpControls, CreateHintHelp } from "./Help/HelpState";
 
 
