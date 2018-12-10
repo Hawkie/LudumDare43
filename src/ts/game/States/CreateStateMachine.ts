@@ -1,7 +1,8 @@
 
 import { IMenuState, CreateMenuState, SoundMenuState, DisplayMenuState, InputMenuState, UpdateMenuState } from "./MenuState/MenuState";
 import { IStateProcessor } from "../../gamelib/State/StateProcessor";
-import { CreateGameStateLandExplorer, Sounds, Display, Input, Update, ILandExplorerGameState } from "./LandExplorer/LandExplorerGameState";
+import { CreateGameStateLandExplorer, Sounds, Display,
+    InputGameState, Update, ILandExplorerGameState } from "./LandExplorer/LandExplorerGameState";
 import { IState } from "../../gamelib/State/StateMachine";
 import { EmptyUpdate, EmptyInput } from "../../game-test/CreateTestStateMachine";
 import { IHelp, CreateHelp, DisplayHelp, InputHelp, CreateHelpControls, CreateHintHelp } from "./Help/HelpState";
@@ -48,7 +49,7 @@ export function CreateState(): IState {
         name: "Air Rider",
         sound: Sounds,
         display: Display,
-        input: Input,
+        input: InputGameState,
         update: Update,
         next: (state: ILandExplorerGameState) => {
             if (state.landState.controls.exit) {

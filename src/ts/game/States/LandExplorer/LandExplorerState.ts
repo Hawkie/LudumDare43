@@ -1,9 +1,9 @@
-import { IShip, CreateShip, CrashShip, DisplayShip, ShipCopyToUpdated,
+import { IShip, CrashShip, DisplayShip, ShipCopyToUpdated,
     ShipSounds, LandShip, ShipCopyToStopBullet } from "../../Components/Ship/ShipComponent";
-import { ISurface, initSurface, DisplaySurface, addSurface, TestFlat } from "../../Components/SurfaceComponent";
-import { IParticleField, CreateField } from "../../Components/FieldComponent";
+import { ISurface, DisplaySurface, addSurface, TestFlat } from "../../Components/SurfaceComponent";
+import { IParticleField } from "../../Components/FieldComponent";
 import { IControls, InputControls, CreateControls } from "../../Components/ControlsComponent";
-import { EventProcessor, IEventState, CreateEventState } from "../../../gamelib/1Common/EventProcessor";
+import { IEventState, CreateEventState } from "../../../gamelib/1Common/EventProcessor";
 import { DrawContext } from "../../../gamelib/1Common/DrawContext";
 import { DisplayField, FieldGenMove, IParticle } from "../../../gamelib/Components/ParticleFieldComponent";
 import { Transforms } from "../../../gamelib/Physics/Transforms";
@@ -93,7 +93,7 @@ export function StateCopyToUpdate(state: ILandExplorerState, timeModifier: numbe
     };
 }
 
-export function StateCopyToControls(state: ILandExplorerState, eState: IEventState): ILandExplorerState {
+export function InputState(state: ILandExplorerState, eState: IEventState): ILandExplorerState {
     return {...state,
         controls: InputControls(eState),
         events: eState,

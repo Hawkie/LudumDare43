@@ -42,6 +42,20 @@ export function InputControls(eState: IEventState): IControls {
     if (keys.indexOf(Keys.Q) > -1) {
         up = true;
     }
+    if (eState.start !== undefined && eState.current !== undefined && !eState.ended) {
+        if (eState.current.y < eState.start.y) {
+            up = true;
+        }
+        if (eState.current.y > eState.start.y) {
+            down = true;
+        }
+        if (eState.current.x - eState.start.x > 50) {
+            right = true;
+        }
+        if (eState.current.x - eState.start.x < -50) {
+            left = true;
+        }
+    }
     if (keys.indexOf(Keys.A) > -1) {
         down = true;
     }

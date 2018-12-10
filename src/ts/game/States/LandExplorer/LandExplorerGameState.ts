@@ -1,7 +1,7 @@
 ﻿import { DrawContext} from "../../../gamelib/1Common/DrawContext";
 import { EventProcessor, IEventState } from "../../../gamelib/1Common/EventProcessor";
-import { CreateLandExplorer, ILandExplorerState, StateCopyToControls,
-    StateCopyToUpdate, DisplayLandExplorer, LandExplorerSounds, Tests } from "./LandExplorerState";
+import { CreateLandExplorer, ILandExplorerState,
+    StateCopyToUpdate, DisplayLandExplorer, LandExplorerSounds, Tests, InputState } from "./LandExplorerState";
 import { CreateShip, IShip, DisplayShip } from "../../Components/Ship/ShipComponent";
 import { ICoordinate } from "../../../gamelib/DataTypes/Coordinate";
 import { initSurface, ISurface, ISurfaceGeneration, TestFlat } from "../../Components/SurfaceComponent";
@@ -80,9 +80,9 @@ export function Sounds(state: ILandExplorerGameState): ILandExplorerGameState {
     };
 }
 
-export function Input(state: ILandExplorerGameState, eState: IEventState): ILandExplorerGameState {
+export function InputGameState(state: ILandExplorerGameState, eState: IEventState): ILandExplorerGameState {
     return {...state,
-        landState: StateCopyToControls(state.landState, eState)
+        landState: InputState(state.landState, eState)
     };
 }
 
@@ -99,6 +99,11 @@ function DisplayGUI(ctx: DrawContext, state: ILandExplorerGameState): void {
     let y:number = 20;
     const x: number = 40;
     const x2: number = 100;
+
+    // if (state.landState.events.start !== undefined && state.landState.events.current !== undefined) {
+    // //    DrawNumber(ctx, 10, 10, state.landState.events.start.x);
+    // //    DrawNumber(ctx, 10, 30, state.landState.events.current.x);
+    // }
     // score
     DrawText(ctx, Game.assets.width - x2, y, "Prestige:");
     DrawNumber(ctx, Game.assets.width- x, y, state.landState.score);
