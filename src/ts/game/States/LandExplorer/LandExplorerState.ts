@@ -3,13 +3,14 @@ import { IShip, CreateShip, CrashShip, DisplayShip, ShipCopyToUpdated,
 import { ISurface, initSurface, DisplaySurface, addSurface, TestFlat } from "../../Components/SurfaceComponent";
 import { IParticleField, CreateField } from "../../Components/FieldComponent";
 import { IControls, InputControls, CreateControls } from "../../Components/ControlsComponent";
-import { EventProcessor, IEventState } from "../../../gamelib/1Common/EventProcessor";
+import { EventProcessor, IEventState, CreateEventState } from "../../../gamelib/1Common/EventProcessor";
 import { DrawContext } from "../../../gamelib/1Common/DrawContext";
 import { DisplayField, FieldGenMove, IParticle } from "../../../gamelib/Components/ParticleFieldComponent";
 import { Transforms } from "../../../gamelib/Physics/Transforms";
 import { Game } from "../../../gamelib/1Common/Game";
 import { IShapedLocation, ShapeCollisionDetector } from "../../../gamelib/Interactors/ShapeCollisionDetector";
 import { ISplat, CreateSplat, DisplaySplat, UpdateSplat, ResetSplat } from "../../Components/SplatComponent";
+import { DrawLine } from "../../../gamelib/Views/LineView";
 
 export interface ILandExplorerState {
     readonly title: string;
@@ -22,6 +23,7 @@ export interface ILandExplorerState {
     readonly splat: ISplat;
     readonly splatIndex: number;
     readonly splatSound: boolean;
+    readonly events: IEventState;
 }
 
 export function CreateLandExplorer(ship: IShip, starfield: IParticleField, surface: ISurface,
@@ -37,6 +39,7 @@ export function CreateLandExplorer(ship: IShip, starfield: IParticleField, surfa
         splatIndex: -1,
         splatSound: false,
         residualScore: residualScore,
+        events: CreateEventState(),
     };
 }
 
@@ -45,6 +48,12 @@ export function DisplayLandExplorer(ctx: DrawContext, state: ILandExplorerState)
     DisplayField(ctx, state.starField.particles);
     DisplaySurface(ctx, state.surface);
     DisplaySplat(ctx, state.splat);
+    // draw drag line
+    if (state.events.start !== undefined && state.events.current !== undefined && !state.events.ended) {
+        DrawLine(ctx, state.ship.x, state.ship.y,
+            state.ship.x + state.events.current.x - state.events.start.x,
+            state.ship.y + state.events.current.y - state.events.start.y);
+    }
 }
 
 export function LandExplorerSounds(state: ILandExplorerState): ILandExplorerState {
@@ -86,7 +95,8 @@ export function StateCopyToUpdate(state: ILandExplorerState, timeModifier: numbe
 
 export function StateCopyToControls(state: ILandExplorerState, eState: IEventState): ILandExplorerState {
     return {...state,
-        controls: InputControls(eState)
+        controls: InputControls(eState),
+        events: eState,
     };
 }
 

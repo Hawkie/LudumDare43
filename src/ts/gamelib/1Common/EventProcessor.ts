@@ -5,19 +5,23 @@ import { ICoordinate } from "../DataTypes/Coordinate";
 
 export interface IEventState {
     readonly keys: ReadonlyArray<number>;
-    readonly point: ICoordinate;
     readonly buttons: number;
-    readonly touch: ICoordinate;
+    readonly start: ICoordinate;
+    readonly current: ICoordinate;
+    readonly end: ICoordinate;
     readonly touchForce: number;
+    readonly ended: boolean;
 }
 
 export function CreateEventState(): IEventState {
     return {
         keys: [],
-        point: undefined,
         buttons: undefined,
-        touch: undefined,
+        start: undefined,
+        current: undefined,
+        end: undefined,
         touchForce: undefined,
+        ended: false,
     };
 }
 
@@ -51,11 +55,11 @@ export class EventProcessor {
 
         // touch
         this.document.addEventListener("touchstart", this._OnTouch.bind(this), false);
-        // this.document.addEventListener("touchmove", touch, false);
+        this.document.addEventListener("touchmove", this._OnTouch.bind(this), false);
         this.document.addEventListener("touchend", this._OnTouch.bind(this), false);
 
         this.document.addEventListener("mousedown", this._OnMouse.bind(this), false);
-        // this.document.addEventListener("mousemove", mouse, false);
+        this.document.addEventListener("mousemove", this._OnMouse.bind(this), false);
         this.document.addEventListener("mouseup", this._OnMouse.bind(this), false);
         this.document.addEventListener("click", this._OnMouse.bind(this), false);
     }

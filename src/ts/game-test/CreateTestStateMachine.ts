@@ -6,6 +6,7 @@ import { DrawText } from "../gamelib/Views/TextView";
 import { DrawNumber } from "../gamelib/Views/ValueView";
 import { Game } from "../gamelib/1Common/Game";
 import { DrawCircle } from "../gamelib/Views/CircleView";
+import { DrawLine } from "../gamelib/Views/LineView";
 
 export interface ITestState {
     title: string;
@@ -64,14 +65,9 @@ export function DisplayTest(ctx: DrawContext, state:ITestState): void {
         state.controls.keys.forEach(k => { DrawNumber(ctx, 100, y, k); y+=15;});
     }
 
-    // mouse point
-    if (state.controls.point !== undefined) {
-        DrawCircle(ctx, state.controls.point.x, state.controls.point.y, 2);
-    }
-
-    // touch point
-    if (state.controls.touch !== undefined) {
-        DrawCircle(ctx, state.controls.touch.x, state.controls.touch.y, state.controls.touchForce * 10);
+    // draw drag line
+    if (state.controls.start !== undefined && state.controls.current !== undefined && !state.controls.ended) {
+        DrawLine(ctx, state.controls.start.x, state.controls.start.y, state.controls.current.x, state.controls.current.y);
     }
 }
 

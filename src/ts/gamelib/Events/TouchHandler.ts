@@ -11,14 +11,25 @@ import { Keys } from "./KeyHandler";
     console.log("Touch" + e.type + "x:" + coord.x + "y:" + coord.y);
     if (e.type === "touchstart") {
         return {...eState,
-            touch: coord,
+            start: coord,
             touchForce: t.force,
+            ended: false,
         };
-    } else if (e.type === "touchend") {
-        return {...eState,
-            touch: undefined,
-            touchForce: undefined,
-        };
+    } else {
+        e.preventDefault();
+        if (e.type === "touchmove") {
+            return {...eState,
+                current: coord,
+                touchForce: t.force,
+            };
+        }
+        if (e.type === "touchend") {
+            return {...eState,
+                end: coord,
+                touchForce: t.force,
+                ended: true,
+            };
+        }
     }
     return eState;
 }

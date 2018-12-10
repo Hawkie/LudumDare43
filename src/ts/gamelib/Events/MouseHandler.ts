@@ -7,13 +7,20 @@ export function OnMouse(eState: IEventState, element: HTMLElement, e: MouseEvent
     console.log("Mouse: " + e.type + " x:" + coord.x + " y:" + coord.y);
     if (e.type === "mousedown") {
         return {...eState,
-            point: coord,
+            start: coord,
+            buttons: e.buttons,
+            ended: false,
+        };
+    } else if (e.type === "mousemove") {
+        return {...eState,
+            current: coord,
             buttons: e.buttons,
         };
     } else if (e.type === "mouseup") {
         return {...eState,
-            point: undefined,
-            buttons: undefined,
+            end: coord,
+            buttons: e.buttons,
+            ended: true,
         };
     }
     return eState;
