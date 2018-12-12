@@ -3,7 +3,8 @@ import { IEventState } from "./EventProcessor";
 
 // touch events
  export function OnTouch(eState:IEventState, element: HTMLElement, e: TouchEvent): IEventState {
-    const t: Touch = e.touches[0];
+    const tList: TouchList = e.changedTouches;
+    const t: Touch = tList[0];
     const coord: ICoordinate = getTouchPos(element, t);
     console.log("Touch" + e.type + "x:" + coord.x + "y:" + coord.y);
     if (e.type === "touchstart") {
@@ -11,6 +12,7 @@ import { IEventState } from "./EventProcessor";
             start: coord,
             touchForce: t.force,
             down: true,
+            touches: tList,
         };
     } else {
         e.preventDefault();
@@ -18,6 +20,7 @@ import { IEventState } from "./EventProcessor";
             return {...eState,
                 current: coord,
                 touchForce: t.force,
+                touches: tList,
             };
         }
         if (e.type === "touchend") {
@@ -25,6 +28,7 @@ import { IEventState } from "./EventProcessor";
                 end: coord,
                 touchForce: t.force,
                 down: false,
+                touches: tList,
             };
         }
     }

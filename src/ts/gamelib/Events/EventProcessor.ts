@@ -10,6 +10,7 @@ export interface IEventState {
     readonly current: ICoordinate;
     readonly end: ICoordinate;
     readonly touchForce: number;
+    readonly touches: TouchList;
     readonly down: boolean;
     readonly click: boolean;
 }
@@ -22,6 +23,7 @@ export function CreateEventState(): IEventState {
         current: undefined,
         end: undefined,
         touchForce: undefined,
+        touches: undefined,
         down: false,
         click: false,
     };

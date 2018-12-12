@@ -4,11 +4,12 @@ import { Transforms } from "../../../gamelib/Physics/Transforms";
 import { DrawContext } from "../../../gamelib/1Common/DrawContext";
 import { DisplayTitle, DisplayText } from "../../Components/TitleComponent";
 import { DisplayField, FieldGenMove } from "../../../gamelib/Components/ParticleFieldComponent";
-import { EventProcessor, IEventState, CreateEventState } from "../../../gamelib/Events/EventProcessor";
+import { IEventState, CreateEventState, Click } from "../../../gamelib/Events/EventProcessor";
 import { IStateProcessor } from "../../../gamelib/State/StateProcessor";
 import { Game } from "../../../gamelib/1Common/Game";
 import { DrawGraphic } from "../../../gamelib/Views/GraphicView";
-import { Zoom } from "../../Components/ViewPortComponent";
+import { DrawRectangle } from "../../../gamelib/Views/RectangleView";
+import { DrawCircle } from "../../../gamelib/Views/CircleView";
 
 export interface IMenuState {
     readonly title: string;
@@ -71,6 +72,9 @@ export function CreateMenuState(items: string[]): IMenuState {
 // map whole state to view/ctx functions
 export function DisplayMenuState(ctx: DrawContext, state: IMenuState): void {
     ctx.clear();
+    if (state.events.current !== undefined) {
+        DrawCircle(ctx, state.events.current.x, state.events.current.y, 30);
+    }
     DisplayField(ctx, state.starField1.particles);
     DisplayField(ctx, state.starField2.particles);
     DisplayTitle(ctx, state.title);
@@ -115,16 +119,9 @@ export function SoundMenuState(state: IMenuState): IMenuState {
 }
 
 export function InputMenuState(menuState: IMenuState, eState: IEventState, timeModifier: number): IMenuState  {
-
-    let select: boolean = false;
-    // detect first up
-    if (menuState.events.down && !eState.down) {
-        select =  true;
-        console.log("Menu Selection made");
-    }
-
+    let newEState: IEventState = Click(menuState.events, eState);
     return {...menuState,
-        events: eState,
-        menu: InputMenu(menuState.menu, eState, select)
+        events: newEState,
+        menu: InputMenu(menuState.menu, newEState)
     };
 }

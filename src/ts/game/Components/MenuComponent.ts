@@ -41,7 +41,7 @@ export function SoundMenu(menuState: IMenuComponent, music: IAudioElement, chang
 }
 
 // pure function that takes a menu action and updates the selected text. returns new menu
-export function InputMenu(menu: IMenuComponent, eState: IEventState, select:boolean): IMenuComponent {
+export function InputMenu(menu: IMenuComponent, eState: IEventState): IMenuComponent {
     let now: number = Date.now();
     let focus: number = menu.itemFocus;
     let moved: boolean = false;
@@ -69,7 +69,7 @@ export function InputMenu(menu: IMenuComponent, eState: IEventState, select:bool
         }
     }
     if (eState.keys.indexOf(Keys.Enter) > -1
-    || select) {
+        || eState.click) {
         selected = true;
     }
 

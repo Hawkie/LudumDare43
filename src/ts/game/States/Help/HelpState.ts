@@ -14,7 +14,7 @@ export interface IHelp {
     readonly help5: string;
     readonly help6: string;
     readonly exit: boolean;
-    readonly down: boolean;
+    readonly fingerDown: boolean;
 }
 
 export function CreateHelp(): IHelp {
@@ -27,7 +27,7 @@ export function CreateHelp(): IHelp {
         help5: "To gain more control, you can sacrifice passengers but this will affect your prestige.",
         help6: "",
         exit: false,
-        down: false,
+        fingerDown: false,
     };
 }
 
@@ -41,7 +41,7 @@ export function CreateHelpControls(): IHelp {
         help5: "<Space> Sacrifice passenger to reduce mass of balloon.",
         help6: "",
         exit: false,
-        down: false,
+        fingerDown: false,
     };
 }
 
@@ -55,7 +55,7 @@ export function CreateHintHelp(): IHelp {
         help5: "With less mass, the balloon with rise faster for the same temp.",
         help6: "Fly high to gain faster wind speed and distance.",
         exit: false,
-        down: false,
+        fingerDown: false,
     };
 }
 
@@ -84,17 +84,9 @@ export function DisplayHelp(ctx: DrawContext, state: IHelp): void {
 }
 
 export function InputHelp(state: IHelp, eState: IEventState): IHelp {
-    let click: boolean = DownCheck(state.down, eState.down);
-    let up: boolean = false;
-    let down: boolean = false;
+    let click: boolean = DownCheck(state.fingerDown, eState.down);
     let exit: boolean = false;
     let keys: ReadonlyArray<number> = eState.keys;
-    if (keys.indexOf(Keys.Q) > -1) {
-        up = true;
-    }
-    if (keys.indexOf(Keys.A) > -1) {
-        down = true;
-    }
     if (keys.indexOf(Keys.Esc) > -1) {
         exit = true;
     }
@@ -105,6 +97,6 @@ export function InputHelp(state: IHelp, eState: IEventState): IHelp {
     }
     return {...state,
         exit: exit,
-        down: eState.down,
+        fingerDown: eState.down,
     };
 }
