@@ -3,7 +3,7 @@ import { IShip, CrashShip, DisplayShip, ShipCopyToUpdated,
 import { ISurface, DisplaySurface, addSurface, TestFlat } from "../../Components/SurfaceComponent";
 import { IParticleField } from "../../Components/FieldComponent";
 import { IControls, InputControls, CreateControls } from "../../Components/ControlsComponent";
-import { IEventState, CreateEventState } from "../../../gamelib/Events/EventProcessor";
+import { IEventState, CreateEventState, Click } from "../../../gamelib/Events/EventProcessor";
 import { DrawContext } from "../../../gamelib/1Common/DrawContext";
 import { DisplayField, FieldGenMove, IParticle } from "../../../gamelib/Components/ParticleFieldComponent";
 import { Transforms } from "../../../gamelib/Physics/Transforms";
@@ -94,9 +94,10 @@ export function StateCopyToUpdate(state: ILandExplorerState, timeModifier: numbe
 }
 
 export function InputState(state: ILandExplorerState, eState: IEventState): ILandExplorerState {
+    let newEventState: IEventState = Click(state.events, eState);
     return {...state,
-        controls: InputControls(eState),
-        events: eState,
+        controls: InputControls(newEventState),
+        events: newEventState,
     };
 }
 

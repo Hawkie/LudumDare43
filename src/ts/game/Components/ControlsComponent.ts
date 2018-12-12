@@ -77,6 +77,11 @@ export function InputControls(eState: IEventState): IControls {
     if (keys.indexOf(Keys.Esc) > -1) {
         exit = true;
     }
+    if (eState.current !== undefined && eState.click) {
+        if (eState.current.y < 30 && eState.current.x < 30) {
+            exit = true;
+        }
+    }
     if (keys.indexOf(Keys.N) > -1) {
         next = true;
     }

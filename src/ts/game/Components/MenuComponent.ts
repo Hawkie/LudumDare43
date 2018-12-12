@@ -71,7 +71,6 @@ export function InputMenu(menu: IMenuComponent, eState: IEventState, select:bool
     if (eState.keys.indexOf(Keys.Enter) > -1
     || select) {
         selected = true;
-        console.log("Select item");
     }
 
     // change state of menu focus

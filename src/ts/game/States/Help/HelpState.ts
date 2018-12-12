@@ -1,7 +1,9 @@
 import { DisplayText, DisplayTitle } from "../../Components/TitleComponent";
 import { DrawContext } from "../../../gamelib/1Common/DrawContext";
-import { IEventState } from "../../../gamelib/Events/EventProcessor";
+import { IEventState, Click, DownCheck } from "../../../gamelib/Events/EventProcessor";
 import { Keys } from "../../../gamelib/Events/KeyHandler";
+import { Game } from "../../../gamelib/1Common/Game";
+import { DrawGraphic } from "../../../gamelib/Views/GraphicView";
 
 export interface IHelp {
     readonly title: string;
@@ -12,6 +14,7 @@ export interface IHelp {
     readonly help5: string;
     readonly help6: string;
     readonly exit: boolean;
+    readonly down: boolean;
 }
 
 export function CreateHelp(): IHelp {
@@ -24,6 +27,7 @@ export function CreateHelp(): IHelp {
         help5: "To gain more control, you can sacrifice passengers but this will affect your prestige.",
         help6: "",
         exit: false,
+        down: false,
     };
 }
 
@@ -37,6 +41,7 @@ export function CreateHelpControls(): IHelp {
         help5: "<Space> Sacrifice passenger to reduce mass of balloon.",
         help6: "",
         exit: false,
+        down: false,
     };
 }
 
@@ -50,11 +55,16 @@ export function CreateHintHelp(): IHelp {
         help5: "With less mass, the balloon with rise faster for the same temp.",
         help6: "Fly high to gain faster wind speed and distance.",
         exit: false,
+        down: false,
     };
 }
 
 export function DisplayHelp(ctx: DrawContext, state: IHelp): void {
     ctx.clear();
+    ctx.zoom(0.1, 0.1);
+    DrawGraphic(ctx, 0, 0, Game.assets.backButton);
+    ctx.zoom(10, 10);
+
     DisplayTitle(ctx, state.title);
     let y:number = 140;
     const x: number = 40;
@@ -74,6 +84,7 @@ export function DisplayHelp(ctx: DrawContext, state: IHelp): void {
 }
 
 export function InputHelp(state: IHelp, eState: IEventState): IHelp {
+    let click: boolean = DownCheck(state.down, eState.down);
     let up: boolean = false;
     let down: boolean = false;
     let exit: boolean = false;
@@ -87,7 +98,13 @@ export function InputHelp(state: IHelp, eState: IEventState): IHelp {
     if (keys.indexOf(Keys.Esc) > -1) {
         exit = true;
     }
+    if (eState.current !== undefined && click) {
+        if (eState.current.y < 30 && eState.current.x < 30) {
+            exit = true;
+        }
+    }
     return {...state,
         exit: exit,
+        down: eState.down,
     };
 }

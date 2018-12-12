@@ -11,6 +11,7 @@ export interface IEventState {
     readonly end: ICoordinate;
     readonly touchForce: number;
     readonly down: boolean;
+    readonly click: boolean;
 }
 
 export function CreateEventState(): IEventState {
@@ -22,7 +23,21 @@ export function CreateEventState(): IEventState {
         end: undefined,
         touchForce: undefined,
         down: false,
+        click: false,
     };
+}
+
+export function Click(oldState: IEventState, newState: IEventState): IEventState {
+    return {...newState,
+        click: DownCheck(oldState.down, newState.down),
+    };
+}
+
+export function DownCheck(oldDown: boolean, newDown: boolean): boolean {
+    if (oldDown && !newDown) {
+        return true;
+    }
+    return false;
 }
 
 export class EventProcessor {

@@ -12,6 +12,7 @@ import { CreateView, IView, DisplayView, Zoom } from "../../Components/ViewPortC
 import { Game } from "../../../gamelib/1Common/Game";
 import { DrawNumber } from "../../../gamelib/Views/ValueView";
 import { DrawText } from "../../../gamelib/Views/TextView";
+import { DrawGraphic } from "../../../gamelib/Views/GraphicView";
 
 export interface ILandExplorerGameState {
     landState: ILandExplorerState;
@@ -95,6 +96,9 @@ export function Display(ctx: DrawContext, state: ILandExplorerGameState): void {
 }
 
 function DisplayGUI(ctx: DrawContext, state: ILandExplorerGameState): void {
+    ctx.zoom(0.1, 0.1);
+    DrawGraphic(ctx, 0, 0, Game.assets.backButton);
+    ctx.zoom(10, 10);
     DisplayTitle(ctx, state.landState.title);
     let y:number = 20;
     const x: number = 40;

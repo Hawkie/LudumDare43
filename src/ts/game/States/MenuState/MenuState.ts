@@ -8,6 +8,7 @@ import { EventProcessor, IEventState, CreateEventState } from "../../../gamelib/
 import { IStateProcessor } from "../../../gamelib/State/StateProcessor";
 import { Game } from "../../../gamelib/1Common/Game";
 import { DrawGraphic } from "../../../gamelib/Views/GraphicView";
+import { Zoom } from "../../Components/ViewPortComponent";
 
 export interface IMenuState {
     readonly title: string;

@@ -7,8 +7,7 @@ export class DrawContext {
     }
 
     zoom(scaleX:number, scaleY:number): void {
-        let ctx: CanvasRenderingContext2D = this.ctx;
-        ctx.scale(scaleX, scaleY);
+        this.ctx.scale(scaleX, scaleY);
     }
 
     save(): void {
