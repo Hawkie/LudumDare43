@@ -1,6 +1,6 @@
 import { DisplayText, DisplayTitle } from "../../Components/TitleComponent";
 import { DrawContext } from "../../../gamelib/1Common/DrawContext";
-import { IEventState } from "../../../gamelib/1Common/EventProcessor";
+import { IEventState } from "../../../gamelib/Events/EventProcessor";
 import { Keys } from "../../../gamelib/Events/KeyHandler";
 
 export interface IHelp {

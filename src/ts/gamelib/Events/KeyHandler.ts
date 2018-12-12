@@ -1,4 +1,4 @@
-import { IEventState } from "../1Common/EventProcessor";
+import { IEventState } from "./EventProcessor";
 
 export enum Keys {
     // some handy key codes

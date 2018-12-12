@@ -1,4 +1,4 @@
-import { IEventState } from "../1Common/EventProcessor";
+import { IEventState } from "./EventProcessor";
 import { ICoordinate } from "../DataTypes/Coordinate";
 
 // mouse events
@@ -9,7 +9,7 @@ export function OnMouse(eState: IEventState, element: HTMLElement, e: MouseEvent
         return {...eState,
             start: coord,
             buttons: e.buttons,
-            ended: false,
+            down: true,
         };
     } else if (e.type === "mousemove") {
         return {...eState,
@@ -20,7 +20,7 @@ export function OnMouse(eState: IEventState, element: HTMLElement, e: MouseEvent
         return {...eState,
             end: coord,
             buttons: e.buttons,
-            ended: true,
+            down: false,
         };
     }
     return eState;

@@ -1,7 +1,8 @@
 import { DrawContext } from "../../gamelib/1Common/DrawContext";
 import { DrawText } from "../../gamelib/Views/TextView";
-import { IMenuControls } from "../States/MenuState/MenuControlsComponent";
 import { IAudioElement } from "../../gamelib/Elements/AudioElement";
+import { IEventState } from "../../gamelib/Events/EventProcessor";
+import { Keys } from "../../gamelib/Events/KeyHandler";
 
 // immutable data object
 export interface IMenuComponent {
@@ -40,31 +41,44 @@ export function SoundMenu(menuState: IMenuComponent, music: IAudioElement, chang
 }
 
 // pure function that takes a menu action and updates the selected text. returns new menu
-export function UpdateMenu(menu: IMenuComponent, controls: IMenuControls): IMenuComponent {
+export function InputMenu(menu: IMenuComponent, eState: IEventState, select:boolean): IMenuComponent {
     let now: number = Date.now();
     let focus: number = menu.itemFocus;
     let moved: boolean = false;
+    let lastMoved: number = menu.lastMoved;
     let selected: boolean = false;
-    if (now - menu.lastMoved > 150) {
-        if (controls.up) {
+    if (now - lastMoved > 150) {
+        if (eState.keys.indexOf(Keys.Q) > -1) {
             focus = Math.max(menu.itemFocus - 1, 0);
             moved = true;
         }
-        if (controls.down) {
+        if (eState.keys.indexOf(Keys.A) > -1) {
             focus = Math.min(menu.itemFocus + 1, menu.menuItems.length - 1);
             moved = true;
         }
-        if (controls.enter) {
-            selected = true;
+        // detect if menu selected
+        if (eState.current !== undefined) {
+            let focus1: number = Math.max(0, Math.min(menu.menuItems.length -1, Math.round((eState.current.y-100) / 50)));
+            if (focus1 !== focus) {
+                moved = true;
+                focus = focus1;
+            }
         }
-        // change state of menu focus
-        return {...menu,
-            itemFocus: focus,
-            selected: selected,
-            lastMoved: now,
-            moved: moved,
-        };
+        if (moved) {
+            lastMoved = now;
+        }
     }
-    // return menu unchanged
-    return menu;
+    if (eState.keys.indexOf(Keys.Enter) > -1
+    || select) {
+        selected = true;
+        console.log("Select item");
+    }
+
+    // change state of menu focus
+    return {...menu,
+        itemFocus: focus,
+        selected: selected,
+        lastMoved: lastMoved,
+        moved: moved,
+    };
 }

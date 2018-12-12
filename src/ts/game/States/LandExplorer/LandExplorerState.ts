@@ -3,7 +3,7 @@ import { IShip, CrashShip, DisplayShip, ShipCopyToUpdated,
 import { ISurface, DisplaySurface, addSurface, TestFlat } from "../../Components/SurfaceComponent";
 import { IParticleField } from "../../Components/FieldComponent";
 import { IControls, InputControls, CreateControls } from "../../Components/ControlsComponent";
-import { IEventState, CreateEventState } from "../../../gamelib/1Common/EventProcessor";
+import { IEventState, CreateEventState } from "../../../gamelib/Events/EventProcessor";
 import { DrawContext } from "../../../gamelib/1Common/DrawContext";
 import { DisplayField, FieldGenMove, IParticle } from "../../../gamelib/Components/ParticleFieldComponent";
 import { Transforms } from "../../../gamelib/Physics/Transforms";
@@ -49,7 +49,7 @@ export function DisplayLandExplorer(ctx: DrawContext, state: ILandExplorerState)
     DisplaySurface(ctx, state.surface);
     DisplaySplat(ctx, state.splat);
     // draw drag line
-    if (state.events.start !== undefined && state.events.current !== undefined && !state.events.ended) {
+    if (state.events.start !== undefined && state.events.current !== undefined && state.events.down) {
         DrawLine(ctx, state.ship.x, state.ship.y,
             state.ship.x + state.events.current.x - state.events.start.x,
             state.ship.y + state.events.current.y - state.events.start.y);

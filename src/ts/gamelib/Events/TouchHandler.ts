@@ -1,8 +1,5 @@
-import { Game } from "../1Common/Game";
 import { ICoordinate } from "../DataTypes/Coordinate";
-import { Canvas } from "../Elements/Canvas";
-import { IEventState } from "../1Common/EventProcessor";
-import { Keys } from "./KeyHandler";
+import { IEventState } from "./EventProcessor";
 
 // touch events
  export function OnTouch(eState:IEventState, element: HTMLElement, e: TouchEvent): IEventState {
@@ -13,7 +10,7 @@ import { Keys } from "./KeyHandler";
         return {...eState,
             start: coord,
             touchForce: t.force,
-            ended: false,
+            down: true,
         };
     } else {
         e.preventDefault();
@@ -27,7 +24,7 @@ import { Keys } from "./KeyHandler";
             return {...eState,
                 end: coord,
                 touchForce: t.force,
-                ended: true,
+                down: false,
             };
         }
     }

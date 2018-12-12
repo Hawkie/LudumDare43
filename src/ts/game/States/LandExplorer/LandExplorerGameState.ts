@@ -1,5 +1,5 @@
 ﻿import { DrawContext} from "../../../gamelib/1Common/DrawContext";
-import { EventProcessor, IEventState } from "../../../gamelib/1Common/EventProcessor";
+import { EventProcessor, IEventState } from "../../../gamelib/Events/EventProcessor";
 import { CreateLandExplorer, ILandExplorerState,
     StateCopyToUpdate, DisplayLandExplorer, LandExplorerSounds, Tests, InputState } from "./LandExplorerState";
 import { CreateShip, IShip, DisplayShip } from "../../Components/Ship/ShipComponent";

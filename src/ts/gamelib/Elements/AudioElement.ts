@@ -88,7 +88,6 @@ export class AudioElement implements IAudioElement {
         if (p !== undefined) {
             p.then(r => {
                 this._playing = true;
-                console.log("played: " + this.source);
             });
             p.catch(e => {
                 this.log += "play failed: " + e + this.source;

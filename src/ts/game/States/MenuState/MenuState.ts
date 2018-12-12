@@ -1,11 +1,10 @@
-import { IMenuComponent, UpdateMenu, SoundMenu, DisplayMenu } from "../../Components/MenuComponent";
-import { IMenuControls, UpdateMenuControls } from "./MenuControlsComponent";
+import { IMenuComponent, InputMenu, SoundMenu, DisplayMenu } from "../../Components/MenuComponent";
 import { IParticleField, CreateField } from "../../Components/FieldComponent";
 import { Transforms } from "../../../gamelib/Physics/Transforms";
 import { DrawContext } from "../../../gamelib/1Common/DrawContext";
 import { DisplayTitle, DisplayText } from "../../Components/TitleComponent";
 import { DisplayField, FieldGenMove } from "../../../gamelib/Components/ParticleFieldComponent";
-import { EventProcessor, IEventState } from "../../../gamelib/1Common/EventProcessor";
+import { EventProcessor, IEventState, CreateEventState } from "../../../gamelib/Events/EventProcessor";
 import { IStateProcessor } from "../../../gamelib/State/StateProcessor";
 import { Game } from "../../../gamelib/1Common/Game";
 import { DrawGraphic } from "../../../gamelib/Views/GraphicView";
@@ -20,9 +19,9 @@ export interface IMenuState {
     readonly starField1: IParticleField;
     readonly starField2: IParticleField;
     readonly menu: IMenuComponent;
-    readonly control: IMenuControls;
-    readonly x: number;
-    readonly y: number;
+    readonly events: IEventState;
+    readonly balloonX: number;
+    readonly balloonY: number;
 }
 
 // when creating a game state - create the data and then bind to the objects
@@ -62,13 +61,9 @@ export function CreateMenuState(items: string[]): IMenuState {
             fontSize: 16,
             menuItems: items,
         },
-        control: {
-            up: false,
-            down: false,
-            enter: false,
-        },
-        x: 300,
-        y: 200,
+        events: CreateEventState(),
+        balloonX: 300,
+        balloonY: 200,
     };
 }
 
@@ -79,7 +74,7 @@ export function DisplayMenuState(ctx: DrawContext, state: IMenuState): void {
     DisplayField(ctx, state.starField2.particles);
     DisplayTitle(ctx, state.title);
     DisplayMenu(ctx, 200, 100, state.menu);
-    DrawGraphic(ctx, state.x, state.y, Game.assets.airBalloon);
+    DrawGraphic(ctx, state.balloonX, state.balloonY, Game.assets.airBalloon);
     DisplayText(ctx, state.help1, 100, 400);
     DisplayText(ctx, state.help2, 100, 415);
     DisplayText(ctx, state.help3, 100, 430);
@@ -107,8 +102,8 @@ export function UpdateMenuState(state:IMenuState, timeModifier: number): IMenuSt
                 size: 2,
             };
         }),
-        x: Math.max(200, Math.min(350, state.x + Transforms.random(-5, 5)* timeModifier)),
-        y: Math.max(100, Math.min(300, state.y + Transforms.random(-5, 5)* timeModifier)),
+        balloonX: Math.max(200, Math.min(350, state.balloonX + Transforms.random(-5, 5)* timeModifier)),
+        balloonY: Math.max(100, Math.min(300, state.balloonY + Transforms.random(-5, 5)* timeModifier)),
     };
 }
 
@@ -119,9 +114,16 @@ export function SoundMenuState(state: IMenuState): IMenuState {
 }
 
 export function InputMenuState(menuState: IMenuState, eState: IEventState, timeModifier: number): IMenuState  {
-    let controls: IMenuControls = UpdateMenuControls(timeModifier, eState);
+
+    let select: boolean = false;
+    // detect first up
+    if (menuState.events.down && !eState.down) {
+        select =  true;
+        console.log("Menu Selection made");
+    }
+
     return {...menuState,
-        control: controls,
-        menu: UpdateMenu(menuState.menu, controls)
+        events: eState,
+        menu: InputMenu(menuState.menu, eState, select)
     };
 }

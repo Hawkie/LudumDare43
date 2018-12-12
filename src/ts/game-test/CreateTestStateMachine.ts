@@ -1,6 +1,6 @@
 import { IStateProcessor } from "../gamelib/State/StateProcessor";
 import { DisplayTitle } from "../game/Components/TitleComponent";
-import { IEventState, CreateEventState } from "../gamelib/1Common/EventProcessor";
+import { IEventState, CreateEventState } from "../gamelib/Events/EventProcessor";
 import { DrawContext } from "../gamelib/1Common/DrawContext";
 import { DrawText } from "../gamelib/Views/TextView";
 import { DrawNumber } from "../gamelib/Views/ValueView";
@@ -66,7 +66,7 @@ export function DisplayTest(ctx: DrawContext, state:ITestState): void {
     }
 
     // draw drag line
-    if (state.controls.start !== undefined && state.controls.current !== undefined && !state.controls.ended) {
+    if (state.controls.start !== undefined && state.controls.current !== undefined && state.controls.down) {
         DrawLine(ctx, state.controls.start.x, state.controls.start.y, state.controls.current.x, state.controls.current.y);
     }
 }

@@ -1,5 +1,5 @@
 import { Keys } from "../../gamelib/Events/KeyHandler";
-import { IEventState } from "../../gamelib/1Common/EventProcessor";
+import { IEventState } from "../../gamelib/Events/EventProcessor";
 
 
 export interface IControls {
@@ -42,7 +42,7 @@ export function InputControls(eState: IEventState): IControls {
     if (keys.indexOf(Keys.Q) > -1) {
         up = true;
     }
-    if (eState.start !== undefined && eState.current !== undefined && !eState.ended) {
+    if (eState.start !== undefined && eState.current !== undefined && eState.down) {
         if (eState.current.y < eState.start.y) {
             up = true;
         }

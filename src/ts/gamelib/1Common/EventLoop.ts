@@ -1,5 +1,5 @@
 import { Canvas } from "../Elements/Canvas";
-import { EventProcessor, IEventState } from "./EventProcessor";
+import { EventProcessor, IEventState } from "../Events/EventProcessor";
 import { IStateProcessor } from "../State/StateProcessor";
 import { DrawContext } from "./DrawContext";
 

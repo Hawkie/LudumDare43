@@ -1,6 +1,6 @@
 import { IStateProcessor } from "./StateProcessor";
 import { DrawContext } from "../1Common/DrawContext";
-import { IEventState } from "../1Common/EventProcessor";
+import { IEventState } from "../Events/EventProcessor";
 
 
 // export function Next<TState>(state: TState, input:): TState {

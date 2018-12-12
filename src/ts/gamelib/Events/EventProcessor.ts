@@ -1,6 +1,6 @@
-﻿import { OnKey } from "../Events/KeyHandler";
-import { OnTouch } from "../Events/TouchHandler";
-import { OnMouse } from "../Events/MouseHandler";
+﻿import { OnKey } from "./KeyHandler";
+import { OnTouch } from "./TouchHandler";
+import { OnMouse } from "./MouseHandler";
 import { ICoordinate } from "../DataTypes/Coordinate";
 
 export interface IEventState {
@@ -10,7 +10,7 @@ export interface IEventState {
     readonly current: ICoordinate;
     readonly end: ICoordinate;
     readonly touchForce: number;
-    readonly ended: boolean;
+    readonly down: boolean;
 }
 
 export function CreateEventState(): IEventState {
@@ -21,7 +21,7 @@ export function CreateEventState(): IEventState {
         current: undefined,
         end: undefined,
         touchForce: undefined,
-        ended: false,
+        down: false,
     };
 }
 
