@@ -69,6 +69,13 @@ export function InputControls(eState: IEventState): IControls {
     if (keys.indexOf(Keys.SpaceBar) > -1) {
         fire = true;
     }
+    if (eState.current !== undefined && eState.click) {
+        if (eState.current.x > Game.assets.width/2-25
+            && eState.current.x < Game.assets.width/2+25
+            && eState.current.y > Game.assets.height-50) {
+                fire = true;
+        }
+    }
     if (keys.indexOf(Keys.Z) > -1) {
         zoomIn = true;
     }

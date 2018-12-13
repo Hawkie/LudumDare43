@@ -107,6 +107,7 @@ function DisplayGUI(ctx: DrawContext, state: ILandExplorerGameState): void {
     // back button
     ctx.zoom(0.5, 0.5);
     DrawGraphic(ctx, 0, 0, Game.assets.backButton);
+    DrawGraphic(ctx, Game.assets.width-50, Game.assets.height*2-100, Game.assets.surprise);
     ctx.zoom(2, 2);
 
     // next button
