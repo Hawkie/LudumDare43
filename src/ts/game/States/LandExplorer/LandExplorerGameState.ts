@@ -104,9 +104,17 @@ export function Display(ctx: DrawContext, state: ILandExplorerGameState): void {
 }
 
 function DisplayGUI(ctx: DrawContext, state: ILandExplorerGameState): void {
-    ctx.zoom(0.1, 0.1);
+    // back button
+    ctx.zoom(0.5, 0.5);
     DrawGraphic(ctx, 0, 0, Game.assets.backButton);
-    ctx.zoom(10, 10);
+    ctx.zoom(2, 2);
+
+    // next button
+    if (state.landState.ship.crashed || state.landState.ship.landed) {
+        ctx.zoom(0.5, 0.5);
+        DrawGraphic(ctx, 0, Game.assets.height*2-100, Game.assets.nextButton);
+        ctx.zoom(2, 2);
+    }
     DisplayTitle(ctx, state.landState.title);
     let y:number = 20;
     const x: number = 40;

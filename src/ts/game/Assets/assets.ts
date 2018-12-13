@@ -9,7 +9,8 @@ export class Assets {
     public grass: IImageElement = new ImageElement("res/img/grass25.png");
     public airBalloon: IImageElement = new ImageElement("res/img/airBalloon.png");
     public fallingMan: IImageElement = new ImageElement("res/img/fallingman.png");
-    public backButton: IImageElement = new ImageElement("res/img/backButton.png");
+    public backButton: IImageElement = new ImageElement("res/img/backButtonThumb.png");
+    public nextButton: IImageElement = new ImageElement("res/img/nextButtonThumb.png");
 
     // sounds
     // music
