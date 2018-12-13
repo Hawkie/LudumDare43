@@ -84,7 +84,7 @@ export function DisplayHelp(ctx: DrawContext, state: IHelp): void {
 }
 
 export function InputHelp(state: IHelp, eState: IEventState): IHelp {
-    let click: boolean = DownCheck(state.fingerDown, eState.down);
+    let click: boolean = DownCheck(state.fingerDown, eState.press);
     let exit: boolean = false;
     let keys: ReadonlyArray<number> = eState.keys;
     if (keys.indexOf(Keys.Esc) > -1) {
@@ -97,6 +97,6 @@ export function InputHelp(state: IHelp, eState: IEventState): IHelp {
     }
     return {...state,
         exit: exit,
-        fingerDown: eState.down,
+        fingerDown: eState.press,
     };
 }

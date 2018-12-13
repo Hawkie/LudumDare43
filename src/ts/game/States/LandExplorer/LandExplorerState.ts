@@ -49,7 +49,7 @@ export function DisplayLandExplorer(ctx: DrawContext, state: ILandExplorerState)
     DisplaySurface(ctx, state.surface);
     DisplaySplat(ctx, state.splat);
     // draw drag line
-    if (state.events.start !== undefined && state.events.current !== undefined && state.events.down) {
+    if (state.events.start !== undefined && state.events.current !== undefined && state.events.press) {
         DrawLine(ctx, state.ship.x, state.ship.y,
             state.ship.x + state.events.current.x - state.events.start.x,
             state.ship.y + state.events.current.y - state.events.start.y);

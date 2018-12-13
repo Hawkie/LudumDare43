@@ -1,5 +1,6 @@
 import { IImageElement, ImageElement } from "../../gamelib/Elements/ImageElement";
 import { IAudioElement, AudioElement } from "../../gamelib/Elements/AudioElement";
+import { Game } from "../../gamelib/1Common/Game";
 
 export class Assets {
 
@@ -28,4 +29,30 @@ export class Assets {
 
     public readonly width:number = 480;
     public readonly height:number = 512;
+}
+
+let init: boolean = false;
+
+export function safariAudio(): void {
+    let log:string = "";
+    let initialised: boolean = false;
+    if (!init) {
+        if (Game.assets.aCtx.state === "suspended") {
+            Game.assets.aCtx.resume();
+            log = "Suspended Audio Resumed";
+        } else {
+            log = "Audio not suspended";
+        }
+        console.log(log);
+        initialised = Game.assets.flyInspire.init();
+        initialised = initialised && Game.assets.emotional.init();
+        initialised = initialised && Game.assets.cinematic.init();
+        initialised = initialised && Game.assets.explosion.init();
+        initialised = initialised && Game.assets.glassPing.init();
+        initialised = initialised && Game.assets.thrust.init();
+        initialised = initialised && Game.assets.splat.init();
+        initialised = initialised && Game.assets.scream.init();
+        init = initialised;
+        console.log("Safari sound initialised: " + init);
+    }
 }

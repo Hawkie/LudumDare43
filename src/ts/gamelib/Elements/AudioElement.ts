@@ -2,11 +2,12 @@
 import { Game } from "../1Common/Game";
 
 export interface IAudioElement {
+    init(): boolean;
     playOnce(): void;
     play(): void;
     replay(): void;
     pause(): void;
-    reset(): void;
+    reset(): boolean;
     playing: boolean;
     log: string;
     display(): string;
@@ -18,26 +19,6 @@ declare global {
         AudioContext: typeof AudioContext;
         webkitAudioContext: typeof AudioContext;
     }
-}
-
-export function safariAudio(eState:IEventState): string {
-    let log:string = "";
-    if (!eState.firstInteraction) {
-        if (Game.assets.aCtx.state === "suspended") {
-            Game.assets.aCtx.resume();
-            log = "Suspended Audio Resumed";
-            console.log(log);
-        } else {
-            log = "Audio not suspended";
-        }
-        Game.assets.flyInspire.reset();
-        Game.assets.emotional.reset();
-        Game.assets.cinematic.reset();
-        Game.assets.explosion.reset();
-        Game.assets.glassPing.reset();
-        Game.assets.thrust.reset();
-    }
-    return log;
 }
 
 export class AudioElement implements IAudioElement {
@@ -60,7 +41,6 @@ export class AudioElement implements IAudioElement {
         this.log += "canplay: " + this.source;
         console.log(this.log);
     }
-
 
     public display(): string {
         let d: string = this.audioElement.src;
@@ -85,13 +65,24 @@ export class AudioElement implements IAudioElement {
         }
     }
 
-    reset(): void {
+    init(): boolean {
         if (this.ready()) {
             this._playing = false;
             this.audioElement.play();
             this.audioElement.pause();
-            this.audioElement.currentTime = 0;
+            return true;
         }
+        return false;
+    }
+
+    reset(): boolean {
+        if (this.ready()) {
+            this._playing = false;
+            this.audioElement.pause();
+            this.audioElement.currentTime = 0;
+            return true;
+        }
+        return false;
     }
 
     play(): void {

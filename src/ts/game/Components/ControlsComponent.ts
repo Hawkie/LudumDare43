@@ -42,7 +42,7 @@ export function InputControls(eState: IEventState): IControls {
     if (keys.indexOf(Keys.Q) > -1) {
         up = true;
     }
-    if (eState.start !== undefined && eState.current !== undefined && eState.down) {
+    if (eState.start !== undefined && eState.current !== undefined && eState.press) {
         if (eState.current.y < eState.start.y) {
             up = true;
         }
@@ -77,6 +77,7 @@ export function InputControls(eState: IEventState): IControls {
     if (keys.indexOf(Keys.Esc) > -1) {
         exit = true;
     }
+    // back button (implement as component)
     if (eState.current !== undefined && eState.click) {
         if (eState.current.y < 30 && eState.current.x < 30) {
             exit = true;

@@ -4,7 +4,7 @@ import { OnMouse } from "./MouseHandler";
 import { ICoordinate } from "../DataTypes/Coordinate";
 
 export interface IEventState {
-    readonly firstInteraction: boolean;
+    readonly soundInit: boolean;
     readonly keys: ReadonlyArray<number>;
     readonly buttons: number;
     readonly start: ICoordinate;
@@ -12,14 +12,14 @@ export interface IEventState {
     readonly end: ICoordinate;
     readonly touchForce: number;
     readonly touches: TouchList;
-    readonly down: boolean;
+    readonly press: boolean;
     readonly click: boolean;
     readonly log: string;
 }
 
 export function CreateEventState(): IEventState {
     return {
-        firstInteraction: false,
+        soundInit: false,
         keys: [],
         buttons: undefined,
         start: undefined,
@@ -27,7 +27,7 @@ export function CreateEventState(): IEventState {
         end: undefined,
         touchForce: undefined,
         touches: undefined,
-        down: false,
+        press: false,
         click: false,
         log: "",
     };
@@ -35,7 +35,7 @@ export function CreateEventState(): IEventState {
 
 export function Click(oldState: IEventState, newState: IEventState): IEventState {
     return {...newState,
-        click: DownCheck(oldState.down, newState.down),
+        click: DownCheck(oldState.press, newState.press),
     };
 }
 

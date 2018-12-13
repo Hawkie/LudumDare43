@@ -67,11 +67,11 @@ export function DisplayTest(ctx: DrawContext, state:ITestState): void {
     }
 
     // draw drag line
-    if (state.controls.start !== undefined && state.controls.current !== undefined && state.controls.down) {
+    if (state.controls.start !== undefined && state.controls.current !== undefined && state.controls.press) {
         DrawLine(ctx, state.controls.start.x, state.controls.start.y, state.controls.current.x, state.controls.current.y);
     }
     let rSize: number = 10;
-    if (state.controls.down) {
+    if (state.controls.press) {
         rSize = 5;
     }
     DrawRectangle(ctx, 50, 100, rSize, rSize);
