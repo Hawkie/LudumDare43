@@ -10,6 +10,7 @@ import { Game } from "../../../gamelib/1Common/Game";
 import { DrawGraphic } from "../../../gamelib/Views/GraphicView";
 import { DrawRectangle } from "../../../gamelib/Views/RectangleView";
 import { DrawCircle } from "../../../gamelib/Views/CircleView";
+import { DrawText } from "../../../gamelib/Views/TextView";
 
 export interface IMenuState {
     readonly title: string;
@@ -75,6 +76,7 @@ export function DisplayMenuState(ctx: DrawContext, state: IMenuState): void {
     if (state.events.current !== undefined) {
         DrawCircle(ctx, state.events.current.x, state.events.current.y, 30);
     }
+    DrawText(ctx, 0, 50, state.events.log);
     DisplayField(ctx, state.starField1.particles);
     DisplayField(ctx, state.starField2.particles);
     DisplayTitle(ctx, state.title);

@@ -1,5 +1,6 @@
 import { IEventState } from "./EventProcessor";
 import { ICoordinate } from "../DataTypes/Coordinate";
+import { safariAudio } from "../Elements/AudioElement";
 
 // mouse events
 export function OnMouse(eState: IEventState, element: HTMLElement, e: MouseEvent): IEventState {
@@ -8,6 +9,7 @@ export function OnMouse(eState: IEventState, element: HTMLElement, e: MouseEvent
     if (e.type === "mousedown") {
         return {...eState,
             start: coord,
+            current: coord,
             buttons: e.buttons,
             down: true,
         };
@@ -17,10 +19,13 @@ export function OnMouse(eState: IEventState, element: HTMLElement, e: MouseEvent
             buttons: e.buttons,
         };
     } else if (e.type === "mouseup") {
+        let log:string = safariAudio(eState);
         return {...eState,
             end: coord,
             buttons: e.buttons,
             down: false,
+            firstInteraction: true,
+            log: log,
         };
     }
     return eState;

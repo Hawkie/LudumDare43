@@ -4,6 +4,7 @@ import { OnMouse } from "./MouseHandler";
 import { ICoordinate } from "../DataTypes/Coordinate";
 
 export interface IEventState {
+    readonly firstInteraction: boolean;
     readonly keys: ReadonlyArray<number>;
     readonly buttons: number;
     readonly start: ICoordinate;
@@ -13,10 +14,12 @@ export interface IEventState {
     readonly touches: TouchList;
     readonly down: boolean;
     readonly click: boolean;
+    readonly log: string;
 }
 
 export function CreateEventState(): IEventState {
     return {
+        firstInteraction: false,
         keys: [],
         buttons: undefined,
         start: undefined,
@@ -26,6 +29,7 @@ export function CreateEventState(): IEventState {
         touches: undefined,
         down: false,
         click: false,
+        log: "",
     };
 }
 
@@ -49,7 +53,6 @@ export class EventProcessor {
         private element: HTMLElement) {
         this.addListeners();
     }
-
 
     private _OnKey(e: KeyboardEvent): void {
         this.eState = OnKey(this.eState, e);

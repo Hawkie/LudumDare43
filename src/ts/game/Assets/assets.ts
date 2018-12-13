@@ -3,7 +3,6 @@ import { IAudioElement, AudioElement } from "../../gamelib/Elements/AudioElement
 
 export class Assets {
 
-
     // graphics
     public terrain: IImageElement = new ImageElement("res/img/terrain.png");
     public grass: IImageElement = new ImageElement("res/img/grass25.png");
@@ -23,6 +22,7 @@ export class Assets {
     public scream: IAudioElement = new AudioElement("res/sound/scream.mp3");
     public splat: IAudioElement = new AudioElement("res/sound/splat.mp3");
 
+    public aCtx: AudioContext = new (window.AudioContext || window.webkitAudioContext)();
 
     public gMap:Map<string, IImageElement> = new Map<string,IImageElement>();
 

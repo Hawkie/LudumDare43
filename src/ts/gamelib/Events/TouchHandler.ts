@@ -1,5 +1,10 @@
 import { ICoordinate } from "../DataTypes/Coordinate";
 import { IEventState } from "./EventProcessor";
+import { Game } from "../1Common/Game";
+import { safariAudio } from "../Elements/AudioElement";
+
+
+
 
 // touch events
  export function OnTouch(eState:IEventState, element: HTMLElement, e: TouchEvent): IEventState {
@@ -10,6 +15,7 @@ import { IEventState } from "./EventProcessor";
     if (e.type === "touchstart") {
         return {...eState,
             start: coord,
+            current: coord,
             touchForce: t.force,
             down: true,
             touches: tList,
@@ -24,11 +30,14 @@ import { IEventState } from "./EventProcessor";
             };
         }
         if (e.type === "touchend") {
+            let log:string = safariAudio(eState);
             return {...eState,
                 end: coord,
                 touchForce: t.force,
                 down: false,
                 touches: tList,
+                firstInteraction: true,
+                log: log,
             };
         }
     }
