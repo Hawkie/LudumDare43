@@ -60,22 +60,23 @@ export function Update(state: ILandExplorerGameState, timeModifier: number): ILa
 }
 
 export function Sounds(state: ILandExplorerGameState): ILandExplorerGameState {
-    if (state.landState.controls.next) {
-        if (state.landState.ship.landed || state.landState.ship.crashed) {
+    let newLandState: ILandExplorerState = LandExplorerSounds(state.landState);
+    if (newLandState.controls.next) {
+        if (newLandState.ship.landed || newLandState.ship.crashed) {
             Game.assets.explosion.reset();
             Game.assets.flyInspire.reset();
             Game.assets.cinematic.reset();
             Game.assets.emotional.reset();
         }
-    } else if (state.landState.controls.exit) {
+    } else if (newLandState.controls.exit) {
         Game.assets.flyInspire.pause();
         Game.assets.cinematic.pause();
         Game.assets.emotional.pause();
-    } else if (state.landState.ship.crashed) {
+    } else if (newLandState.ship.crashed) {
         Game.assets.emotional.play();
         Game.assets.flyInspire.pause();
         Game.assets.cinematic.pause();
-    } else if (state.landState.ship.landed) {
+    } else if (newLandState.ship.landed) {
         Game.assets.flyInspire.pause();
         Game.assets.cinematic.play();
     } else {
@@ -84,7 +85,7 @@ export function Sounds(state: ILandExplorerGameState): ILandExplorerGameState {
         Game.assets.emotional.pause();
     }
     return {...state,
-        landState: LandExplorerSounds(state.landState),
+        landState: newLandState
     };
 }
 

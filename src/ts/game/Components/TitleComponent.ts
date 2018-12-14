@@ -1,9 +1,10 @@
 import { DrawContext } from "../../gamelib/1Common/DrawContext";
 import { DrawText } from "../../gamelib/Views/TextView";
+import { Game } from "../../gamelib/1Common/Game";
 
 // map title to text view
-export function DisplayTitle(ctx: DrawContext, title: string): void {
-    DrawText(ctx, 50, 20, title, "Arial", 18);
+export function DisplayTitle(ctx: DrawContext, title: string, fontSize: number = 18): void {
+    DrawText(ctx, Game.assets.width/2 - title.length*fontSize/3, 20, title, "Arial", fontSize);
 }
 
 

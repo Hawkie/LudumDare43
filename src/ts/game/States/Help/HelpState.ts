@@ -34,12 +34,12 @@ export function CreateHelp(): IHelp {
 export function CreateHelpControls(): IHelp {
     return {
         title: "Controls",
-        help1: "Game input is keyboard only.",
-        help2: "<Q> - Burner on. Increases the temperature inside the balloon.",
-        help3: "<A> - Dump Air. Dump air to drop temperature.",
-        help4: "<-, -> Left/Right arrow use little jets of sideways air to manoeuver.",
-        help5: "<Space> Sacrifice passenger to reduce mass of balloon.",
-        help6: "",
+        help1: "Game input is keyboard/mouse/touchscreen.",
+        help2: "<Q>/Drag Up - Burner on. Increases the temperature inside the balloon.",
+        help3: "<A>/Drag Down - Dump Air. Dump air to drop temperature.",
+        help4: "<-, ->/Drag Left/Right. Use jets of sideways air to manoeuver left and right.",
+        help5: "<Space>/Face button Sacrifice passenger to reduce mass of balloon.",
+        help6: "<Esc> - Return to Menu",
         exit: false,
         fingerDown: false,
     };
@@ -61,9 +61,9 @@ export function CreateHintHelp(): IHelp {
 
 export function DisplayHelp(ctx: DrawContext, state: IHelp): void {
     ctx.clear();
-    ctx.zoom(0.1, 0.1);
+    ctx.zoom(0.5, 0.5);
     DrawGraphic(ctx, 0, 0, Game.assets.backButton);
-    ctx.zoom(10, 10);
+    ctx.zoom(2, 2);
 
     DisplayTitle(ctx, state.title);
     let y:number = 140;
@@ -91,7 +91,7 @@ export function InputHelp(state: IHelp, eState: IEventState): IHelp {
         exit = true;
     }
     if (eState.current !== undefined && click) {
-        if (eState.current.y < 30 && eState.current.x < 30) {
+        if (eState.current.y < 50 && eState.current.x < 50) {
             exit = true;
         }
     }
